@@ -11,9 +11,19 @@ struct NoteSummary: Identifiable, Hashable, Sendable {
     var modified: Date
     /// False while iCloud is still bringing the file down.
     var isDownloaded: Bool
+    /// When the note was first written, if the file system remembers.
+    var created: Date? = nil
+    /// Where the note's links lead, as written.
+    var links: [NoteLink] = []
+    /// The first picture, formula, Typst drawing or code in the note, for its card on the board.
+    var cover: NoteCover? = nil
+    /// A few lines of what the note says, for its card on the board.
+    var excerpt: String = ""
 
     var id: String { path }
     var folderPath: String { VaultPath.parent(of: path) }
+    /// The day the note belongs to on the timeline.
+    var written: Date { created ?? modified }
 }
 
 /// A folder of notes. Top-level folders are subjects; they can hold folders of their own.
@@ -172,7 +182,7 @@ enum VaultScanner {
     }
 
     private static let keys: [URLResourceKey] = [
-        .isDirectoryKey, .contentModificationDateKey, .isHiddenKey,
+        .isDirectoryKey, .contentModificationDateKey, .creationDateKey, .isHiddenKey,
         .ubiquitousItemDownloadingStatusKey, .isUbiquitousItemKey,
     ]
 
@@ -243,13 +253,18 @@ enum VaultScanner {
                 tags: [],
                 font: nil,
                 modified: modified,
-                isDownloaded: downloaded
+                isDownloaded: downloaded,
+                created: values?.creationDate
             )
             if downloaded, let text = try? VaultFiles.read(realURL) {
                 let document = NoteDocument(text: text)
+                let outline = NoteOutline(document.body)
                 summary.snippet = NoteText.snippet(of: document.body)
                 summary.tags = document.allTags
                 summary.font = document.frontMatter.font
+                summary.links = outline.links
+                summary.cover = outline.cover
+                summary.excerpt = outline.excerpt
             }
             notes.append(summary)
         }

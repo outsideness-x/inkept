@@ -69,6 +69,18 @@ enum NoteText {
         return tags
     }
 
+    /// A line of Markdown as it reads: formulas written out, links as their words, emphasis marks gone.
+    static func plain(_ line: String) -> String {
+        readableMath(in: line)
+            .replacingOccurrences(of: #"!\[\[[^\]]*\]\]|!\[[^\]]*\]\([^)]*\)"#, with: "", options: .regularExpression)
+            .replacingOccurrences(of: #"\[\[([^\]|]+)\|([^\]]+)\]\]"#, with: "$2", options: .regularExpression)
+            .replacingOccurrences(of: #"\[\[([^\]#|]+)(#[^\]]*)?\]\]"#, with: "$1", options: .regularExpression)
+            .replacingOccurrences(of: #"\[([^\]]*)\]\([^)]*\)"#, with: "$1", options: .regularExpression)
+            .replacingOccurrences(of: #"\*\*|__|==|~~|`"#, with: "", options: .regularExpression)
+            .replacingOccurrences(of: #"(?<![\w*])[*_](?=\S)|(?<=\S)[*_](?![\w*])"#, with: "", options: .regularExpression)
+            .trimmingCharacters(in: .whitespaces)
+    }
+
     /// The first line worth showing under a note's title, without Markdown punctuation.
     static func snippet(of body: String, limit: Int = 160) -> String {
         var inFence = false
@@ -83,11 +95,9 @@ enum NoteText {
             guard !inFence, !trimmed.isEmpty, !isHeading, trimmed != "$$", !trimmed.hasPrefix("!["), trimmed != "---" else {
                 continue
             }
-            let clean = trimmed
-                .replacingOccurrences(of: #"^(#{1,6}|>|[-*+]|\d+\.)\s+(\[[ xX]\]\s+)?"#, with: "", options: .regularExpression)
-                .replacingOccurrences(of: #"[*_`~=]"#, with: "", options: .regularExpression)
-                .replacingOccurrences(of: #"\[([^\]]*)\]\([^)]*\)"#, with: "$1", options: .regularExpression)
-                .trimmingCharacters(in: .whitespaces)
+            let clean = plain(
+                trimmed.replacingOccurrences(of: #"^(#{1,6}|>|[-*+]|\d+\.)\s+(\[[ xX]\]\s+)?"#, with: "", options: .regularExpression)
+            )
             guard !clean.isEmpty else { continue }
             return clean.count > limit ? String(clean.prefix(limit)) + "…" : clean
         }
