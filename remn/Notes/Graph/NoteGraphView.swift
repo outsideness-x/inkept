@@ -244,10 +244,14 @@ struct NoteGraphView: View {
                 controls
             }
             GeometryReader { proxy in
+                // Read here, so SwiftUI draws again when they change; the canvas only sees these copies.
+                let camera = camera
+                let selected = selection
+                let focused = selection ?? hovered
                 TimelineView(.animation(paused: !model.isMoving)) { timeline in
                     let _ = model.advance(to: timeline.date)
                     Canvas { context, size in
-                        draw(in: &context, size: size, date: timeline.date)
+                        draw(in: &context, size: size, date: timeline.date, camera: camera, selected: selected, focused: focused)
                     }
                 }
                 .contentShape(Rectangle())
@@ -447,12 +451,15 @@ struct NoteGraphView: View {
 
     // MARK: - Drawing
 
-    private func draw(in context: inout GraphicsContext, size: CGSize, date: Date) {
+    private func draw(
+        in context: inout GraphicsContext, size: CGSize, date: Date,
+        camera: GraphCamera, selected: String?, focused: String?
+    ) {
         guard let layout = model.layout, layout.positions.count == model.graph.nodes.count else { return }
         let graph = model.graph
         let appearance = reduceMotion ? 1 : model.appearance(at: date)
         let visible = CGRect(origin: .zero, size: size).insetBy(dx: -60, dy: -60)
-        let focus = (selection ?? hovered).flatMap { graph.index(of: $0) }
+        let focus = focused.flatMap { graph.index(of: $0) }
         let lit: Set<Int> = focus.map { Set([$0] + graph.neighbours[$0]) } ?? []
         let screen = layout.positions.map { camera.screen($0, in: size) }
         let zoom = camera.scale
@@ -540,7 +547,7 @@ struct NoteGraphView: View {
                 layer.fill(outline, with: .color(.remnGraphite))
             }
 
-            if node.id == selection {
+            if node.id == selected {
                 let ring = InkBrush.stroke(
                     InkGeometry.ellipseLoop(in: CGRect(x: centre.x - r - 6, y: centre.y - r - 6, width: (r + 6) * 2, height: (r + 6) * 2), seed: 60_013, overshoot: 0.5),
                     pen: .fine,
@@ -548,13 +555,18 @@ struct NoteGraphView: View {
                 )
                 context.fill(ring, with: .color(.remnAccent))
             }
-            if showsLabel(for: index, node: node, focus: focus, lit: lit) {
+            if showsLabel(for: index, node: node, focus: focus, lit: lit, zoom: zoom) {
                 labels.append((index, centre, r))
             }
         }
 
-        // Names last, on a little paper so pencil lines don't run through them.
-        for label in labels {
+        // Names last, on a little paper so pencil lines don't run through them. Subjects and whatever is
+        // picked are named first; a name that would land on another, or on a subject, is left off.
+        let ranked = labels.sorted { labelRank(graph.nodes[$0.index], index: $0.index, focus: focus) > labelRank(graph.nodes[$1.index], index: $1.index, focus: focus) }
+        var taken: [CGRect] = labels.filter { graph.nodes[$0.index].kind == .folder }.map { label in
+            CGRect(x: label.point.x - label.radius, y: label.point.y - label.radius, width: label.radius * 2, height: label.radius * 2)
+        }
+        for label in ranked {
             let node = graph.nodes[label.index]
             let isSubject = node.kind == .folder
             let emphasised = focus == label.index
@@ -571,17 +583,27 @@ struct NoteGraphView: View {
             )
             let measured = text.measure(in: CGSize(width: 260, height: 60))
             let origin = CGPoint(x: label.point.x - measured.width / 2, y: label.point.y + label.radius + 3)
+            let frame = CGRect(origin: origin, size: measured).insetBy(dx: -2, dy: -1)
+            if !isSubject, !emphasised, taken.contains(where: { $0.intersects(frame) }) { continue }
+            taken.append(frame)
             var paper = context
             paper.opacity = (focus != nil && !lit.contains(label.index) ? 0.3 : 1) * (node.isOutside ? 0.6 : 1)
             paper.fill(
                 Path(roundedRect: CGRect(origin: origin, size: measured).insetBy(dx: -3, dy: -1), cornerRadius: 4),
-                with: .color(Color.remnPaper.opacity(0.78))
+                with: .color(Color.remnPaper.opacity(0.62))
             )
             paper.draw(text, in: CGRect(origin: origin, size: measured))
             if isSubject || emphasised {
                 paper.draw(text, in: CGRect(origin: CGPoint(x: origin.x + 0.4, y: origin.y + 0.2), size: measured))
             }
         }
+    }
+
+    /// Which names win a place: subjects, then what's picked and what it touches, then the best connected.
+    private func labelRank(_ node: NoteGraph.Node, index: Int, focus: Int?) -> Int {
+        if node.kind == .folder { return 10_000 }
+        if index == focus { return 9_000 }
+        return (focus != nil ? 1_000 : 0) + node.degree * 10 + (node.kind == .note ? 1 : 0)
     }
 
     private func drawOrder(_ kind: NoteGraph.NodeKind) -> Int {
@@ -594,10 +616,9 @@ struct NoteGraphView: View {
     }
 
     /// Subjects are always named; notes once you're close enough to read them, or when they're lit.
-    private func showsLabel(for index: Int, node: NoteGraph.Node, focus: Int?, lit: Set<Int>) -> Bool {
+    private func showsLabel(for index: Int, node: NoteGraph.Node, focus: Int?, lit: Set<Int>, zoom: CGFloat) -> Bool {
         if node.kind == .folder || lit.contains(index) { return true }
         if focus != nil { return false }
-        let zoom = camera.scale
         if zoom >= 0.8 { return true }
         return zoom >= 0.5 && node.degree >= 3
     }
