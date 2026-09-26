@@ -19,8 +19,10 @@ struct InkTextRenderer: TextRenderer, Animatable {
         set { progress = newValue }
     }
 
+    /// Just enough room for a tilted letter. SwiftUI wraps lines as if the side padding were part of the
+    /// width, so anything wider makes wrapped text run past its frame.
     var displayPadding: EdgeInsets {
-        EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        EdgeInsets(top: 3, leading: 1, bottom: 3, trailing: 1)
     }
 
     func draw(layout: Text.Layout, in context: inout GraphicsContext) {
