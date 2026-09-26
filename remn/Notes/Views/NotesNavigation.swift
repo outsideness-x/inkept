@@ -6,6 +6,8 @@ enum NotesViewMode: String, CaseIterable, Identifiable {
     case list
     /// Pages pinned to a board, with the pictures and formulas they open with.
     case board
+    /// A map of how the notes link to one another and to their subjects.
+    case graph
 
     var id: String { rawValue }
 
@@ -13,6 +15,7 @@ enum NotesViewMode: String, CaseIterable, Identifiable {
         switch self {
         case .list: "notes.view.list"
         case .board: "notes.view.board"
+        case .graph: "notes.view.graph"
         }
     }
 }

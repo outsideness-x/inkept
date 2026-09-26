@@ -22,6 +22,8 @@ enum InkIconKind: Int, CaseIterable {
     case card
     case list
     case folder
+    /// Four corners: fit everything in view.
+    case fit
 }
 
 /// A small drawing in the same pen as the rest of the interface, on a 24-point grid.
@@ -228,6 +230,13 @@ private struct InkIconDrawing {
                     Dot(center: p(4.5, 18.0), radius: 1.5),
                 ]
             )
+        case .fit:
+            InkIconDrawing(strokes: [
+                Stroke(points: [p(3.6, 9.4), p(3.8, 3.8), p(9.6, 3.6)]),
+                Stroke(points: [p(14.6, 3.7), p(20.3, 3.8), p(20.4, 9.2)]),
+                Stroke(points: [p(20.2, 14.8), p(20.3, 20.4), p(14.4, 20.2)]),
+                Stroke(points: [p(9.4, 20.3), p(3.7, 20.2), p(3.8, 14.6)]),
+            ])
         case .undo:
             InkIconDrawing(strokes: [
                 Stroke(points: [p(5.4, 9.6), p(13.5, 8.6), p(19.4, 12.6), p(17.6, 18.3), p(11.6, 19.2)], smooth: true),

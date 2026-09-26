@@ -33,7 +33,9 @@
 		299A403849D79BA8DF082768 /* SubjectIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D83F4115B9B8F0ED52CAA2 /* SubjectIcon.swift */; };
 		2BDD428AB4B530BDDF572D37 /* WindowSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F38508692CF3C7DF09D251 /* WindowSnapshot.swift */; };
 		2C977A18EA5D91596EA5BBA5 /* StudyQueueBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71376D3FF1CD1E3DA17A415 /* StudyQueueBuilder.swift */; };
+		2CA802888C7B4B01A50E0F31 /* GraphLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE50C0F8166523903A79004 /* GraphLayout.swift */; };
 		2EF19357C1614F1748745E45 /* LiveStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A936199CBCAFEC6DA6AE82E9 /* LiveStyler.swift */; };
+		30B38566A2712AFF24C50460 /* NoteGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E74AE600870D896493C79A /* NoteGraphTests.swift */; };
 		315C8545FC80419C34388BD6 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3E5915E4007738575047C4 /* SearchTests.swift */; };
 		33AD97F101650ED72CC8054C /* MigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A86F88F564DD468EE4A170 /* MigrationTests.swift */; };
 		3649F9D0E5378CBAA4B5DAB9 /* FSRS in Frameworks */ = {isa = PBXBuildFile; productRef = 9C872FA061B2B00407064909 /* FSRS */; };
@@ -99,6 +101,7 @@
 		A1DC0E473AC893DF6CA46127 /* StudySessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7250732A28B966A2ACF6C75F /* StudySessionView.swift */; };
 		A2371635291D0076C4D56119 /* RemnSchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1080BDD46E762B55739E7201 /* RemnSchemaV1.swift */; };
 		A298F1A17DF7176D35B468F1 /* LiveRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B560B86BB3D8E23E083F82E /* LiveRenderer.swift */; };
+		A384A917294A9EA83253BBA3 /* NoteGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = E405788E26A66671BCED61C0 /* NoteGraph.swift */; };
 		A3CFDFB7B4BA2F995A627EA2 /* RemnTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2767AD6663EDF37938359D /* RemnTypography.swift */; };
 		A4B8A9D61AAEE3C98E00D5EC /* SubjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCD11850748DFAC93771937 /* SubjectDetailView.swift */; };
 		A5C73E929AC2E6AD4A0EDDC3 /* VaultLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C6EB52842729B7FC742EE /* VaultLocation.swift */; };
@@ -110,6 +113,7 @@
 		B91A66E29DEA5EB83B2BD6B7 /* TypstPackages in Resources */ = {isa = PBXBuildFile; fileRef = 3152FFBB15592FE40C3FB6BA /* TypstPackages */; };
 		B97F03BBBBE9EF9EE4E4EB8C /* BackupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D647215E4ECF91FFE78E5 /* BackupTests.swift */; };
 		BD78710A9B5D8FF51CD5102F /* FrontMatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A8D0CD4582B1FAECF8B189 /* FrontMatter.swift */; };
+		BFA1A60296D2D6739DB68B91 /* NoteGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E3B70FAEEA185DCDB5D4C8 /* NoteGraphView.swift */; };
 		BFB0576E60E740FE20C511ED /* LibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A633B00400E44408AFB4DD4B /* LibraryStore.swift */; };
 		C907C501075A365FE2DBD930 /* SRSExplainerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8FF4FE80679E310B341FDE /* SRSExplainerSheet.swift */; };
 		CC5875A2D467A031279A6390 /* ReviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB45169EF35C9E4CB79AF60 /* ReviewService.swift */; };
@@ -155,6 +159,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06E74AE600870D896493C79A /* NoteGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGraphTests.swift; sourceTree = "<group>"; };
 		0835D6F4F12BA15B2CCEA1C4 /* LatexCompatibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexCompatibilityTests.swift; sourceTree = "<group>"; };
 		0B436C4FDEB91DA5CE27C987 /* TypographyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTests.swift; sourceTree = "<group>"; };
 		0CB915D1D420B9A059AC5983 /* LiveRestyleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveRestyleTests.swift; sourceTree = "<group>"; };
@@ -278,12 +283,15 @@
 		DDA034CE6235E6F0F267237A /* VaultSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultSetupView.swift; sourceTree = "<group>"; };
 		DE853FE8EF095AB9CB7DF9A9 /* LiveAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveAttributes.swift; sourceTree = "<group>"; };
 		E35084084FB10D50F86C775C /* HandmadeDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandmadeDialog.swift; sourceTree = "<group>"; };
+		E405788E26A66671BCED61C0 /* NoteGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGraph.swift; sourceTree = "<group>"; };
 		E43C7C7C815F1AAF39931120 /* MarkdownToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownToolbar.swift; sourceTree = "<group>"; };
 		E46CA8C2D909D15C25CBD137 /* SubjectIcons+Things.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubjectIcons+Things.swift"; sourceTree = "<group>"; };
 		E6989E336A70DFE58873D6C9 /* VaultTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultTree.swift; sourceTree = "<group>"; };
 		E92024DC64A85D0ED1D7B6AB /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		ECBD8A10A155DBCFB4756F82 /* SubjectIconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectIconTests.swift; sourceTree = "<group>"; };
+		EDE50C0F8166523903A79004 /* GraphLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphLayout.swift; sourceTree = "<group>"; };
 		EE31C963CEF82E56A782734C /* RemnSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemnSchema.swift; sourceTree = "<group>"; };
+		F0E3B70FAEEA185DCDB5D4C8 /* NoteGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGraphView.swift; sourceTree = "<group>"; };
 		F7F41CB6015A124E2CFB1CB2 /* NoteInsertion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInsertion.swift; sourceTree = "<group>"; };
 		F821E899D6DC91D13471A03D /* StudySessionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionRecord.swift; sourceTree = "<group>"; };
 		F9F8773DB1CEB144AF19B013 /* TypstTemplates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TypstTemplates; path = remn/Resources/TypstTemplates; sourceTree = SOURCE_ROOT; };
@@ -488,6 +496,7 @@
 				0CB915D1D420B9A059AC5983 /* LiveRestyleTests.swift */,
 				33ACB66E2E41DAF6B7721782 /* MarkdownInsertionTests.swift */,
 				C5A86F88F564DD468EE4A170 /* MigrationTests.swift */,
+				06E74AE600870D896493C79A /* NoteGraphTests.swift */,
 				CA78DB3F6F605DED64BA85B2 /* NoteOutlineTests.swift */,
 				3883F3714493B8CE91778CA3 /* NotesVaultTests.swift */,
 				50FF9B7EDA1C99BA82A90902 /* PersistenceTests.swift */,
@@ -632,6 +641,7 @@
 			isa = PBXGroup;
 			children = (
 				44B9474EF334E2856ED85927 /* Editor */,
+				F0C3674304E374952329E5BE /* Graph */,
 				F1E93F2B5F5F2DB217AB4A84 /* Model */,
 				85232045329ACB108846B5DA /* Vault */,
 				8A717E7855256B7C4A09895A /* Views */,
@@ -651,6 +661,16 @@
 				83F38508692CF3C7DF09D251 /* WindowSnapshot.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		F0C3674304E374952329E5BE /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				EDE50C0F8166523903A79004 /* GraphLayout.swift */,
+				E405788E26A66671BCED61C0 /* NoteGraph.swift */,
+				F0E3B70FAEEA185DCDB5D4C8 /* NoteGraphView.swift */,
+			);
+			path = Graph;
 			sourceTree = "<group>";
 		};
 		F1E93F2B5F5F2DB217AB4A84 /* Model */ = {
@@ -809,6 +829,7 @@
 				2491E2258A75792464F48C33 /* LiveRestyleTests.swift in Sources */,
 				880C040EFDCFDAE634DC979D /* MarkdownInsertionTests.swift in Sources */,
 				33AD97F101650ED72CC8054C /* MigrationTests.swift in Sources */,
+				30B38566A2712AFF24C50460 /* NoteGraphTests.swift in Sources */,
 				0CDBAD8F8516472BEA401CE4 /* NoteOutlineTests.swift in Sources */,
 				DE6833B38569F78D0F7F5EB9 /* NotesVaultTests.swift in Sources */,
 				DC13F65B617F8F51CB68B8C8 /* PersistenceTests.swift in Sources */,
@@ -851,6 +872,7 @@
 				61CC8CF09A60D88C90358659 /* FolderView.swift in Sources */,
 				3946DFBC2D26E5AF69D25DC7 /* Formatters.swift in Sources */,
 				BD78710A9B5D8FF51CD5102F /* FrontMatter.swift in Sources */,
+				2CA802888C7B4B01A50E0F31 /* GraphLayout.swift in Sources */,
 				D797D3202B36BEFE11F83B11 /* HandmadeComponents.swift in Sources */,
 				CD3F1776C35ECC20D198BA06 /* HandmadeDialog.swift in Sources */,
 				0BFCAAB456A60101B0760F89 /* ImageAttachment.swift in Sources */,
@@ -880,6 +902,8 @@
 				D9F55A96A13DCA88357D75C9 /* NoteBoard.swift in Sources */,
 				D30EFB47624C370F8E5D401B /* NoteDocument.swift in Sources */,
 				24D9F202B1BE5B61EC368BE9 /* NoteFont.swift in Sources */,
+				A384A917294A9EA83253BBA3 /* NoteGraph.swift in Sources */,
+				BFA1A60296D2D6739DB68B91 /* NoteGraphView.swift in Sources */,
 				48FE3E1D0592CEABD8FF66A2 /* NoteInsertion.swift in Sources */,
 				8B1358CCD0A848596514E20D /* NoteOutline.swift in Sources */,
 				18B44B3E651531E927A35A39 /* NoteRow.swift in Sources */,

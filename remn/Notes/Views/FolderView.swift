@@ -40,25 +40,39 @@ struct FolderView: View {
                     }
                 }
             }
-            ScrollView {
+            if shownMode == .graph {
+                // The map needs the page to itself, so only the title and the choice of view stay above it.
                 VStack(alignment: .leading, spacing: 0) {
                     heading
-                    if let folder {
-                        if folder.totalNoteCount > 0 {
-                            modePicker
-                        }
-                        switch shownMode {
-                        case .list:
-                            content(folder)
-                        case .board:
-                            board(folder)
-                        }
-                    }
+                    modePicker
                 }
                 .padding(.horizontal, 22)
                 .padding(.top, isTabRoot ? 6 : 10)
-                .padding(.bottom, 40)
-                .remnReadableWidth(shownMode == .board ? 1_060 : 640)
+                .remnReadableWidth()
+                NoteGraphView(scope: .folder(path)) { route in
+                    appState.notesPath.append(route)
+                }
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        heading
+                        if let folder {
+                            if folder.totalNoteCount > 0 {
+                                modePicker
+                            }
+                            switch shownMode {
+                            case .list, .graph:
+                                content(folder)
+                            case .board:
+                                board(folder)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 22)
+                    .padding(.top, isTabRoot ? 6 : 10)
+                    .padding(.bottom, 40)
+                    .remnReadableWidth(shownMode == .board ? 1_060 : 640)
+                }
             }
         }
         .paperBackground()
