@@ -3897,6 +3897,74 @@
         }
       }
     },
+    "notes.timeline.rhythm %lld" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld note written in the last 12 weeks"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld notes written in the last 12 weeks"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "за 12 недель написано %lld конспекта"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "за 12 недель написано %lld конспектов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "за 12 недель написан %lld конспект"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "за 12 недель написано %lld конспекта"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "notes.timeline.today" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "today"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "сегодня"
+          }
+        }
+      }
+    },
     "notes.title.placeholder" : {
       "localizations" : {
         "en" : {
@@ -3957,6 +4025,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "список"
+          }
+        }
+      }
+    },
+    "notes.view.timeline" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "timeline"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "лента"
           }
         }
       }

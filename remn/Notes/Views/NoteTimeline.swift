@@ -1,0 +1,207 @@
+import SwiftUI
+
+/// A folder's notes by the day they were written, newest first, strung along a pencil line;
+/// above them, the last twelve weeks, each day shaded by how much was written on it.
+struct NoteTimeline: View {
+    @Environment(Vault.self) private var vault
+    let folder: VaultFolder
+
+    var body: some View {
+        let notes = folder.allNotes.sorted { $0.written > $1.written }
+        let days = Self.days(of: notes)
+        VStack(alignment: .leading, spacing: 0) {
+            NoteRhythm(notes: notes)
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(days, id: \.day) { entry in
+                    TimelineDay(day: entry.day, notes: entry.notes, isLast: entry.day == days.last?.day, iconFor: icon(for:))
+                }
+            }
+            .padding(.top, 26)
+        }
+    }
+
+    private func icon(for note: NoteSummary) -> String? {
+        vault.root.icon(forFolder: note.folderPath)
+    }
+
+    static func days(of notes: [NoteSummary], calendar: Calendar = .current) -> [(day: Date, notes: [NoteSummary])] {
+        var days: [(day: Date, notes: [NoteSummary])] = []
+        for note in notes {
+            let day = calendar.startOfDay(for: note.written)
+            if days.last?.day == day {
+                days[days.count - 1].notes.append(note)
+            } else {
+                days.append((day, [note]))
+            }
+        }
+        return days
+    }
+}
+
+/// One day on the line: a dot, the day's name, and what was written.
+private struct TimelineDay: View {
+    let day: Date
+    let notes: [NoteSummary]
+    let isLast: Bool
+    let iconFor: (NoteSummary) -> String?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HandwrittenText(verbatim: title, weight: 0.4)
+                .font(RemnTypography.control)
+                .foregroundStyle(isToday ? Color.remnAccent : Color.remnInk)
+                .accessibilityAddTraits(.isHeader)
+            ForEach(notes) { note in
+                NavigationLink(value: NotesRoute.note(note.path)) {
+                    TimelineEntry(note: note, icon: iconFor(note))
+                }
+                .buttonStyle(InkRowStyle())
+            }
+        }
+        .padding(.leading, 30)
+        .padding(.bottom, 22)
+        .background(alignment: .topLeading) {
+            // The line runs down the left edge, from this day's dot to the next.
+            ZStack(alignment: .top) {
+                if !isLast {
+                    InkLine(seed: seed, pen: .hairline, vertical: true)
+                        .fill(Color.remnInk.opacity(0.3))
+                        .frame(width: 6)
+                        .padding(.top, 16)
+                }
+                InkEllipse(seed: seed, pen: .fine)
+                    .fill(isToday ? Color.remnAccent : Color.remnInk)
+                    .background(Circle().fill(isToday ? Color.remnAccent.opacity(0.25) : Color.remnCardPaper).padding(1))
+                    .frame(width: 13, height: 13)
+                    .padding(.top, 9)
+            }
+            .frame(width: 16)
+            .accessibilityHidden(true)
+        }
+    }
+
+    private var seed: Int {
+        Int(day.timeIntervalSinceReferenceDate / 86_400)
+    }
+
+    private var isToday: Bool {
+        Calendar.current.isDateInToday(day)
+    }
+
+    private var title: String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(day) { return String(localized: "notes.timeline.today") }
+        if calendar.isDateInYesterday(day) { return String(localized: "notes.yesterday") }
+        let days = calendar.dateComponents([.day], from: day, to: calendar.startOfDay(for: .now)).day ?? 0
+        if days < 7 { return day.formatted(.dateTime.weekday(.wide)).lowercased() }
+        if calendar.isDate(day, equalTo: .now, toGranularity: .year) {
+            return day.formatted(.dateTime.day().month(.wide)).lowercased()
+        }
+        return day.formatted(.dateTime.day().month(.wide).year()).lowercased()
+    }
+}
+
+/// A note on the timeline: its subject's icon, its title, the first thing it says and where it lives.
+private struct TimelineEntry: View {
+    let note: NoteSummary
+    let icon: String?
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            SubjectIconSlot(icon: icon, fallback: .list, size: 24)
+                .padding(.top, 2)
+            VStack(alignment: .leading, spacing: 2) {
+                HandwrittenText(verbatim: note.title, weight: 0.3)
+                    .font(RemnTypography.display(21, relativeTo: .headline))
+                    .foregroundStyle(Color.remnInk)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                if !note.snippet.isEmpty {
+                    HandwrittenText(verbatim: note.snippet)
+                        .font(RemnTypography.note)
+                        .foregroundStyle(Color.remnGraphite)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                }
+                HStack(spacing: 8) {
+                    HandwrittenText(verbatim: note.written.formatted(date: .omitted, time: .shortened))
+                    if !note.folderPath.isEmpty {
+                        HandwrittenText(verbatim: note.folderPath.replacingOccurrences(of: "/", with: " / "))
+                            .lineLimit(1)
+                    }
+                }
+                .font(RemnTypography.caption)
+                .foregroundStyle(Color.remnGraphite.opacity(0.85))
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.vertical, 6)
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// Twelve weeks of days, a square each, shaded in red pencil by how many notes were written on it.
+struct NoteRhythm: View {
+    let notes: [NoteSummary]
+    var weeks = 12
+
+    var body: some View {
+        let calendar = Calendar.current
+        let counts = Dictionary(grouping: notes) { calendar.startOfDay(for: $0.written) }.mapValues(\.count)
+        let columns = Self.columns(weeks: weeks, calendar: calendar)
+        let total = columns.joined().compactMap { $0 }.reduce(0) { $0 + (counts[$1] ?? 0) }
+        VStack(alignment: .leading, spacing: 10) {
+            HandwrittenText("notes.timeline.rhythm \(total)")
+                .font(RemnTypography.note)
+                .foregroundStyle(Color.remnGraphite)
+            HStack(alignment: .top, spacing: 4) {
+                ForEach(Array(columns.enumerated()), id: \.offset) { _, week in
+                    VStack(spacing: 4) {
+                        ForEach(Array(week.enumerated()), id: \.offset) { _, day in
+                            square(for: day, count: day.flatMap { counts[$0] } ?? 0)
+                        }
+                    }
+                }
+            }
+            .accessibilityHidden(true)
+        }
+    }
+
+    @ViewBuilder
+    private func square(for day: Date?, count: Int) -> some View {
+        let seed = day.map { Int($0.timeIntervalSinceReferenceDate / 86_400) } ?? 0
+        ZStack {
+            if let day {
+                if count > 0 {
+                    InkPatch(seed: seed, cornerRadius: 3)
+                        .fill(Color.remnAccent.opacity(min(0.3 + Double(count) * 0.22, 0.95)))
+                } else {
+                    InkPatch(seed: seed, cornerRadius: 3)
+                        .fill(Color.remnInk.opacity(0.06))
+                }
+                if Calendar.current.isDateInToday(day) {
+                    InkRoundedRect(seed: seed, cornerRadius: 3, pen: .hairline)
+                        .fill(Color.remnInk)
+                }
+            }
+        }
+        .frame(width: 13, height: 13)
+    }
+
+    /// The days of the last `weeks` weeks, a column a week, ending with this one; days still to come are empty.
+    static func columns(weeks: Int, calendar: Calendar = .current, now: Date = .now) -> [[Date?]] {
+        let today = calendar.startOfDay(for: now)
+        let weekday = calendar.component(.weekday, from: today)
+        let intoWeek = (weekday - calendar.firstWeekday + 7) % 7
+        guard let thisWeek = calendar.date(byAdding: .day, value: -intoWeek, to: today),
+              let first = calendar.date(byAdding: .day, value: -7 * (weeks - 1), to: thisWeek)
+        else { return [] }
+        return (0..<weeks).map { week in
+            (0..<7).map { offset -> Date? in
+                guard let day = calendar.date(byAdding: .day, value: week * 7 + offset, to: first), day <= today else { return nil }
+                return day
+            }
+        }
+    }
+}

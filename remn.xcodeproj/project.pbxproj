@@ -116,6 +116,7 @@
 		BFA1A60296D2D6739DB68B91 /* NoteGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E3B70FAEEA185DCDB5D4C8 /* NoteGraphView.swift */; };
 		BFB0576E60E740FE20C511ED /* LibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A633B00400E44408AFB4DD4B /* LibraryStore.swift */; };
 		C907C501075A365FE2DBD930 /* SRSExplainerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8FF4FE80679E310B341FDE /* SRSExplainerSheet.swift */; };
+		CA726380471FB7ED3974CDF8 /* NoteTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E55646B626C9CCA24DC8F13 /* NoteTimeline.swift */; };
 		CC5875A2D467A031279A6390 /* ReviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB45169EF35C9E4CB79AF60 /* ReviewService.swift */; };
 		CD0FAC7C2A8C07479BCF8F21 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12BCF790E0389FA64512B4B /* SearchView.swift */; };
 		CD236CB2D790359F5788B380 /* SubjectIconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD8A10A155DBCFB4756F82 /* SubjectIconTests.swift */; };
@@ -202,6 +203,7 @@
 		467F839F80FCD6C92EEDB102 /* CardImageExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageExporter.swift; sourceTree = "<group>"; };
 		48884F3A496DF7412F048BD7 /* InkText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkText.swift; sourceTree = "<group>"; };
 		49A519145F9A521134BDEC9D /* NoteOutline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteOutline.swift; sourceTree = "<group>"; };
+		4E55646B626C9CCA24DC8F13 /* NoteTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTimeline.swift; sourceTree = "<group>"; };
 		4F8FF4FE80679E310B341FDE /* SRSExplainerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSExplainerSheet.swift; sourceTree = "<group>"; };
 		50FF9B7EDA1C99BA82A90902 /* PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceTests.swift; sourceTree = "<group>"; };
 		55A4050B3C2FC8F8B5C1E7E1 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				7BB3AAC294527988C9527782 /* NoteBoard.swift */,
 				1B7334397D719E6AD2D59D3D /* NoteRow.swift */,
 				B7A5570F2C62C9A73E4F1ED7 /* NotesNavigation.swift */,
+				4E55646B626C9CCA24DC8F13 /* NoteTimeline.swift */,
 				C75BD3D6BABC81A9E22E05DC /* NoteToolbar.swift */,
 				434A1198DA3C579F85731508 /* NoteView.swift */,
 				CBE82013362742E379BDC7C0 /* TypstGallerySheet.swift */,
@@ -907,6 +910,7 @@
 				48FE3E1D0592CEABD8FF66A2 /* NoteInsertion.swift in Sources */,
 				8B1358CCD0A848596514E20D /* NoteOutline.swift in Sources */,
 				18B44B3E651531E927A35A39 /* NoteRow.swift in Sources */,
+				CA726380471FB7ED3974CDF8 /* NoteTimeline.swift in Sources */,
 				A1426C78FC8118006400A20B /* NoteToolbar.swift in Sources */,
 				B6B9C2E53EA0AC4BC49B7A1B /* NoteView.swift in Sources */,
 				8DBD8354CBAAFEEE718BBE23 /* NotebookDoodle.swift in Sources */,

@@ -65,6 +65,9 @@ struct FolderView: View {
                                 content(folder)
                             case .board:
                                 board(folder)
+                            case .timeline:
+                                NoteTimeline(folder: folder)
+                                    .padding(.top, 14)
                             }
                         }
                     }

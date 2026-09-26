@@ -8,6 +8,8 @@ enum NotesViewMode: String, CaseIterable, Identifiable {
     case board
     /// A map of how the notes link to one another and to their subjects.
     case graph
+    /// Notes by the day they were written, and the rhythm of the last weeks.
+    case timeline
 
     var id: String { rawValue }
 
@@ -16,6 +18,7 @@ enum NotesViewMode: String, CaseIterable, Identifiable {
         case .list: "notes.view.list"
         case .board: "notes.view.board"
         case .graph: "notes.view.graph"
+        case .timeline: "notes.view.timeline"
         }
     }
 }
