@@ -150,7 +150,7 @@ final class LiveRenderer {
         }
     }
 
-    nonisolated private static func downsampledImage(at url: URL, maxPixelSize: CGFloat) -> CGImage? {
+    nonisolated static func downsampledImage(at url: URL, maxPixelSize: CGFloat) -> CGImage? {
         var data: Data?
         var error: NSError?
         NSFileCoordinator().coordinate(readingItemAt: url, options: [], error: &error) { url in

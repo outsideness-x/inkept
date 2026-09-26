@@ -20,8 +20,15 @@ struct FolderView: View {
     @State private var renameFolder: VaultFolder?
     @State private var iconFolder: VaultFolder?
     @State private var deleteFolder: VaultFolder?
+    @AppStorage("notesViewMode") private var mode: NotesViewMode = .list
 
     private var folder: VaultFolder? { vault.root.folder(at: path) }
+
+    /// The way the notes are shown; an empty folder is always a list, with its one thing to do.
+    private var shownMode: NotesViewMode {
+        guard let folder, folder.totalNoteCount > 0 else { return .list }
+        return mode
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -35,21 +42,23 @@ struct FolderView: View {
             }
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    if isTabRoot {
-                        rootHeader
-                    } else {
-                        ScreenTitle(title: title, icon: folder?.icon) {
-                            iconFolder = folder
-                        }
-                    }
+                    heading
                     if let folder {
-                        content(folder)
+                        if folder.totalNoteCount > 0 {
+                            modePicker
+                        }
+                        switch shownMode {
+                        case .list:
+                            content(folder)
+                        case .board:
+                            board(folder)
+                        }
                     }
                 }
                 .padding(.horizontal, 22)
                 .padding(.top, isTabRoot ? 6 : 10)
                 .padding(.bottom, 40)
-                .remnReadableWidth()
+                .remnReadableWidth(shownMode == .board ? 1_060 : 640)
             }
         }
         .paperBackground()
@@ -149,6 +158,39 @@ struct FolderView: View {
     private var backTitle: String {
         let parent = VaultPath.parent(of: path)
         return parent.isEmpty ? String(localized: "section.notes") : VaultPath.name(of: parent)
+    }
+
+    @ViewBuilder
+    private var heading: some View {
+        if isTabRoot {
+            rootHeader
+        } else {
+            ScreenTitle(title: title, icon: folder?.icon) {
+                iconFolder = folder
+            }
+        }
+    }
+
+    /// List, board, graph or timeline: circled like any other choice.
+    private var modePicker: some View {
+        InkChoiceRow(
+            selection: $mode,
+            options: NotesViewMode.allCases.map { .init(value: $0, title: Text($0.title)) },
+            seed: 8_700
+        )
+        .frame(maxWidth: 460, alignment: .leading)
+        .padding(.horizontal, -6)
+        .padding(.top, isTabRoot ? 0 : 4)
+    }
+
+    private func board(_ folder: VaultFolder) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HandwrittenText("count.notes \(folder.totalNoteCount)")
+                .font(RemnTypography.note)
+                .foregroundStyle(Color.remnGraphite)
+            NoteBoard(folder: folder)
+                .padding(.top, 22)
+        }
     }
 
     private var rootHeader: some View {

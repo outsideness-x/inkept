@@ -1,5 +1,22 @@
 import SwiftUI
 
+/// How a folder's notes are shown.
+enum NotesViewMode: String, CaseIterable, Identifiable {
+    /// Folders, then notes, most recently touched first.
+    case list
+    /// Pages pinned to a board, with the pictures and formulas they open with.
+    case board
+
+    var id: String { rawValue }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .list: "notes.view.list"
+        case .board: "notes.view.board"
+        }
+    }
+}
+
 /// What the notes sidebar has chosen for the page beside it.
 enum NotesSidebarItem: Hashable {
     case folder(String)
