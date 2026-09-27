@@ -49,6 +49,7 @@
 		4572E8E2D5328AAD4454978B /* TypstGallerySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE82013362742E379BDC7C0 /* TypstGallerySheet.swift */; };
 		48FE3E1D0592CEABD8FF66A2 /* NoteInsertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F41CB6015A124E2CFB1CB2 /* NoteInsertion.swift */; };
 		4BF33359FF4B421D80BA8F47 /* InkIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7DC6E8928E3FCA113BE902 /* InkIcon.swift */; };
+		4DD1934A1017DF80B3831BF9 /* NoteLinksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC881C883170A62074062F0 /* NoteLinksTests.swift */; };
 		4E5EF8B6ED839026B92947BE /* MarkdownRenderSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F72936533B36DABA6988A35 /* MarkdownRenderSource.swift */; };
 		502559E1A39C1AFCB31744F7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 15A858101FE1C0ACD7EBDF5A /* Localizable.xcstrings */; };
 		53ACFFA0C94E4C719D782B1B /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867AB964E10295C861743490 /* Vault.swift */; };
@@ -122,6 +123,7 @@
 		CD236CB2D790359F5788B380 /* SubjectIconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD8A10A155DBCFB4756F82 /* SubjectIconTests.swift */; };
 		CD3F1776C35ECC20D198BA06 /* HandmadeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35084084FB10D50F86C775C /* HandmadeDialog.swift */; };
 		D30EFB47624C370F8E5D401B /* NoteDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6313919740ACE4171A83747E /* NoteDocument.swift */; };
+		D62DF39E4628129479726DC4 /* NoteLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323C683E32A5A20AA191002 /* NoteLinks.swift */; };
 		D6ECBB79A90EB01D1A66C5B3 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AEBEDAEA65A3531C73683D /* EmojiArt.swift */; };
 		D797D3202B36BEFE11F83B11 /* HandmadeComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACE8C66501FBC9214D431FA /* HandmadeComponents.swift */; };
 		D9F55A96A13DCA88357D75C9 /* NoteBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB3AAC294527988C9527782 /* NoteBoard.swift */; };
@@ -247,6 +249,7 @@
 		9B2A6619428464DAD900A229 /* TypstEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypstEngine.swift; sourceTree = "<group>"; };
 		9F4E40F875B27C4CFBA7E1F1 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
 		9F72936533B36DABA6988A35 /* MarkdownRenderSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderSource.swift; sourceTree = "<group>"; };
+		9FC881C883170A62074062F0 /* NoteLinksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLinksTests.swift; sourceTree = "<group>"; };
 		A222FA1D0A10D0D8A09F0E89 /* SubjectIcons+Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubjectIcons+Languages.swift"; sourceTree = "<group>"; };
 		A2448272CFF047F6FBD50C9B /* NotebookDoodle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookDoodle.swift; sourceTree = "<group>"; };
 		A633B00400E44408AFB4DD4B /* LibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryStore.swift; sourceTree = "<group>"; };
@@ -276,6 +279,7 @@
 		D1D3F10A81056E2B9BF62CE3 /* InkControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkControls.swift; sourceTree = "<group>"; };
 		D251887050864C1276246D18 /* InkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkTests.swift; sourceTree = "<group>"; };
 		D290C0256CB30E048474D412 /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
+		D323C683E32A5A20AA191002 /* NoteLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLinks.swift; sourceTree = "<group>"; };
 		D7CDEC6CF690B3CFB8C3008B /* BackupModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupModels.swift; sourceTree = "<group>"; };
 		DB65143066E4333550817388 /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
 		DC3EE2DABB77A98BCFF36DED /* LiveMarkdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMarkdown.swift; sourceTree = "<group>"; };
@@ -499,6 +503,7 @@
 				33ACB66E2E41DAF6B7721782 /* MarkdownInsertionTests.swift */,
 				C5A86F88F564DD468EE4A170 /* MigrationTests.swift */,
 				06E74AE600870D896493C79A /* NoteGraphTests.swift */,
+				9FC881C883170A62074062F0 /* NoteLinksTests.swift */,
 				CA78DB3F6F605DED64BA85B2 /* NoteOutlineTests.swift */,
 				3883F3714493B8CE91778CA3 /* NotesVaultTests.swift */,
 				50FF9B7EDA1C99BA82A90902 /* PersistenceTests.swift */,
@@ -672,6 +677,7 @@
 				EDE50C0F8166523903A79004 /* GraphLayout.swift */,
 				E405788E26A66671BCED61C0 /* NoteGraph.swift */,
 				F0E3B70FAEEA185DCDB5D4C8 /* NoteGraphView.swift */,
+				D323C683E32A5A20AA191002 /* NoteLinks.swift */,
 			);
 			path = Graph;
 			sourceTree = "<group>";
@@ -833,6 +839,7 @@
 				880C040EFDCFDAE634DC979D /* MarkdownInsertionTests.swift in Sources */,
 				33AD97F101650ED72CC8054C /* MigrationTests.swift in Sources */,
 				30B38566A2712AFF24C50460 /* NoteGraphTests.swift in Sources */,
+				4DD1934A1017DF80B3831BF9 /* NoteLinksTests.swift in Sources */,
 				0CDBAD8F8516472BEA401CE4 /* NoteOutlineTests.swift in Sources */,
 				DE6833B38569F78D0F7F5EB9 /* NotesVaultTests.swift in Sources */,
 				DC13F65B617F8F51CB68B8C8 /* PersistenceTests.swift in Sources */,
@@ -908,6 +915,7 @@
 				A384A917294A9EA83253BBA3 /* NoteGraph.swift in Sources */,
 				BFA1A60296D2D6739DB68B91 /* NoteGraphView.swift in Sources */,
 				48FE3E1D0592CEABD8FF66A2 /* NoteInsertion.swift in Sources */,
+				D62DF39E4628129479726DC4 /* NoteLinks.swift in Sources */,
 				8B1358CCD0A848596514E20D /* NoteOutline.swift in Sources */,
 				18B44B3E651531E927A35A39 /* NoteRow.swift in Sources */,
 				CA726380471FB7ED3974CDF8 /* NoteTimeline.swift in Sources */,

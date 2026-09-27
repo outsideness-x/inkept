@@ -124,12 +124,8 @@ struct NoteOutline: Equatable, Sendable {
                 addLink(NoteLink(kind: .wiki, target: Self.withoutHeading(String(text[name])).trimmingCharacters(in: .whitespaces)))
             }
             for match in Self.markdownLink.matches(in: text, range: range) {
-                guard let href = Range(match.range(at: 1), in: text) else { continue }
-                var target = Self.withoutHeading(String(text[href]))
-                target = target.removingPercentEncoding ?? target
-                let ext = (target as NSString).pathExtension.lowercased()
-                guard !target.contains("://"), !target.hasPrefix("mailto:"), VaultPath.noteExtensions.contains(ext) else { continue }
-                addLink(NoteLink(kind: .path, target: target))
+                guard let href = Range(match.range(at: 2), in: text), let link = Self.noteLink(href: String(text[href])) else { continue }
+                addLink(link)
             }
 
             appendExcerpt(trimmed)
@@ -140,6 +136,15 @@ struct NoteOutline: Equatable, Sendable {
     private static func withoutHeading(_ target: String) -> String {
         guard let hash = target.firstIndex(of: "#") else { return target }
         return String(target[..<hash])
+    }
+
+    /// The note a Markdown link's address leads to; web links and files that aren't notes lead nowhere.
+    private static func noteLink(href: String) -> NoteLink? {
+        var target = withoutHeading(href)
+        target = target.removingPercentEncoding ?? target
+        let ext = (target as NSString).pathExtension.lowercased()
+        guard !target.contains("://"), !target.hasPrefix("mailto:"), VaultPath.noteExtensions.contains(ext) else { return nil }
+        return NoteLink(kind: .path, target: target)
     }
 
     /// A line as it reads, or nothing for lines that are only structure.
@@ -166,8 +171,117 @@ struct NoteOutline: Equatable, Sendable {
 
     private static let markdownImage = regex(#"!\[[^\]\n]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)"#)
     private static let embed = regex(#"!\[\[([^\]|\n]+?)(?:\|[^\]\n]*)?\]\]"#)
-    private static let wikiLink = regex(#"(?<!!)\[\[([^\]|\n]+)(?:\|[^\]\n]*)?\]\]"#)
-    private static let markdownLink = regex(#"(?<![!\]])\[[^\]\n]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)"#)
+    /// The name, then what's shown instead of it, if anything.
+    private static let wikiLink = regex(#"(?<!!)\[\[([^\]|\n]+)(?:\|([^\]\n]*))?\]\]"#)
+    /// The words, then where they lead.
+    private static let markdownLink = regex(#"(?<![!\]])\[([^\]\n]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)"#)
+    private static let codeSpan = regex(#"`[^`\n]*`"#)
+}
+
+/// A line of one note that links to another, as it reads, cut round the links so they can be picked out.
+struct NoteMention: Hashable, Sendable {
+    struct Piece: Hashable, Sendable {
+        var text: String
+        var isLink: Bool
+    }
+
+    var pieces: [Piece]
+}
+
+extension NoteOutline {
+    /// The first `limit` lines of `body` with a link that `leadsHere`. Code, and formulas on lines of
+    /// their own, are passed over.
+    static func mentions(in body: String, limit: Int = 3, where leadsHere: (NoteLink) -> Bool) -> [NoteMention] {
+        var mentions: [NoteMention] = []
+        var fence: String?
+        var inFormula = false
+        for rawLine in body.split(separator: "\n") {
+            let line = rawLine.trimmingCharacters(in: .whitespaces)
+            if let marker = fence {
+                if line.hasPrefix(marker) { fence = nil }
+                continue
+            }
+            if line.hasPrefix("```") || line.hasPrefix("~~~") {
+                fence = String(line.prefix(3))
+                continue
+            }
+            if line == "$$" {
+                inFormula.toggle()
+                continue
+            }
+            guard !inFormula, line.contains("]"), let mention = mention(in: line, where: leadsHere) else { continue }
+            mentions.append(mention)
+            if mentions.count == limit { break }
+        }
+        return mentions
+    }
+
+    /// Where a link starts and ends, in characters from the private use area so the clean-up passes them by.
+    private static let linkStart = "\u{E000}"
+    private static let linkEnd = "\u{E001}"
+
+    private static func mention(in line: String, where leadsHere: (NoteLink) -> Bool) -> NoteMention? {
+        let text = line as NSString
+        let range = NSRange(location: 0, length: text.length)
+        let code = codeSpan.matches(in: line, range: range).map(\.range)
+        func isCode(_ range: NSRange) -> Bool {
+            code.contains { NSIntersectionRange($0, range).length > 0 }
+        }
+
+        var found: [(range: NSRange, shown: String)] = []
+        for match in wikiLink.matches(in: line, range: range) where !isCode(match.range) {
+            let name = withoutHeading(text.substring(with: match.range(at: 1))).trimmingCharacters(in: .whitespaces)
+            guard leadsHere(NoteLink(kind: .wiki, target: name)) else { continue }
+            let alias = match.range(at: 2).location == NSNotFound
+                ? "" : text.substring(with: match.range(at: 2)).trimmingCharacters(in: .whitespaces)
+            found.append((match.range, alias.isEmpty ? name : alias))
+        }
+        for match in markdownLink.matches(in: line, range: range) where !isCode(match.range) {
+            guard let link = noteLink(href: text.substring(with: match.range(at: 2))), leadsHere(link) else { continue }
+            let words = text.substring(with: match.range(at: 1))
+            found.append((match.range, words.isEmpty ? VaultPath.title(ofNoteNamed: VaultPath.name(of: link.target)) : words))
+        }
+        guard !found.isEmpty else { return nil }
+
+        var marked = ""
+        var cursor = 0
+        for link in found.sorted(by: { $0.range.location < $1.range.location }) where link.range.location >= cursor {
+            marked += text.substring(with: NSRange(location: cursor, length: link.range.location - cursor))
+            marked += linkStart + link.shown + linkEnd
+            cursor = NSMaxRange(link.range)
+        }
+        marked += text.substring(from: cursor)
+
+        // Read the way previews read: no quote, list or heading marks, and other links as their words.
+        let clean = NoteText.plain(
+            marked
+                .replacingOccurrences(of: #"^(>\s*)+"#, with: "", options: .regularExpression)
+                .replacingOccurrences(of: #"^(#{1,6}|[-*+]|\d+\.)\s+(\[[ xX]\]\s+)?"#, with: "", options: .regularExpression)
+        )
+        var pieces: [NoteMention.Piece] = []
+        var rest = Substring(clean)
+        while let start = rest.range(of: linkStart) {
+            if start.lowerBound > rest.startIndex {
+                pieces.append(.init(text: String(rest[..<start.lowerBound]), isLink: false))
+            }
+            rest = rest[start.upperBound...]
+            let end = rest.range(of: linkEnd) ?? (rest.endIndex..<rest.endIndex)
+            pieces.append(.init(text: String(rest[..<end.lowerBound]), isLink: true))
+            rest = rest[end.upperBound...]
+        }
+        if !rest.isEmpty {
+            pieces.append(.init(text: String(rest), isLink: false))
+        }
+
+        // A long run of words before the link is cut to the few just before it, so the link itself
+        // is still there in the few lines a mention is given.
+        if pieces.count > 1, !pieces[0].isLink, pieces[0].text.count > 64 {
+            let tail = pieces[0].text.suffix(48)
+            let start = tail.firstIndex(of: " ").map { tail.index(after: $0) } ?? tail.startIndex
+            pieces[0].text = "…" + tail[start...]
+        }
+        return NoteMention(pieces: pieces)
+    }
 }
 
 extension NoteText {
