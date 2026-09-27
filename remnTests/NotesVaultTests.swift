@@ -119,7 +119,8 @@ struct VaultTests {
 
         let summary = try #require(vault.root.note(at: note))
         #expect(summary.title == "Lenses basics")
-        #expect(summary.snippet == "A lens bends light. #optics")
+        // The tag the line ends with is shown as a tag, not repeated in the snippet.
+        #expect(summary.snippet == "A lens bends light.")
         #expect(summary.tags == ["physics", "optics"])
         #expect(vault.root.folder(at: physics)?.totalNoteCount == 1)
         #expect(vault.tags.map(\.tag) == ["optics", "physics"])

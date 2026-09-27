@@ -50,6 +50,13 @@ struct NoteOutlineTests {
         #expect(NoteOutline(String(repeating: "word ", count: 100), excerptLimit: 20).excerpt.count == 21)
     }
 
+    @Test func tagsALineEndsWithAreLeftOffPreviews() {
+        #expect(NoteText.plain("Energy is conserved. #physics #exam") == "Energy is conserved.")
+        #expect(NoteText.plain("#physics") == "")
+        #expect(NoteText.plain("A #physics note, in C# and #1") == "A #physics note, in C# and #1")
+        #expect(NoteOutline("Rank decides it. #linear-algebra\n#exam").excerpt == "Rank decides it.")
+    }
+
     @Test func longNotesAreReadQuickly() {
         let paragraph = "A line of plain words about eigenvectors, with a [[link]] now and then and $x^2$ in it.\n"
         let note = String(repeating: "Plain words, nothing to find here at all.\n", count: 3_000) + String(repeating: paragraph, count: 500)

@@ -69,7 +69,8 @@ enum NoteText {
         return tags
     }
 
-    /// A line of Markdown as it reads: formulas written out, links as their words, emphasis marks gone.
+    /// A line of Markdown as it reads: formulas written out, links as their words, emphasis marks gone,
+    /// and the `#tags` a line ends with left off — they're shown as tags.
     static func plain(_ line: String) -> String {
         readableMath(in: line)
             .replacingOccurrences(of: #"!\[\[[^\]]*\]\]|!\[[^\]]*\]\([^)]*\)"#, with: "", options: .regularExpression)
@@ -78,6 +79,7 @@ enum NoteText {
             .replacingOccurrences(of: #"\[([^\]]*)\]\([^)]*\)"#, with: "$1", options: .regularExpression)
             .replacingOccurrences(of: #"\*\*|__|==|~~|`"#, with: "", options: .regularExpression)
             .replacingOccurrences(of: #"(?<![\w*])[*_](?=\S)|(?<=\S)[*_](?![\w*])"#, with: "", options: .regularExpression)
+            .replacingOccurrences(of: #"(?:(?:^|\s+)#[\p{L}\p{N}_/-]*[\p{L}_][\p{L}\p{N}_/-]*)+\s*$"#, with: "", options: .regularExpression)
             .trimmingCharacters(in: .whitespaces)
     }
 
