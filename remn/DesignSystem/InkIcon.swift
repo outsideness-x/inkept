@@ -24,6 +24,8 @@ enum InkIconKind: Int, CaseIterable {
     case folder
     /// Four corners: fit everything in view.
     case fit
+    /// Three notes and the lines between them: what a note is linked with.
+    case links
 }
 
 /// A small drawing in the same pen as the rest of the interface, on a 24-point grid.
@@ -237,6 +239,19 @@ private struct InkIconDrawing {
                 Stroke(points: [p(20.2, 14.8), p(20.3, 20.4), p(14.4, 20.2)]),
                 Stroke(points: [p(9.4, 20.3), p(3.7, 20.2), p(3.8, 14.6)]),
             ])
+        case .links:
+            InkIconDrawing(
+                strokes: [
+                    Stroke(points: [p(9.3, 6.6), p(15.4, 5.8)]),
+                    Stroke(points: [p(7.8, 9.8), p(11.2, 14.9)]),
+                    Stroke(points: [p(17.7, 8.5), p(14.9, 14.7)]),
+                ],
+                loops: [
+                    CGRect(x: 2.9, y: 3.6, width: 6.3, height: 6.1),
+                    CGRect(x: 15.6, y: 2.7, width: 5.7, height: 5.8),
+                    CGRect(x: 9.7, y: 14.6, width: 6.9, height: 6.7),
+                ]
+            )
         case .undo:
             InkIconDrawing(strokes: [
                 Stroke(points: [p(5.4, 9.6), p(13.5, 8.6), p(19.4, 12.6), p(17.6, 18.3), p(11.6, 19.2)], smooth: true),

@@ -207,7 +207,8 @@ final class NoteGraphModel {
 
 /// Notes as a map: each a dot sized by how connected it is, links drawn in pencil, subjects as circles
 /// wearing their icons. Drag to move around, pinch or scroll to look closer, pick a note to see what it
-/// touches, and pick it again to open it.
+/// touches, and pick it again to open it. Drawn round one note, the map is small and the note is marked
+/// in red pencil; every other note on it opens with a single tap.
 struct NoteGraphView: View {
     @Environment(Vault.self) private var vault
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -274,7 +275,8 @@ struct NoteGraphView: View {
                     }
                 }
                 #if os(macOS)
-                .modifier(GraphScrollWheel(pointer: pointer, camera: $camera, size: proxy.size))
+                // Beside a note the map sits in a list that scrolls, so there only ⌘ and the wheel zoom it.
+                .modifier(GraphScrollWheel(pointer: pointer, camera: $camera, size: proxy.size, pans: centreID == nil))
                 #endif
                 .onAppear { canvasSize = proxy.size }
                 .onChange(of: proxy.size) { _, size in
@@ -283,7 +285,7 @@ struct NoteGraphView: View {
                 }
             }
             .overlay(alignment: .bottom) {
-                if let selected = selectedNode {
+                if centreID == nil, let selected = selectedNode {
                     GraphNodeCard(node: selected.node, connections: selected.connections, open: { open(selected.node) })
                         .padding(.horizontal, 16)
                         .padding(.bottom, 12)
@@ -301,6 +303,12 @@ struct NoteGraphView: View {
 
     private var graphKey: String {
         "\(scope)|\(vault.revision)|\(showsFolders)|\(showsTags)"
+    }
+
+    /// The note the map is drawn round, if it's drawn round one.
+    private var centreID: String? {
+        if case .note(let path) = scope { return NoteGraph.noteID(path) }
+        return nil
     }
 
     private func build() {
@@ -356,7 +364,8 @@ struct NoteGraphView: View {
     }
 
     private func fit(animated: Bool) {
-        let target = GraphCamera.fitting(model.bounds, in: canvasSize)
+        // Round one note there are only a few to show, in a small space, so they come closer to the edge.
+        let target = GraphCamera.fitting(model.bounds, in: canvasSize, margin: centreID == nil ? 46 : 30)
         if animated, !reduceMotion {
             withAnimation(.spring(duration: 0.45, bounce: 0.15)) { camera = target }
         } else {
@@ -408,6 +417,14 @@ struct NoteGraphView: View {
             return
         }
         let id = model.graph.nodes[node].id
+        if centreID != nil {
+            if model.graph.nodes[node].kind == .note, id != centreID {
+                open(model.graph.nodes[node])
+            } else {
+                selection = selection == id ? nil : id
+            }
+            return
+        }
         if selection == id {
             open(model.graph.nodes[node])
             return
@@ -499,6 +516,9 @@ struct NoteGraphView: View {
         // Then the nodes: tags and notes still to write at the back, subjects on top.
         let order = graph.nodes.indices.sorted { drawOrder(graph.nodes[$0].kind) < drawOrder(graph.nodes[$1].kind) }
         var labels: [(index: Int, point: CGPoint, radius: CGFloat)] = []
+        // What names keep off: subjects always, and on a small map every node, rings and all.
+        var discs: [(owner: Int, frame: CGRect)] = []
+        let keepsOffNodes = graph.nodes.count <= 120
         for index in order {
             let node = graph.nodes[index]
             let centre = screen[index]
@@ -520,6 +540,9 @@ struct NoteGraphView: View {
                 .applying(CGAffineTransform(translationX: centre.x, y: centre.y))
 
             switch node.kind {
+            case .note where node.id == centreID:
+                layer.fill(disc, with: .color(.remnAccent))
+                layer.fill(outline, with: .color(.remnInk))
             case .note:
                 let tint = SubjectIcon.named(node.icon)?.tint.color ?? .remnCardPaper
                 layer.fill(disc, with: .color(tint.opacity(node.icon == nil ? 1 : 0.9)))
@@ -547,7 +570,7 @@ struct NoteGraphView: View {
                 layer.fill(outline, with: .color(.remnGraphite))
             }
 
-            if node.id == selected {
+            if node.id == selected || node.id == centreID {
                 let ring = InkBrush.stroke(
                     InkGeometry.ellipseLoop(in: CGRect(x: centre.x - r - 6, y: centre.y - r - 6, width: (r + 6) * 2, height: (r + 6) * 2), seed: 60_013, overshoot: 0.5),
                     pen: .fine,
@@ -558,19 +581,22 @@ struct NoteGraphView: View {
             if showsLabel(for: index, node: node, focus: focus, lit: lit, zoom: zoom) {
                 labels.append((index, centre, r))
             }
+            if keepsOffNodes || node.kind == .folder {
+                let reach = r + (node.id == selected || node.id == centreID ? 8 : 1)
+                discs.append((index, CGRect(x: centre.x - reach, y: centre.y - reach, width: reach * 2, height: reach * 2)))
+            }
         }
 
         // Names last, on a little paper so pencil lines don't run through them. Subjects and whatever is
-        // picked are named first; a name that would land on another, or on a subject, is left off.
+        // picked are named first. A name goes under its node, or over it, or beside it, wherever it stays
+        // on the page clear of other names and nodes; failing that it's left off.
         let ranked = labels.sorted { labelRank(graph.nodes[$0.index], index: $0.index, focus: focus) > labelRank(graph.nodes[$1.index], index: $1.index, focus: focus) }
-        var taken: [CGRect] = labels.filter { graph.nodes[$0.index].kind == .folder }.map { label in
-            CGRect(x: label.point.x - label.radius, y: label.point.y - label.radius, width: label.radius * 2, height: label.radius * 2)
-        }
+        var taken: [CGRect] = []
         for label in ranked {
             let node = graph.nodes[label.index]
             let isSubject = node.kind == .folder
-            let emphasised = focus == label.index
-            let size = isSubject ? min(max(15 * zoom, 13), 20) : min(max(12.5 * zoom, 11), 16)
+            let emphasised = focus == label.index || node.id == centreID
+            let fontSize = isSubject ? min(max(15 * zoom, 13), 20) : min(max(12.5 * zoom, 11), 16)
             let colour: Color = switch node.kind {
             case .tag: .remnAccent
             case .missing: .remnGraphite
@@ -578,14 +604,25 @@ struct NoteGraphView: View {
             }
             let text = context.resolve(
                 Text(verbatim: shortened(node.title))
-                    .font(.custom("Neucha", fixedSize: size))
+                    .font(.custom("Neucha", fixedSize: fontSize))
                     .foregroundStyle(colour)
             )
             let measured = text.measure(in: CGSize(width: 260, height: 60))
-            let origin = CGPoint(x: label.point.x - measured.width / 2, y: label.point.y + label.radius + 3)
-            let frame = CGRect(origin: origin, size: measured).insetBy(dx: -2, dy: -1)
-            if !isSubject, !emphasised, taken.contains(where: { $0.intersects(frame) }) { continue }
-            taken.append(frame)
+            let places = [
+                CGPoint(x: label.point.x - measured.width / 2, y: label.point.y + label.radius + 3),
+                CGPoint(x: label.point.x - measured.width / 2, y: label.point.y - label.radius - 3 - measured.height),
+                CGPoint(x: label.point.x + label.radius + 5, y: label.point.y - measured.height / 2),
+                CGPoint(x: label.point.x - label.radius - 5 - measured.width, y: label.point.y - measured.height / 2),
+            ]
+            let page = CGRect(origin: .zero, size: size).insetBy(dx: 4, dy: 4)
+            let free = places.first { place in
+                let frame = CGRect(origin: place, size: measured).insetBy(dx: -2, dy: -1)
+                return page.contains(frame)
+                    && !taken.contains { $0.intersects(frame) }
+                    && !discs.contains { $0.owner != label.index && $0.frame.intersects(frame) }
+            }
+            guard let origin = free ?? (isSubject || emphasised ? places[0] : nil) else { continue }
+            taken.append(CGRect(origin: origin, size: measured).insetBy(dx: -2, dy: -1))
             var paper = context
             paper.opacity = (focus != nil && !lit.contains(label.index) ? 0.3 : 1) * (node.isOutside ? 0.6 : 1)
             paper.fill(
@@ -601,7 +638,7 @@ struct NoteGraphView: View {
 
     /// Which names win a place: subjects, then what's picked and what it touches, then the best connected.
     private func labelRank(_ node: NoteGraph.Node, index: Int, focus: Int?) -> Int {
-        if node.kind == .folder { return 10_000 }
+        if node.kind == .folder || node.id == centreID { return 10_000 }
         if index == focus { return 9_000 }
         return (focus != nil ? 1_000 : 0) + node.degree * 10 + (node.kind == .note ? 1 : 0)
     }
@@ -616,8 +653,9 @@ struct NoteGraphView: View {
     }
 
     /// Subjects are always named; notes once you're close enough to read them, or when they're lit.
+    /// Round one note, everything is named that has room.
     private func showsLabel(for index: Int, node: NoteGraph.Node, focus: Int?, lit: Set<Int>, zoom: CGFloat) -> Bool {
-        if node.kind == .folder || lit.contains(index) { return true }
+        if node.kind == .folder || centreID != nil || lit.contains(index) { return true }
         if focus != nil { return false }
         if zoom >= 0.8 { return true }
         return zoom >= 0.5 && node.degree >= 3
@@ -707,35 +745,39 @@ private struct GraphNodeCard: View {
 #if os(macOS)
 import AppKit
 
-/// Whether the pointer is over the map, for the scroll wheel.
+/// Whether the pointer is over the map, and how big the map is, for the scroll wheel.
 @MainActor
 private final class GraphPointer {
     var isInside = false
     var location: CGPoint = .zero
+    var size: CGSize = .zero
 }
 
-/// On the Mac, two fingers or a wheel move the map around, and with ⌘ held they zoom.
+/// On the Mac, two fingers or a wheel move the map around, and with ⌘ held they zoom. When the map
+/// doesn't `pan`, scrolling without ⌘ is left to whatever the map sits in.
 private struct GraphScrollWheel: ViewModifier {
     let pointer: GraphPointer
     @Binding var camera: GraphCamera
     let size: CGSize
+    var pans = true
     @State private var monitor: Any?
 
     func body(content: Content) -> some View {
         content
+            .onChange(of: size, initial: true) { _, size in pointer.size = size }
             .onAppear {
                 guard monitor == nil else { return }
                 let pointer = pointer
                 let camera = $camera
-                let size = size
+                let pans = pans
                 monitor = NSEvent.addLocalMonitorForEvents(matching: [.scrollWheel]) { event in
                     let dx = event.scrollingDeltaX
                     let dy = event.scrollingDeltaY
                     let zooms = event.modifierFlags.contains(.command)
                     let used = MainActor.assumeIsolated { () -> Bool in
-                        guard pointer.isInside else { return false }
+                        guard pointer.isInside, zooms || pans else { return false }
                         if zooms {
-                            camera.wrappedValue = camera.wrappedValue.zoomed(by: exp(-dy / 120), around: pointer.location, in: size)
+                            camera.wrappedValue = camera.wrappedValue.zoomed(by: exp(-dy / 120), around: pointer.location, in: pointer.size)
                         } else {
                             camera.wrappedValue.offset.width += dx
                             camera.wrappedValue.offset.height += dy

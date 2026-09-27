@@ -30,6 +30,10 @@ struct NoteView: View {
     @State private var pickingImageFile = false
     @State private var photoItem: PhotosPickerItem?
     @State private var showTypstGallery = false
+    /// What the note is linked with. On the Mac it's a column beside the note that stays open from note
+    /// to note; elsewhere it's opened for one note at a time.
+    @AppStorage("notes.showsLinks") private var showsLinksBeside = false
+    @State private var showsLinksHere = false
 
     /// A passage of the note on its way to becoming a flashcard.
     private struct CardDraft: Identifiable {
@@ -46,6 +50,7 @@ struct NoteView: View {
         VStack(spacing: 0) {
             RemnNavigationHeader(backTitle: folderTitle) {
                 HStack(spacing: 0) {
+                    InkIconButton(kind: .links, label: "notes.links") { showsLinks.wrappedValue.toggle() }
                     InkIconButton(kind: .typeface, label: "notes.font") { showFonts = true }
                     InkIconButton(kind: .more, label: "actions") { showActions = true }
                 }
@@ -92,6 +97,14 @@ struct NoteView: View {
         }
         .animation(.easeOut(duration: 0.2), value: controller.isFocused)
         .task(id: path) { await load() }
+        #if DEBUG
+        .task {
+            // Design reviews: `-showLinks` opens a note with what it's linked with, once it has slid in.
+            guard ProcessInfo.processInfo.arguments.contains("-showLinks") else { return }
+            try? await Task.sleep(for: .milliseconds(800))
+            showsLinks.wrappedValue = true
+        }
+        #endif
         .onChange(of: vault.revision) { _, _ in
             Task { await reloadIfChangedElsewhere() }
         }
@@ -173,6 +186,17 @@ struct NoteView: View {
         .sheet(isPresented: $showTags) {
             TagEditorSheet(tags: Binding(get: { document.frontMatter.tags }, set: { setTags($0) }))
         }
+        .inspector(isPresented: showsLinks) {
+            NoteLinksPanel(path: path, onOpen: openLinked, onClose: { showsLinks.wrappedValue = false })
+                .inspectorColumnWidth(min: 270, ideal: 320, max: 460)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.hidden)
+                .presentationCornerRadius(30)
+        }
+    }
+
+    private var showsLinks: Binding<Bool> {
+        RemnPlatform.isMac ? $showsLinksBeside : $showsLinksHere
     }
 
     private var showsToolbar: Bool {
@@ -277,6 +301,12 @@ struct NoteView: View {
                 }
             }
         }
+    }
+
+    /// Goes to a note from the links panel, which on iPhone and iPad is closed on the way.
+    private func openLinked(_ target: String) {
+        if !RemnPlatform.isMac { showsLinksHere = false }
+        appState.notesPath.append(.note(target))
     }
 
     // MARK: - Pictures

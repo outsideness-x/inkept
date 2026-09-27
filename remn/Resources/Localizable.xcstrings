@@ -3481,6 +3481,118 @@
         }
       }
     },
+    "notes.links" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "links"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "связи"
+          }
+        }
+      }
+    },
+    "notes.links.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "not linked to anything yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "пока ни с чем не связан"
+          }
+        }
+      }
+    },
+    "notes.links.empty.hint %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "write [[%@]] in another note, and the two will be linked"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "напишите [[%@]] в другом конспекте — и они свяжутся"
+          }
+        }
+      }
+    },
+    "notes.links.incoming" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "linked from"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ссылаются сюда"
+          }
+        }
+      }
+    },
+    "notes.links.incoming.none" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "no note links here yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "сюда пока не ссылается ни один конспект"
+          }
+        }
+      }
+    },
+    "notes.links.missing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "not written yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ещё не написаны"
+          }
+        }
+      }
+    },
+    "notes.links.outgoing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "links to"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ссылается на"
+          }
+        }
+      }
+    },
     "notes.makeCard" : {
       "localizations" : {
         "en" : {
