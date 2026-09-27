@@ -42,8 +42,11 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
                 if storage.attribute(.remnPicture, at: character, effectiveRange: nil) != nil {
                     property = .controlCharacter
                     changed = true
-                } else if storage.attribute(.remnConceal, at: character, effectiveRange: nil) != nil {
-                    property = .null
+                } else if isConcealed(character) {
+                    // A control glyph that takes no room, not a null glyph: after a null glyph at the start of
+                    // a wrapped line, TextKit on iOS loses track of where the line's glyphs are, and whatever is
+                    // drawn from their bounds — a link's underline, a highlight — goes missing.
+                    property = .controlCharacter
                     changed = true
                 }
             }
@@ -68,6 +71,10 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         forControlCharacterAt characterIndex: Int
     ) -> NSLayoutManager.ControlCharacterAction {
         if picture(at: characterIndex) != nil { return .whitespace }
+        // Hidden punctuation takes no room; a line or paragraph break stays one.
+        if isConcealed(characterIndex), action.isDisjoint(with: [.lineBreak, .paragraphBreak, .containerBreak]) {
+            return .zeroAdvancement
+        }
         return action
     }
 
@@ -105,6 +112,11 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         lineFragmentUsedRect.pointee.size.height = 0
         baselineOffset.pointee = 0
         return true
+    }
+
+    private func isConcealed(_ characterIndex: Int) -> Bool {
+        guard let storage = textStorage, characterIndex < storage.length else { return false }
+        return storage.attribute(.remnConceal, at: characterIndex, effectiveRange: nil) != nil
     }
 
     private func picture(at characterIndex: Int) -> LivePicture? {
