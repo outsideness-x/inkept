@@ -85,6 +85,10 @@ The editor is one live field in the spirit of Obsidian's Live Preview: Markdown 
 
 Pictures pasted, dropped or picked go into an `attachments` folder beside the note. Obsidian's `![[image.png]]` embeds work too.
 
+A folder's notes can be shown four ways: as a **list**; as a **board** of pages, each opening with the note's first picture, formula, Typst drawing or code; as a **graph** of how they link, in the manner of Obsidian's — `[[wiki links]]` and Markdown links between notes, links to notes not written yet, the folders they sit in and, if you like, their tags; and as a **timeline** of notes by the day they were written, under twelve weeks of writing rhythm. Beside an open note, **links** shows the notes round it on a small graph, the notes that link to it with the line each link is written in, the notes it links to, and the ones it names that don't exist yet.
+
+A folder can wear an icon from remn's own hand-drawn set — sciences, humanities, technologies, flags for the languages you learn, everyday things — suggested from the folder's name as you type it. The icon is kept in a hidden `.remn.json` inside the folder, so it syncs and moves with the folder, and Obsidian passes it by. Card subjects take icons from the same set.
+
 ### Typst
 
 A fenced ` ```typst ` block is compiled on the device by the real [Typst](https://typst.app) compiler (Rust, in `Typst/`, called through a small C interface) and drawn in the note. Everything works offline: fonts are built in, and a curated set of `@preview` packages — CeTZ and cetz-plot, fletcher, quill, timeliney, lilaq, mannot, physica and more — ships inside the app (`remn/Resources/TypstPackages`, refreshed by `Scripts/fetch-typst-packages.py`). Paths in a block are relative to the note's folder, so `#image("attachments/plot.png")` works.
