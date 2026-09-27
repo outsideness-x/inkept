@@ -141,31 +141,55 @@ private struct TimelineEntry: View {
     }
 }
 
-/// Twelve weeks of days, a square each, shaded in red pencil by how many notes were written on it.
+/// Twelve weeks of days, a square each, shaded in red pencil by how many notes were written on it,
+/// with the months along the top and every other weekday down the side.
 struct NoteRhythm: View {
     let notes: [NoteSummary]
     var weeks = 12
+
+    private static let side: CGFloat = 13
+    private static let gap: CGFloat = 4
+    private static let labelHeight: CGFloat = 16
 
     var body: some View {
         let calendar = Calendar.current
         let counts = Dictionary(grouping: notes) { calendar.startOfDay(for: $0.written) }.mapValues(\.count)
         let columns = Self.columns(weeks: weeks, calendar: calendar)
+        let months = Self.monthLabels(for: columns, calendar: calendar)
         let total = columns.joined().compactMap { $0 }.reduce(0) { $0 + (counts[$1] ?? 0) }
         VStack(alignment: .leading, spacing: 10) {
             HandwrittenText("notes.timeline.rhythm \(total)")
                 .font(RemnTypography.note)
                 .foregroundStyle(Color.remnGraphite)
-            HStack(alignment: .top, spacing: 4) {
-                ForEach(Array(columns.enumerated()), id: \.offset) { _, week in
-                    VStack(spacing: 4) {
-                        ForEach(Array(week.enumerated()), id: \.offset) { _, day in
-                            square(for: day, count: day.flatMap { counts[$0] } ?? 0)
+            HStack(alignment: .top, spacing: 6) {
+                VStack(alignment: .trailing, spacing: Self.gap) {
+                    Color.clear.frame(width: 1, height: Self.labelHeight)
+                    ForEach(0..<7, id: \.self) { row in
+                        label(Self.weekdayLabel(row: row, calendar: calendar) ?? "")
+                            .frame(height: Self.side)
+                    }
+                }
+                HStack(alignment: .top, spacing: Self.gap) {
+                    ForEach(Array(columns.enumerated()), id: \.offset) { index, week in
+                        VStack(spacing: Self.gap) {
+                            label(months[index] ?? "")
+                                .fixedSize()
+                                .frame(width: Self.side, height: Self.labelHeight, alignment: .bottomLeading)
+                            ForEach(Array(week.enumerated()), id: \.offset) { _, day in
+                                square(for: day, count: day.flatMap { counts[$0] } ?? 0)
+                            }
                         }
                     }
                 }
             }
             .accessibilityHidden(true)
         }
+    }
+
+    private func label(_ text: String) -> some View {
+        HandwrittenText(verbatim: text)
+            .font(.custom("Neucha", fixedSize: 12.5))
+            .foregroundStyle(Color.remnGraphite)
     }
 
     @ViewBuilder
@@ -186,11 +210,11 @@ struct NoteRhythm: View {
                 }
             }
         }
-        .frame(width: 13, height: 13)
+        .frame(width: Self.side, height: Self.side)
     }
 
     /// The days of the last `weeks` weeks, a column a week, ending with this one; days still to come are empty.
-    static func columns(weeks: Int, calendar: Calendar = .current, now: Date = .now) -> [[Date?]] {
+    nonisolated static func columns(weeks: Int, calendar: Calendar = .current, now: Date = .now) -> [[Date?]] {
         let today = calendar.startOfDay(for: now)
         let weekday = calendar.component(.weekday, from: today)
         let intoWeek = (weekday - calendar.firstWeekday + 7) % 7
@@ -203,5 +227,31 @@ struct NoteRhythm: View {
                 return day
             }
         }
+    }
+
+    /// Each month's short name over the week it starts in, and the first week's month over the first
+    /// week — unless the next name would run into it.
+    nonisolated static func monthLabels(for columns: [[Date?]], calendar: Calendar = .current, locale: Locale = .current) -> [String?] {
+        let formatter = DateFormatter()
+        formatter.calendar = calendar
+        formatter.locale = locale
+        formatter.setLocalizedDateFormatFromTemplate("LLL")
+        func name(_ date: Date) -> String {
+            formatter.string(from: date).lowercased(with: locale).trimmingCharacters(in: CharacterSet(charactersIn: "."))
+        }
+        var labels = columns.map { week -> String? in
+            week.compactMap { $0 }.first { calendar.component(.day, from: $0) == 1 }.map(name)
+        }
+        if let first = columns.first?.compactMap({ $0 }).first, !labels.prefix(3).contains(where: { $0 != nil }) {
+            labels[0] = name(first)
+        }
+        return labels
+    }
+
+    /// Monday, Wednesday and Friday, wherever the week starts; the other rows go unnamed.
+    nonisolated static func weekdayLabel(row: Int, calendar: Calendar = .current) -> String? {
+        let weekday = (calendar.firstWeekday - 1 + row) % 7 + 1
+        guard [2, 4, 6].contains(weekday) else { return nil }
+        return calendar.shortStandaloneWeekdaySymbols[weekday - 1].lowercased()
     }
 }

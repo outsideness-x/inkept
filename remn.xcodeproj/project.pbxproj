@@ -98,6 +98,7 @@
 		98705C3430B162F02177519A /* TypographyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B436C4FDEB91DA5CE27C987 /* TypographyTests.swift */; };
 		987AB1B480ACEA86FBB475EA /* SubjectIcons+Things.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46CA8C2D909D15C25CBD137 /* SubjectIcons+Things.swift */; };
 		9DAF5A8520707E228551C8B2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FB7111FB0DD9D20D2A60B3 /* SettingsView.swift */; };
+		9DBAE8A41CBD9F85FB007FCF /* NoteRhythmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9914185EB2CA80A81FFEC8AE /* NoteRhythmTests.swift */; };
 		A1426C78FC8118006400A20B /* NoteToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BD3D6BABC81A9E22E05DC /* NoteToolbar.swift */; };
 		A18F701791A31A7E5F408E09 /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = 5174D1AE01955FB0D3DBD0A8 /* Textual */; };
 		A1DC0E473AC893DF6CA46127 /* StudySessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7250732A28B966A2ACF6C75F /* StudySessionView.swift */; };
@@ -246,6 +247,7 @@
 		92D83F4115B9B8F0ED52CAA2 /* SubjectIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectIcon.swift; sourceTree = "<group>"; };
 		92DEFE3E9033C1A73B7A60BB /* SubjectIcons+Sciences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubjectIcons+Sciences.swift"; sourceTree = "<group>"; };
 		96FB7111FB0DD9D20D2A60B3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9914185EB2CA80A81FFEC8AE /* NoteRhythmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRhythmTests.swift; sourceTree = "<group>"; };
 		9ACE8C66501FBC9214D431FA /* HandmadeComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandmadeComponents.swift; sourceTree = "<group>"; };
 		9B2A6619428464DAD900A229 /* TypstEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypstEngine.swift; sourceTree = "<group>"; };
 		9F4E40F875B27C4CFBA7E1F1 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
@@ -507,6 +509,7 @@
 				06E74AE600870D896493C79A /* NoteGraphTests.swift */,
 				9FC881C883170A62074062F0 /* NoteLinksTests.swift */,
 				CA78DB3F6F605DED64BA85B2 /* NoteOutlineTests.swift */,
+				9914185EB2CA80A81FFEC8AE /* NoteRhythmTests.swift */,
 				3883F3714493B8CE91778CA3 /* NotesVaultTests.swift */,
 				50FF9B7EDA1C99BA82A90902 /* PersistenceTests.swift */,
 				FB885D95D9D75D83379CBF88 /* RenderingTests.swift */,
@@ -844,6 +847,7 @@
 				30B38566A2712AFF24C50460 /* NoteGraphTests.swift in Sources */,
 				4DD1934A1017DF80B3831BF9 /* NoteLinksTests.swift in Sources */,
 				0CDBAD8F8516472BEA401CE4 /* NoteOutlineTests.swift in Sources */,
+				9DBAE8A41CBD9F85FB007FCF /* NoteRhythmTests.swift in Sources */,
 				DE6833B38569F78D0F7F5EB9 /* NotesVaultTests.swift in Sources */,
 				DC13F65B617F8F51CB68B8C8 /* PersistenceTests.swift in Sources */,
 				E6696187C18A4755619470B3 /* RenderingTests.swift in Sources */,
