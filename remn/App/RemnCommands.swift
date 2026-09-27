@@ -3,6 +3,8 @@ import SwiftUI
 /// The menu bar on the Mac, and the shortcuts a hardware keyboard shows on iPad.
 struct RemnCommands: Commands {
     @FocusedValue(\.remnAppState) private var appState
+    @AppStorage("notesViewMode") private var notesViewMode: NotesViewMode = .list
+    @AppStorage("notes.showsLinks") private var showsNoteLinks = false
 
     var body: some Commands {
         CommandGroup(replacing: .appSettings) {
@@ -33,6 +35,17 @@ struct RemnCommands: Commands {
                 .keyboardShortcut("2")
                 .disabled(appState == nil)
             Divider()
+            if appState?.section == .notes {
+                ForEach(Array(NotesViewMode.allCases.enumerated()), id: \.element) { index, mode in
+                    Toggle(mode.menuTitle, isOn: Binding(get: { notesViewMode == mode }, set: { if $0 { notesViewMode = mode } }))
+                        .keyboardShortcut(KeyEquivalent(Character("\(index + 1)")), modifiers: [.command, .option])
+                }
+                #if os(macOS)
+                Button(showsNoteLinks ? "menu.hideLinks" : "menu.showLinks") { showsNoteLinks.toggle() }
+                    .keyboardShortcut("l", modifiers: [.command, .option])
+                #endif
+                Divider()
+            }
         }
         CommandGroup(after: .textEditing) {
             Button(appState?.section == .notes ? "menu.searchNotes" : "menu.search") { appState?.requestedCommand = .search }

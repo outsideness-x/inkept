@@ -21,6 +21,16 @@ enum NotesViewMode: String, CaseIterable, Identifiable {
         case .timeline: "notes.view.timeline"
         }
     }
+
+    /// The same, in the View menu.
+    var menuTitle: LocalizedStringKey {
+        switch self {
+        case .list: "menu.notesAsList"
+        case .board: "menu.notesAsBoard"
+        case .graph: "menu.notesAsGraph"
+        case .timeline: "menu.notesAsTimeline"
+        }
+    }
 }
 
 /// What the notes sidebar has chosen for the page beside it.
