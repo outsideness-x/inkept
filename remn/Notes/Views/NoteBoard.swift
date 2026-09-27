@@ -44,19 +44,36 @@ private struct NoteBoardHeader: View {
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             SubjectIconSlot(icon: folder.icon, size: 34)
-            HandwrittenText(verbatim: folder.name, weight: 0.5)
-                .font(RemnTypography.sectionTitle)
-                .foregroundStyle(Color.remnInk)
-                .lineLimit(1)
-            HandwrittenText("count.notes \(folder.totalNoteCount)")
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
-                .lineLimit(1)
+            // The count goes under the name when both won't fit on one line.
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                    title
+                    count
+                }
+                VStack(alignment: .leading, spacing: 0) {
+                    title
+                    count
+                }
+            }
             Spacer(minLength: 8)
             InkIcon(kind: .forward, color: .remnGraphite, size: 16)
         }
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
+    }
+
+    private var title: some View {
+        HandwrittenText(verbatim: folder.name, weight: 0.5)
+            .font(RemnTypography.sectionTitle)
+            .foregroundStyle(Color.remnInk)
+            .lineLimit(1)
+    }
+
+    private var count: some View {
+        HandwrittenText("count.notes \(folder.totalNoteCount)")
+            .font(RemnTypography.note)
+            .foregroundStyle(Color.remnGraphite)
+            .lineLimit(1)
     }
 }
 
