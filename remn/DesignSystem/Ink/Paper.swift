@@ -8,7 +8,7 @@ struct PaperBackground: View {
     var body: some View {
         Rectangle()
             .fill(tone)
-            .colorEffect(ShaderLibrary.remnPaperGrain(.float(colorScheme == .dark ? 0.032 : 0.042)))
+            .colorEffect(ShaderLibrary.remnPaperGrain(.float(colorScheme == .dark ? 0.0086 : 0.0118)))
             .ignoresSafeArea()
             .accessibilityHidden(true)
     }
