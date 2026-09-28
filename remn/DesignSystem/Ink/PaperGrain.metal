@@ -19,11 +19,10 @@ static float remnValueNoise(float2 p) {
     return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
-/// The tooth, fibres and uneven pulp of a sheet of paper, as a small lift or dip in brightness.
+/// The fine, even tooth of a sheet of paper, as a small lift or dip in brightness.
 [[ stitchable ]] half4 remnPaperGrain(float2 position, half4 color, float strength) {
     float tooth = remnHash(floor(position * 2.0)) - 0.5;
-    float fibres = remnValueNoise(position * float2(0.055, 0.12)) - 0.5;
-    float pulp = remnValueNoise(position * 0.011) - 0.5;
-    float shade = tooth * 0.8 + fibres * 0.36 + pulp * 0.42;
+    float grit = remnValueNoise(position * 0.6) - 0.5;
+    float shade = tooth * 0.8 + grit * 0.3;
     return half4(color.rgb + half3(shade * strength) * color.a, color.a);
 }
