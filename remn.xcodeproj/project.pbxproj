@@ -59,7 +59,6 @@
 		59FAA8DAA83C5B42EAB32515 /* SpacedRepetitionScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E21F5B2A822AB13F5AAA2 /* SpacedRepetitionScheduling.swift */; };
 		5AE6B7CF1E7E37EFF9FAE965 /* LiveEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1337E23F9F06A70D7E48FE30 /* LiveEditorController.swift */; };
 		5CDFE84241142050814B8F81 /* DemoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE85CD67E822CBBAE756B71F /* DemoLibrary.swift */; };
-		5DD9219111002EC25AA7D395 /* PaperGrain.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2F16E415713C31E8C0695AF3 /* PaperGrain.metal */; };
 		61CC8CF09A60D88C90358659 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEED400A492B18600497198 /* FolderView.swift */; };
 		62807AD110E888CFA1851128 /* LatexCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C4313F12B5F8D58586CABC /* LatexCompatibility.swift */; };
 		65CE99766105949EDEE9FFD4 /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = 7620BA764C7F419A19C59B26 /* Textual */; };
@@ -190,7 +189,6 @@
 		29A01082DADBF34A7BB90FB1 /* InkPencil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkPencil.swift; sourceTree = "<group>"; };
 		29F95FD1076C503DAC0C2F44 /* Flashcard+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flashcard+Display.swift"; sourceTree = "<group>"; };
 		2A92BF2EDB3DC41B3D94FAEB /* remn.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = remn.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F16E415713C31E8C0695AF3 /* PaperGrain.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PaperGrain.metal; sourceTree = "<group>"; };
 		3152FFBB15592FE40C3FB6BA /* TypstPackages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TypstPackages; path = remn/Resources/TypstPackages; sourceTree = SOURCE_ROOT; };
 		33ACB66E2E41DAF6B7721782 /* MarkdownInsertionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownInsertionTests.swift; sourceTree = "<group>"; };
 		378C11E4CC883FF465B91ECE /* EmojiFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiFigure.swift; sourceTree = "<group>"; };
@@ -417,7 +415,6 @@
 				71C746400442FB7DBF6C46CA /* InkShapes.swift */,
 				48884F3A496DF7412F048BD7 /* InkText.swift */,
 				FA4B71DE6F2148CD6B96B600 /* Paper.swift */,
-				2F16E415713C31E8C0695AF3 /* PaperGrain.metal */,
 			);
 			path = Ink;
 			sourceTree = "<group>";
@@ -933,7 +930,6 @@
 				059E593A50A7F10FCB72C5B6 /* NotesNavigation.swift in Sources */,
 				19FD03CC87C582DD051AF70B /* OfflineAttachmentLoader.swift in Sources */,
 				44B81357AA1A22C6C5653E71 /* Paper.swift in Sources */,
-				5DD9219111002EC25AA7D395 /* PaperGrain.metal in Sources */,
 				2677F9747943172FD033A62D /* Platform.swift in Sources */,
 				DA0BA9A8F72664485C69EA61 /* RatingButton.swift in Sources */,
 				A9305ED863AAED8616065F46 /* RemnColors.swift in Sources */,

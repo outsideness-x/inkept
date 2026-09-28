@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Paper, one ink, a graphite pencil and a red pencil. Dark mode is the same kit on charcoal paper.
 extension Color {
-    static let remnPaper = Color(light: 0xF5F1E8, dark: 0x151412)
+    static let remnPaper = Color(light: 0xF5F1E8, dark: 0x101012)
     static let remnCardPaper = Color(light: 0xFBF8F1, dark: 0x1F1D1A)
     static let remnInk = Color(light: 0x1D1B19, dark: 0xEFEADF)
     static let remnGraphite = Color(light: 0x5E5952, dark: 0xA39E95)
