@@ -1,13 +1,13 @@
 import CoreGraphics
 
 extension SubjectIcon {
-    static let languages: [SubjectIcon] = flags + scripts
+    static let countries: [SubjectIcon] = flags + scripts
 
     private static func flag(
         _ code: String, en: String, ru: String, tint: InkPencil, keys: String,
         paint: @escaping @Sendable (inout EmojiFlag) -> Void
     ) -> SubjectIcon {
-        SubjectIcon("flag-\(code)", .languages, en: en, ru: ru, tint: tint, keys: keys + " flag флаг") { art in
+        SubjectIcon("flag-\(code)", .countries, en: en, ru: ru, tint: tint, keys: keys + " flag флаг") { art in
             art.flag(paint)
         }
     }
@@ -296,7 +296,7 @@ extension SubjectIcon {
     // MARK: - Scripts
 
     private static func script(_ id: String, _ letters: String, en: String, ru: String, keys: String) -> SubjectIcon {
-        SubjectIcon("script-\(id)", .languages, en: en, ru: ru, tint: .red, keys: keys) { art in
+        SubjectIcon("script-\(id)", .countries, en: en, ru: ru, tint: .red, keys: keys) { art in
             art.tile(.paper, corner: 4.5, inset: 4.2)
             art.ink(.line(5.2, 10, 26.8, 9.8), .red, width: 0.8, opacity: 0.8)
             art.text(letters, 16, 18.4, size: 13, .ink, weight: 0.6)

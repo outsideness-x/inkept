@@ -7,7 +7,7 @@ struct SubjectIcon: Identifiable, Sendable {
         case sciences
         case humanities
         case technology
-        case languages
+        case countries
         case things
 
         var id: String { rawValue }
@@ -17,7 +17,7 @@ struct SubjectIcon: Identifiable, Sendable {
             case .sciences: "icon.category.sciences"
             case .humanities: "icon.category.humanities"
             case .technology: "icon.category.technology"
-            case .languages: "icon.category.languages"
+            case .countries: "icon.category.countries"
             case .things: "icon.category.things"
             }
         }
@@ -81,7 +81,7 @@ extension SubjectIcon: Hashable {
 // MARK: - The catalog
 
 extension SubjectIcon {
-    static let all: [SubjectIcon] = sciences + humanities + technology + languages + things
+    static let all: [SubjectIcon] = sciences + humanities + technology + countries + things
 
     private static let byID: [String: SubjectIcon] = Dictionary(all.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 

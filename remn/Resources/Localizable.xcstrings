@@ -2013,6 +2013,22 @@
         }
       }
     },
+    "icon.category.countries" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "countries"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "страны"
+          }
+        }
+      }
+    },
     "icon.category.humanities" : {
       "localizations" : {
         "en" : {
@@ -2025,22 +2041,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "гуманитарное"
-          }
-        }
-      }
-    },
-    "icon.category.languages" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "languages"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "языки"
           }
         }
       }

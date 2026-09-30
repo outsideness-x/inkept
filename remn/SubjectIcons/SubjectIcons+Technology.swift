@@ -1,7 +1,7 @@
 import CoreGraphics
 
 extension SubjectIcon {
-    static let technology: [SubjectIcon] = computing + platforms + languages_ + tools
+    static let technology: [SubjectIcon] = computing + platforms + programmingLanguages + tools
 
     // MARK: - Computing
 
@@ -207,7 +207,7 @@ extension SubjectIcon {
 
     // MARK: - Programming languages
 
-    private static let languages_: [SubjectIcon] = [
+    private static let programmingLanguages: [SubjectIcon] = [
         SubjectIcon("python", .technology, en: "Python", ru: "Python", tint: .blue,
                     keys: "питон пайтон programming программ data данн") { art in
             let snake = EmojiFigure.path("""

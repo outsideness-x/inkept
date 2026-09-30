@@ -162,7 +162,7 @@ extension SubjectIcon.Category {
         case .sciences: "atom"
         case .humanities: "palette"
         case .technology: "code"
-        case .languages: "speech"
+        case .countries: "globe"
         case .things: "star"
         }
     }

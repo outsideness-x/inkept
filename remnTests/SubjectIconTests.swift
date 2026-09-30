@@ -14,7 +14,7 @@ struct SubjectIconTests {
 
     @Test func iconsAreFoundByID() {
         #expect(SubjectIcon.named("atom")?.category == .sciences)
-        #expect(SubjectIcon.named("flag-jp")?.category == .languages)
+        #expect(SubjectIcon.named("flag-jp")?.category == .countries)
         #expect(SubjectIcon.named("an-icon-from-a-newer-version") == nil)
         #expect(SubjectIcon.named(nil) == nil)
     }
@@ -36,7 +36,7 @@ struct SubjectIconTests {
         #expect(SubjectIcon.search("япон").map(\.id) == ["flag-jp", "script-kana"])
         #expect(SubjectIcon.search("chem").contains { $0.id == "flask" })
         #expect(SubjectIcon.search("флаг").allSatisfy { $0.id.hasPrefix("flag-") })
-        #expect(SubjectIcon.search("флаг").count == SubjectIcon.inCategory(.languages).filter { $0.id.hasPrefix("flag-") }.count)
+        #expect(SubjectIcon.search("флаг").count == SubjectIcon.inCategory(.countries).filter { $0.id.hasPrefix("flag-") }.count)
         #expect(SubjectIcon.search("star").first?.id == "star")
         #expect(SubjectIcon.search("   ").count == SubjectIcon.all.count)
         #expect(SubjectIcon.search("атом квазар").isEmpty)
