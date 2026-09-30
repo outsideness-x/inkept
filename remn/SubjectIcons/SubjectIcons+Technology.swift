@@ -130,6 +130,124 @@ extension SubjectIcon {
             art.shape(.circle(19.4, 16, 1.4), .sky, width: 0.8)
             art.shape(.circle(22.2, 18.6, 1.4), .lime, width: 0.8)
         },
+        SubjectIcon("smartphone", .technology, en: "smartphone", ru: "смартфон", tint: .black,
+                    keys: "mobile мобильн phone телефон app приложени ios android") { art in
+            art.shape(.box(8.6, 3.2, 14.8, 25.6, r: 3.4), .black)
+            art.fill(.box(10.4, 6.6, 11.2, 18, r: 1.2), .sky)
+            let apps: [InkPencil] = [.red, .yellow, .mint, .purple, .orange, .paper]
+            for (index, pencil) in apps.enumerated() {
+                let x = 11.9 + CGFloat(index % 2) * 4.6
+                let y = 8.4 + CGFloat(index / 2) * 4.8
+                art.shape(.box(x, y, 3.4, 3.4, r: 0.9), pencil, width: 0.8)
+            }
+            art.ink(.line(14.2, 4.9, 17.8, 4.9), .white, width: 0.9)
+            art.ink(.line(13.8, 26.6, 18.2, 26.6), .white, width: 1.2)
+        },
+        SubjectIcon("server", .technology, en: "server", ru: "сервер", tint: .steel,
+                    keys: "backend бэкенд hosting хостинг datacenter devops sysadmin администрировани") { art in
+            for (index, y) in [CGFloat(4.4), 12.4, 20.4].enumerated() {
+                art.shape(.box(4.6, y, 22.8, 7.2, r: 1.8), .steel, width: 1.4)
+                art.dot(8.6, y + 3.6, 1.2, index == 1 ? .yellow : .lime)
+                art.fine(.line(13.4, y + 2.5, 23.6, y + 2.4))
+                art.fine(.line(13.4, y + 4.8, 23.6, y + 4.7))
+            }
+        },
+        SubjectIcon("cloud-computing", .technology, en: "cloud computing", ru: "облачные вычисления", tint: .sky,
+                    keys: "cloud облак aws azure devops deploy деплой hosting хостинг") { art in
+            let cloud = EmojiFigure.path("""
+            M8.6 25 C5.4 25 3.4 22.8 3.6 20.2 C3.8 17.6 5.8 16 8.2 16 C8.6 12 11.8 9.2 15.8 9.2 \
+            C19.2 9.2 22 11.2 23 14.4 C26.4 14.4 28.8 17 28.6 20 C28.4 22.8 26.2 25 23.2 25 Z
+            """)
+            art.fill(cloud, .sky)
+            art.clip(cloud) { inside in
+                inside.shade(.box(0, 21.4, 32, 8), opacity: 0.22)
+            }
+            art.ink(cloud, width: 1.5)
+            art.ink(.line(16, 23, 16, 14.6), .white, width: 2.2)
+            art.ink(.line(12.4, 17.8, 16, 14.2, 19.6, 17.8), .white, width: 2.2)
+        },
+        SubjectIcon("bug", .technology, en: "bug", ru: "баг", tint: .green,
+                    keys: "debug отладк testing тестировани qa bug ошибк") { art in
+            for (y, reach) in [(CGFloat(14.6), CGFloat(-2.6)), (19, 0), (23.4, 2.6)] {
+                art.ink(.line(10, y, 5, y + reach), width: 1.3)
+                art.ink(.line(22, y, 27, y + reach), width: 1.3)
+            }
+            art.ink(.curve(14.4, 8.4, 13.2, 5.4, 10.4, 4.2), width: 1.2)
+            art.ink(.curve(17.6, 8.4, 18.8, 5.4, 21.6, 4.2), width: 1.2)
+            art.shape(.oval(16, 10, 4.6, 3.6), .black, width: 1.3)
+            let body = EmojiFigure.oval(16, 19.4, 7.4, 9)
+            art.fill(body, .lime)
+            art.clip(body) { inside in
+                inside.shade(.box(17.4, 0, 12, 32), opacity: 0.22)
+            }
+            art.ink(body)
+            art.fine(.line(16, 11, 16, 28.2))
+            art.dot(12.6, 16.6, 1.1)
+            art.dot(19.4, 16.6, 1.1)
+            art.dot(12.8, 22.4, 1.1)
+            art.dot(19.2, 22.4, 1.1)
+        },
+        SubjectIcon("keyboard", .technology, en: "keyboard", ru: "клавиатура", tint: .steel,
+                    keys: "typing печат touch typing слепая blind keys клавиш") { art in
+            art.shape(.box(2.6, 8.8, 26.8, 15.4, r: 2.4), .steel)
+            for row in 0..<3 {
+                let keys = row == 1 ? 6 : 7
+                let start: CGFloat = row == 1 ? 6.1 : 4.4
+                for key in 0..<keys {
+                    art.shape(.box(start + CGFloat(key) * 3.36, 11 + CGFloat(row) * 3.1, 2.6, 2.3, r: 0.5), .paper, width: 0.7)
+                }
+            }
+            art.shape(.box(9.8, 20.3, 12.4, 2.3, r: 0.6), .paper, width: 0.7)
+        },
+        SubjectIcon("wifi", .technology, en: "Wi-Fi", ru: "вайфай", tint: .blue,
+                    keys: "wifi internet интернет wireless беспроводн network сет") { art in
+            for radius in [CGFloat(5), 10, 15] {
+                art.ink(.arc(16, 24.2, radius, from: 222, to: 318), .blue, width: 2.8)
+            }
+            art.fill(.circle(16, 24.2, 2.2), .blue)
+        },
+        SubjectIcon("binary", .technology, en: "binary", ru: "двоичный код", tint: .lime,
+                    keys: "bits бит bytes байт двоичн computer science информатик") { art in
+            art.tile(.black)
+            art.text("010", 16, 11.8, size: 9, .lime, font: .mono)
+            art.text("110", 16, 20.2, size: 9, .lime, font: .mono)
+        },
+        SubjectIcon("vr-headset", .technology, en: "VR headset", ru: "VR-шлем", tint: .purple,
+                    keys: "virtual виртуальн reality реальност ar metaverse 3d") { art in
+            art.ink(.curve(7, 12, 9.6, 6, 22.4, 6, 25, 12), .graphite, width: 2.4)
+            let visor = EmojiFigure.path("""
+            M6 11 L26 11 C28 11 29.2 12.4 29.2 14.4 L29.2 19.6 C29.2 21.6 28 23 26 23 L20.4 23 \
+            C19 23 18.4 22 17.8 21 C17.2 20 16.6 19.6 16 19.6 C15.4 19.6 14.8 20 14.2 21 \
+            C13.6 22 13 23 11.6 23 L6 23 C4 23 2.8 21.6 2.8 19.6 L2.8 14.4 C2.8 12.4 4 11 6 11 Z
+            """)
+            art.fill(visor, .purple)
+            art.clip(visor) { inside in
+                inside.shade(.box(0, 19.4, 32, 8), opacity: 0.25)
+            }
+            art.ink(visor)
+            art.ink(.curve(6.4, 14.2, 10, 13.4, 14, 13.4, 16.6, 13.8), .paper, width: 1)
+            art.dot(25, 14.6, 0.9, .lime)
+        },
+        SubjectIcon("bitcoin", .technology, en: "Bitcoin", ru: "биткоин", tint: .orange,
+                    keys: "crypto крипт blockchain блокчейн ethereum эфир") { art in
+            let coin = EmojiFigure.circle(16, 16, 12.6)
+            art.fill(coin, .orange)
+            art.clip(coin) { inside in
+                inside.shade(.path("M16 30 L30 16 L32 32 Z"), opacity: 0.22)
+            }
+            art.ink(coin)
+            art.ink(.circle(16, 16, 10), .gold, width: 0.9)
+            art.text("₿", 16.2, 16.4, size: 16, .white, font: .rounded, rotation: 12)
+        },
+        SubjectIcon("api", .technology, en: "API", ru: "API", tint: .purple,
+                    keys: "json braces скобк rest http endpoint backend бэкенд") { art in
+            let brace = EmojiFigure.path("M11.6 5.4 C8.6 5.4 8.8 8 8.8 11 C8.8 13.8 8.4 15.4 5.6 16 C8.4 16.6 8.8 18.2 8.8 21 C8.8 24 8.6 26.6 11.6 26.6")
+            art.ink(brace, .purple, width: 2.6)
+            art.ink(brace.mirrored(), .purple, width: 2.6)
+            art.dot(12.4, 16, 1.4, .red)
+            art.dot(16, 16, 1.4, .yellow)
+            art.dot(19.6, 16, 1.4, .mint)
+        },
     ]
 
     // MARK: - Platforms
@@ -230,6 +348,12 @@ extension SubjectIcon {
             art.tile(.blue)
             art.text("TS", 19.6, 21, size: 12.5, .white, weight: 1)
         },
+        SubjectIcon("nodejs", .technology, en: "Node", ru: "Node", tint: .green,
+                    keys: "nodejs нод backend бэкенд javascript server сервер") { art in
+            art.shape(.ngon(16, 16, 13, sides: 6, rotation: -90), .green)
+            art.fill(.poly(16, 16, 27.3, 22.5, 16, 29, 4.7, 22.5), .black, opacity: 0.25)
+            art.text("node", 16, 15.6, size: 7.4, .white, font: .rounded)
+        },
         SubjectIcon("swift", .technology, en: "Swift", ru: "Swift", tint: .orange,
                     keys: "свифт ios apple xcode swiftui") { art in
             art.tile(.orange, corner: 6)
@@ -248,11 +372,23 @@ extension SubjectIcon {
             art.ink(.circle(16, 16, 8.4), width: 1.2)
             art.text("R", 16.2, 16.4, size: 13, .ink, font: .serif)
         },
+        SubjectIcon("c", .technology, en: "C", ru: "C", tint: .blue,
+                    keys: "си systems системн embedded встраиваем low-level unix") { art in
+            art.shape(.ngon(16, 16, 13, sides: 6, rotation: -90), .sky)
+            art.fill(.poly(16, 16, 27.3, 22.5, 16, 29, 4.7, 22.5), .blue, opacity: 0.55)
+            art.text("C", 16, 15.6, size: 14, .white, weight: 1)
+        },
         SubjectIcon("cpp", .technology, en: "C++", ru: "C++", tint: .blue,
-                    keys: "c cpp си плюс plus olympiad олимпиад competitive спортивн") { art in
+                    keys: "cpp си плюс plus olympiad олимпиад competitive спортивн") { art in
             art.shape(.ngon(16, 16, 13, sides: 6, rotation: -90), .blue)
             art.fill(.poly(16, 16, 27.3, 22.5, 16, 29, 4.7, 22.5), .navy, opacity: 0.55)
             art.text("C++", 16, 15.6, size: 9.6, .white, weight: 1)
+        },
+        SubjectIcon("csharp", .technology, en: "C#", ru: "C#", tint: .purple,
+                    keys: "csharp шарп dotnet net unity юнити microsoft") { art in
+            art.shape(.ngon(16, 16, 13, sides: 6, rotation: -90), .purple)
+            art.fill(.poly(16, 16, 27.3, 22.5, 16, 29, 4.7, 22.5), .navy, opacity: 0.45)
+            art.text("C#", 16, 15.6, size: 11, .white, weight: 1)
         },
         SubjectIcon("java", .technology, en: "Java", ru: "Java", tint: .red,
                     keys: "джава jvm spring android enterprise") { art in
@@ -279,12 +415,92 @@ extension SubjectIcon {
             }
             art.ink(mark, width: 1.4)
         },
+        SubjectIcon("flutter", .technology, en: "Flutter", ru: "Flutter", tint: .sky,
+                    keys: "флаттер dart дарт mobile мобильн google cross-platform кроссплатформ") { art in
+            art.shape(.poly(18.2, 4.2, 25.4, 4.2, 11, 19.6, 7.4, 16), .sky, width: 1.3)
+            art.shape(.poly(18, 15.2, 25.2, 15.2, 15.3, 25.1, 11.7, 21.5), .sky, width: 1.3)
+            art.shape(.poly(15.3, 25.1, 18.9, 21.5, 25.2, 27.8, 18, 27.8), .navy, width: 1.3)
+        },
+        SubjectIcon("php", .technology, en: "PHP", ru: "PHP", tint: .purple,
+                    keys: "пхп web веб backend бэкенд laravel wordpress site сайт") { art in
+            let badge = EmojiFigure.oval(16, 16, 13.6, 8.6)
+            art.fill(badge, .purple, opacity: 0.8)
+            art.clip(badge) { inside in
+                inside.shade(.box(0, 19.4, 32, 8), opacity: 0.22)
+            }
+            art.ink(badge)
+            art.text("php", 16, 15.4, size: 11.4, .white, weight: 1)
+        },
+        SubjectIcon("ruby", .technology, en: "Ruby", ru: "Ruby", tint: .red,
+                    keys: "руби rails рельс web веб backend бэкенд") { art in
+            let gem = EmojiFigure.poly(8.4, 6.4, 23.6, 6.4, 28.6, 12.6, 16, 27.6, 3.4, 12.6)
+            art.fill(gem, .red)
+            art.clip(gem) { inside in
+                inside.fill(.poly(3.4, 12.6, 11.4, 12.6, 16, 27.6), .rose, opacity: 0.55)
+                inside.shade(.poly(20.6, 12.6, 28.6, 12.6, 16, 27.6), opacity: 0.25)
+            }
+            art.fine(.line(3.6, 12.6, 28.4, 12.6))
+            art.fine(.line(8.4, 6.6, 11.4, 12.6, 16, 27.2, 20.6, 12.6, 23.6, 6.6))
+            art.fine(.line(11.4, 12.6, 16, 6.6, 20.6, 12.6))
+            art.ink(gem)
+        },
+        SubjectIcon("lua", .technology, en: "Lua", ru: "Lua", tint: .navy,
+                    keys: "луа roblox роблокс scripting скрипт gamedev геймдев") { art in
+            art.ink(.arc(15, 17, 14, from: 200, to: 250), .steel, width: 0.9)
+            art.ink(.arc(15, 17, 14, from: 290, to: 360), .steel, width: 0.9)
+            art.shape(.circle(15, 17, 10.6), .navy)
+            art.shape(.circle(18.6, 13.2, 3.2), .paper, width: 1.1)
+            art.shape(.circle(26.4, 5.8, 3), .navy, width: 1.2)
+            art.text("Lua", 14.2, 20.2, size: 7.4, .white, font: .rounded)
+        },
+        SubjectIcon("haskell", .technology, en: "Haskell", ru: "Haskell", tint: .purple,
+                    keys: "хаскель functional функциональн lambda лямбда") { art in
+            art.shape(.poly(3, 25.2, 9.1, 16, 3, 6.8, 7.6, 6.8, 13.7, 16, 7.6, 25.2), .navy, width: 1.1)
+            art.shape(.poly(9.1, 25.2, 15.2, 16, 9.1, 6.8, 13.7, 6.8, 26, 25.2, 21.4, 25.2, 17.5, 19.5, 13.7, 25.2), .purple, width: 1.1)
+            art.shape(.poly(20.9, 15.2, 18.8, 12.2, 29, 12.2, 29, 15.2), .rose, width: 1)
+            art.shape(.poly(23.9, 19.8, 21.9, 16.7, 29, 16.7, 29, 19.8), .rose, width: 1)
+        },
+        SubjectIcon("scala", .technology, en: "Scala", ru: "Scala", tint: .red,
+                    keys: "скала jvm functional функциональн spark big data") { art in
+            for y in [CGFloat(3.8), 11.2, 18.6] {
+                art.shape(.path("M9 \(y + 3) C13 \(y + 2.2) 19 \(y + 1.2) 23 \(y) L23 \(y + 4.6) C19 \(y + 5.8) 13 \(y + 6.8) 9 \(y + 7.6) Z"), .red, width: 1.2)
+            }
+        },
+        SubjectIcon("elixir", .technology, en: "Elixir", ru: "Elixir", tint: .purple,
+                    keys: "эликсир erlang эрланг phoenix functional функциональн") { art in
+            let drop = EmojiFigure.path("M16 3.4 C20 8.6 25 14.2 25 19.8 C25 25 21 28.6 16 28.6 C11 28.6 7 25 7 19.8 C7 13.4 12.6 9 16 3.4 Z")
+            art.fill(drop, .purple)
+            art.clip(drop) { inside in
+                inside.shade(.box(17.6, 0, 12, 32), opacity: 0.22)
+            }
+            art.ink(drop)
+            art.ink(.curve(11.2, 15, 10, 18, 10.2, 21, 11.8, 23.8), .paper, width: 1.1)
+        },
+        SubjectIcon("julia", .technology, en: "Julia", ru: "Julia", tint: .purple,
+                    keys: "джулия scientific научн numerical численн computing вычислени") { art in
+            art.shape(.circle(16, 9.4, 5.6), .green, width: 1.3)
+            art.shape(.circle(9.4, 21.4, 5.6), .red, width: 1.3)
+            art.shape(.circle(22.6, 21.4, 5.6), .purple, width: 1.3)
+        },
+        SubjectIcon("rlang", .technology, en: "R", ru: "R", tint: .blue,
+                    keys: "statistics статистик rstudio data science") { art in
+            let ring = EmojiFigure.group([.oval(15, 13.6, 13, 8.6), .oval(16.8, 13.2, 8.4, 5.2)])
+            art.fill(ring, .steel, evenOdd: true)
+            art.ink(.oval(15, 13.6, 13, 8.6), width: 1.3)
+            art.ink(.oval(16.8, 13.2, 8.4, 5.2), width: 1.1)
+            art.text("R", 18.6, 19.4, size: 18, .blue, font: .rounded)
+        },
         SubjectIcon("react", .technology, en: "React", ru: "React", tint: .sky,
                     keys: "реакт frontend фронтенд web веб javascript") { art in
             for tilt in [CGFloat(0), 60, 120] {
                 art.ink(.oval(16, 16, 13, 5, rotation: tilt), .sky, width: 1.6)
             }
             art.fill(.circle(16, 16, 2.6), .sky)
+        },
+        SubjectIcon("vue", .technology, en: "Vue", ru: "Vue", tint: .mint,
+                    keys: "вью frontend фронтенд web веб javascript") { art in
+            art.shape(.poly(2.4, 5.6, 8.2, 5.6, 16, 19.2, 23.8, 5.6, 29.6, 5.6, 16, 28.4), .mint, width: 1.3)
+            art.shape(.poly(8.2, 5.6, 12.8, 5.6, 16, 11.2, 19.2, 5.6, 23.8, 5.6, 16, 19.2), .navy, width: 1.2)
         },
         SubjectIcon("html", .technology, en: "HTML", ru: "HTML", tint: .orange,
                     keys: "web веб css html5 frontend фронтенд site сайт вёрстк") { art in
@@ -295,6 +511,16 @@ extension SubjectIcon {
             }
             art.ink(shield, width: 1.5)
             art.text("5", 16, 16, size: 16, .white, font: .rounded)
+        },
+        SubjectIcon("css", .technology, en: "CSS", ru: "CSS", tint: .blue,
+                    keys: "стили styles web веб frontend фронтенд tailwind layout") { art in
+            let shield = EmojiFigure.poly(5, 3.6, 27, 3.6, 25, 25.4, 16, 28.4, 7, 25.4)
+            art.fill(shield, .blue)
+            art.clip(shield) { inside in
+                inside.fill(.box(16, 0, 16, 32), .navy, opacity: 0.35)
+            }
+            art.ink(shield, width: 1.5)
+            art.text("3", 16, 16, size: 16, .white, font: .rounded)
         },
     ]
 
@@ -349,6 +575,80 @@ extension SubjectIcon {
             art.shape(.path("M16 13.4 L11.6 13.4 A4.4 4.4 0 0 0 11.6 22.2 L16 22.2 Z"), .purple, width: 1.2)
             art.shape(.circle(20.4, 17.8, 4.4), .sky, width: 1.2)
             art.shape(.path("M16 22.2 L11.6 22.2 A4.4 4.4 0 1 0 16 26.6 Z"), .mint, width: 1.2)
+        },
+        SubjectIcon("vscode", .technology, en: "VS Code", ru: "VS Code", tint: .blue,
+                    keys: "вскод editor редактор ide visual studio microsoft") { art in
+            let outline = EmojiFigure.poly(21.6, 3.6, 28.2, 6.8, 28.2, 25.2, 21.6, 28.4, 9.4, 18, 5.2, 21.2, 3.6, 20, 3.6, 12, 5.2, 10.8, 9.4, 14)
+            let arrow = EmojiFigure.poly(21.6, 10.6, 15.4, 16, 21.6, 21.4)
+            let notch = EmojiFigure.poly(6, 13.6, 8.2, 16, 6, 18.4)
+            let ribbon = EmojiFigure.group([outline, arrow, notch])
+            art.fill(ribbon, .blue, evenOdd: true)
+            art.clip(ribbon) { inside in
+                inside.fill(.box(21.6, 0, 12, 32), .navy, opacity: 0.4)
+            }
+            art.ink(outline, width: 1.4)
+            art.ink(arrow, width: 1.1)
+            art.ink(notch, width: 1)
+        },
+        SubjectIcon("vim", .technology, en: "Vim", ru: "Vim", tint: .green,
+                    keys: "вим neovim editor редактор terminal терминал") { art in
+            let diamond = EmojiFigure.poly(16, 2.6, 29.4, 16, 16, 29.4, 2.6, 16)
+            art.fill(diamond, .green)
+            art.clip(diamond) { inside in
+                inside.shade(.poly(16, 16, 32, 16, 16, 32), opacity: 0.22)
+            }
+            art.ink(diamond)
+            art.text("V", 16, 15.6, size: 15, .white, font: .serif)
+        },
+        SubjectIcon("jupyter", .technology, en: "Jupyter", ru: "Jupyter", tint: .orange,
+                    keys: "юпитер notebook ipynb python data science") { art in
+            art.shape(.path("M4.6 12.4 C7 4.4 25 4.4 27.4 12.4 C22.8 9 9.2 9 4.6 12.4 Z"), .orange, width: 1.1)
+            art.shape(.path("M4.6 19.6 C7 27.6 25 27.6 27.4 19.6 C22.8 23 9.2 23 4.6 19.6 Z"), .orange, width: 1.1)
+            art.shape(.circle(26, 4.8, 1.9), .steel, width: 0.9)
+            art.shape(.circle(6.2, 26.6, 2.3), .steel, width: 0.9)
+            art.dot(7, 5.2, 1.1, .graphite)
+        },
+        SubjectIcon("kubernetes", .technology, en: "Kubernetes", ru: "Kubernetes", tint: .blue,
+                    keys: "кубернетес k8s containers контейнер devops orchestration оркестрац") { art in
+            art.shape(.ngon(16, 16.4, 13.4, sides: 7), .blue)
+            for index in 0..<7 {
+                let angle = (CGFloat(index) * 360 / 7 - 90) * .pi / 180
+                art.ink(.line(16 + cos(angle) * 2.4, 16.4 + sin(angle) * 2.4, 16 + cos(angle) * 9.4, 16.4 + sin(angle) * 9.4), .white, width: 1.5)
+            }
+            art.ink(.circle(16, 16.4, 5.6), .white, width: 1.6)
+            art.fill(.circle(16, 16.4, 2), .white)
+        },
+        SubjectIcon("npm", .technology, en: "npm", ru: "npm", tint: .red,
+                    keys: "packages пакет node javascript registry") { art in
+            art.tile(.red, corner: 2.4)
+            art.text("npm", 16, 15.6, size: 9.2, .white, font: .rounded)
+        },
+        SubjectIcon("markdown", .technology, en: "Markdown", ru: "Markdown", tint: .graphite,
+                    keys: "md маркдаун notes заметк markup разметк obsidian") { art in
+            art.shape(.box(2.8, 8, 26.4, 16, r: 2.8), .paper, width: 1.6)
+            art.text("M", 11.4, 16, size: 12, .ink, font: .rounded)
+            art.ink(.line(22.2, 11.2, 22.2, 18.4), width: 2)
+            art.fill(.poly(18.6, 16.6, 25.8, 16.6, 22.2, 21.2), .ink)
+        },
+        SubjectIcon("latex", .technology, en: "LaTeX", ru: "LaTeX", tint: .graphite,
+                    keys: "латех tex formulas формул typesetting верстк papers статьи") { art in
+            art.tile(.paper, corner: 4.5, inset: 3)
+            art.text("T", 9.8, 13.8, size: 14, .ink, font: .serif)
+            art.text("E", 16.2, 18, size: 14, .ink, font: .serif)
+            art.text("X", 22.8, 13.8, size: 14, .ink, font: .serif)
+        },
+        SubjectIcon("typst", .technology, en: "Typst", ru: "Typst", tint: .teal,
+                    keys: "тайпст formulas формул typesetting верстк") { art in
+            art.tile(.teal, corner: 6)
+            art.text("typst", 16, 15.4, size: 7.8, .white, font: .rounded)
+        },
+        SubjectIcon("arduino", .technology, en: "Arduino", ru: "Arduino", tint: .teal,
+                    keys: "ардуино electronics электроник microcontroller микроконтроллер iot embedded встраиваем") { art in
+            art.ink(.oval(10.2, 16, 6.8, 5.6), .teal, width: 3.2)
+            art.ink(.oval(21.8, 16, 6.8, 5.6), .teal, width: 3.2)
+            art.ink(.line(7.6, 16, 12.8, 16), .teal, width: 1.8)
+            art.ink(.line(19.2, 16, 24.4, 16), .teal, width: 1.8)
+            art.ink(.line(21.8, 13.4, 21.8, 18.6), .teal, width: 1.8)
         },
     ]
 }
