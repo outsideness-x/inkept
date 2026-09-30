@@ -21,6 +21,27 @@ extension SubjectIcon {
             art.shape(heart, .red)
             art.ink(.curve(8, 10.6, 9.2, 8.6, 11.4, 8.4), .paper, width: 1.1)
         },
+        SubjectIcon("finger-heart", .things, en: "finger heart", ru: "сердечко пальцами", tint: .red,
+                    keys: "love любов saranghae саранхэ k-pop кпоп korean корейск") { art in
+            // The index finger bends up out of the fist and the thumb crosses it at the tips.
+            let palm = EmojiFigure.path("""
+            M9.4 30.6 L9.4 27.6 C7.4 26.4 6.6 24 6.6 21 L6.6 18.4 C6.6 15.6 8.6 13.8 11.4 13.8 L17.6 13.8 \
+            C20.6 13.8 22.4 16 22.4 19 L22.4 22.6 C22.4 25.4 21.2 27 19.4 27.8 L19.4 30.6 Z
+            """)
+            art.fill(palm, .tan)
+            art.clip(palm) { inside in
+                inside.shade(.box(0, 26.4, 32, 8), opacity: 0.2)
+            }
+            art.ink(palm)
+            art.shape(EmojiFigure.box(4.8, 9.7, 19, 4.4, r: 2.2).rotated(-30.4, around: 14.3, 11.9), .tan, width: 1.4)
+            for (y, from, to) in [(CGFloat(17.6), CGFloat(4.8), CGFloat(14.6)), (21.4, 4.6, 14), (25, 5.2, 13.2)] {
+                art.shape(.box(from, y - 1.9, to - from, 3.8, r: 1.9), .tan, width: 1.3)
+            }
+            art.shape(EmojiFigure.box(9.5, 12.7, 18.8, 4.6, r: 2.3).rotated(-115.8, around: 18.9, 15), .tan, width: 1.4)
+            art.fine(.oval(16.4, 9.8, 1.1, 1.6, rotation: -26))
+            let heart = EmojiFigure.path("M23 12.4 C20.4 10.4 17.8 8.4 17.8 5.6 C17.8 4 19 2.8 20.4 2.8 C21.6 2.8 22.4 3.4 23 4.4 C23.6 3.4 24.4 2.8 25.6 2.8 C27 2.8 28.2 4 28.2 5.6 C28.2 8.4 25.6 10.4 23 12.4 Z")
+            art.shape(heart.scaled(0.72, around: 23, 7.6).moved(3.4, -2.2), .red, width: 1.2)
+        },
         SubjectIcon("fire", .things, en: "fire", ru: "огонь", tint: .orange,
                     keys: "streak серия motivation мотивац hot горяч energy энерги") { art in
             let flame = EmojiFigure.path("""
@@ -30,6 +51,12 @@ extension SubjectIcon {
             art.fill(flame, .orange)
             art.fill(.path("M16 28.2 C12.8 28.2 11 25.8 11.4 22.8 C11.8 20.4 13.6 19 14.4 16.8 C15.6 18.2 16 19.6 15.8 20.8 C17 20 18 18.4 18 16.4 C20.4 18.4 21.6 21.4 21 24 C20.4 26.6 18.6 28.2 16 28.2 Z"), .yellow)
             art.ink(flame, width: 1.5)
+        },
+        SubjectIcon("flag-pride", .things, en: "pride flag", ru: "прайд-флаг", tint: .purple,
+                    keys: "lgbt лгбт pride прайд rainbow радуг queer квир") { art in
+            art.flag { flag in
+                flag.stripes([.red, .orange, .yellow, .green, .blue, .purple])
+            }
         },
         SubjectIcon("sparkles", .things, en: "sparkles", ru: "искры", tint: .yellow,
                     keys: "magic магия new нов shine блеск idea иде") { art in
