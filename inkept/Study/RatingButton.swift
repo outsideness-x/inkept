@@ -10,25 +10,25 @@ struct RatingButton: View {
         Button(action: action) {
             VStack(spacing: 2) {
                 HandwrittenText(LocalizedStringKey(rating.titleKey))
-                    .font(RemnTypography.control)
+                    .font(InkeptTypography.control)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 HandwrittenText(verbatim: interval)
-                    .font(RemnTypography.caption)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.caption)
+                    .foregroundStyle(Color.inkeptGraphite)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
             }
-            .foregroundStyle(rating == .again ? Color.remnAccent : Color.remnInk)
+            .foregroundStyle(rating == .again ? Color.inkeptAccent : Color.inkeptInk)
             .frame(maxWidth: .infinity, minHeight: 62)
             .padding(.horizontal, 4)
         }
         .buttonStyle(RatingButtonStyle(rating: rating))
         .overlay(alignment: .topTrailing) {
-            if RemnPlatform.isMac {
+            if InkeptPlatform.isMac {
                 HandwrittenText(verbatim: "\(rating.rawValue)")
-                    .font(RemnTypography.display(13, relativeTo: .caption2))
-                    .foregroundStyle(Color.remnGraphite.opacity(0.7))
+                    .font(InkeptTypography.display(13, relativeTo: .caption2))
+                    .foregroundStyle(Color.inkeptGraphite.opacity(0.7))
                     .padding(.top, 5)
                     .padding(.trailing, 9)
                     .accessibilityHidden(true)
@@ -52,8 +52,8 @@ private struct RatingButtonStyle: ButtonStyle {
                 InkBox(
                     seed: pressed ? seed &+ 1 : seed,
                     cornerRadius: 14,
-                    fill: pressed ? tint.opacity(0.12) : .remnCardPaper,
-                    outline: rating == .again ? .remnAccent : .remnInk,
+                    fill: pressed ? tint.opacity(0.12) : .inkeptCardPaper,
+                    outline: rating == .again ? .inkeptAccent : .inkeptInk,
                     pen: .fine,
                     registration: pressed ? .zero : CGSize(width: 1.2, height: 1.8)
                 )
@@ -64,6 +64,6 @@ private struct RatingButtonStyle: ButtonStyle {
     }
 
     private var tint: Color {
-        rating == .again ? .remnAccent : .remnInk
+        rating == .again ? .inkeptAccent : .inkeptInk
     }
 }

@@ -2,13 +2,13 @@ import SwiftUI
 
 extension EnvironmentValues {
     /// Set on the first page of a column that has nowhere to go back to, like the detail of a split layout.
-    @Entry var remnIsNavigationRoot = false
+    @Entry var inkeptIsNavigationRoot = false
 }
 
 /// The top of a pushed screen: a drawn arrow back to where you came from, and room for one action.
-struct RemnNavigationHeader<Trailing: View>: View {
+struct InkeptNavigationHeader<Trailing: View>: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.remnIsNavigationRoot) private var isRoot
+    @Environment(\.inkeptIsNavigationRoot) private var isRoot
 
     let backTitle: String?
     let trailing: Trailing
@@ -36,12 +36,12 @@ struct RemnNavigationHeader<Trailing: View>: View {
     private var backButton: some View {
         Button { dismiss() } label: {
             HStack(spacing: 6) {
-                InkIcon(kind: .back, color: .remnInk, size: 22)
+                InkIcon(kind: .back, color: .inkeptInk, size: 22)
                     .frame(width: 26, height: 44)
                 if let backTitle {
                     HandwrittenText(verbatim: backTitle)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .lineLimit(1)
                 }
             }
@@ -55,7 +55,7 @@ struct RemnNavigationHeader<Trailing: View>: View {
     }
 }
 
-extension RemnNavigationHeader where Trailing == EmptyView {
+extension InkeptNavigationHeader where Trailing == EmptyView {
     init(backTitle: String? = nil) {
         self.init(backTitle: backTitle) { EmptyView() }
     }
@@ -89,8 +89,8 @@ struct SheetHeader<Trailing: View>: View {
             #endif
             ZStack {
                 HandwrittenText(title, weight: 0.4)
-                    .font(RemnTypography.navigationTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.navigationTitle)
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(1)
                     .padding(.horizontal, 96)
                     .accessibilityAddTraits(.isHeader)
@@ -123,7 +123,7 @@ extension SheetHeader where Trailing == EmptyView {
 struct SheetGrabber: View {
     var body: some View {
         InkLine(seed: 5_150, pen: .bold)
-            .fill(Color.remnGraphite.opacity(0.55))
+            .fill(Color.inkeptGraphite.opacity(0.55))
             .frame(width: 38, height: 8)
             .padding(.top, 8)
             .padding(.bottom, 2)

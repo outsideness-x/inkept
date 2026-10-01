@@ -9,7 +9,7 @@ enum CardRenderingContext {
     case export
 }
 
-/// The Markdown on one side of a card, set in remn's hand.
+/// The Markdown on one side of a card, set in inkept's hand.
 struct CardContentView: View {
     let markdown: String
     var context: CardRenderingContext = .detail
@@ -43,16 +43,16 @@ struct CardContentView: View {
             markdown: markdown,
             patternOptions: .init(mathExpressions: true)
         )
-        .textual.structuredTextStyle(RemnTextStyle())
-        .textual.highlighterTheme(.remn)
+        .textual.structuredTextStyle(InkeptTextStyle())
+        .textual.highlighterTheme(.inkept)
         .textual.mathProperties(.init(fontScale: mathScale, textAlignment: .center))
         .textual.imageAttachmentLoader(OfflineAttachmentLoader())
         .textual.emojiAttachmentLoader(OfflineAttachmentLoader())
         .textual.overflowMode(.scroll)
         .textual.textSelection(.enabled)
         .font(contentFont)
-        .foregroundStyle(Color.remnInk)
-        .tint(.remnAccent)
+        .foregroundStyle(Color.inkeptInk)
+        .tint(.inkeptAccent)
         .multilineTextAlignment(centered ? .center : .leading)
         .textRenderer(InkTextRenderer(wobble: 0.6))
         .environment(\.openURL, OpenURLAction { _ in .discarded })
@@ -82,7 +82,7 @@ struct CardContentView: View {
             .mathFont(.init(name: .latinModern, size: mathFontSize))
             .mathTypesettingStyle(.display)
             .mathRenderingMode(.monochrome)
-            .foregroundStyle(Color.remnInk)
+            .foregroundStyle(Color.inkeptInk)
     }
 
     private var mathFontSize: CGFloat {
@@ -101,8 +101,8 @@ struct CardContentView: View {
 
     private var contentFont: Font {
         switch context {
-        case .study: RemnTypography.studyText
-        case .detail, .preview, .export: RemnTypography.cardText
+        case .study: InkeptTypography.studyText
+        case .detail, .preview, .export: InkeptTypography.cardText
         }
     }
 }

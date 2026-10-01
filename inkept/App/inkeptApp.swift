@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 @main
-struct remnApp: App {
+struct inkeptApp: App {
     @AppStorage("appearanceMode") private var appearanceMode = AppearanceMode.system.rawValue
     @State private var vault: Vault
     private let container: ModelContainer?
@@ -44,7 +44,7 @@ struct remnApp: App {
                 #endif
             }
             .preferredColorScheme(AppearanceMode(rawValue: appearanceMode)?.colorScheme)
-            .tint(.remnAccent)
+            .tint(.inkeptAccent)
             #if DEBUG && os(macOS)
             .onAppear {
                 WindowSnapshot.scheduleIfRequested()
@@ -62,7 +62,7 @@ struct remnApp: App {
         .defaultSize(width: 1120, height: 780)
         .windowBackgroundDragBehavior(.enabled)
         #endif
-        .commands { RemnCommands() }
+        .commands { InkeptCommands() }
 
     }
 
@@ -85,12 +85,12 @@ private struct StartupFailureView: View {
         VStack(spacing: 20) {
             StackedCardsDoodle(width: 84)
             HandwrittenText("storage.couldNotOpen", weight: 0.6)
-                .font(RemnTypography.sectionTitle)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.sectionTitle)
+                .foregroundStyle(Color.inkeptInk)
                 .multilineTextAlignment(.center)
             Text(message)
                 .font(.footnote)
-                .foregroundStyle(Color.remnGraphite)
+                .foregroundStyle(Color.inkeptGraphite)
                 .multilineTextAlignment(.center)
                 .textSelection(.enabled)
         }

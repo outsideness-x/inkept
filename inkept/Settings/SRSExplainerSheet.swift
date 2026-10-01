@@ -11,11 +11,11 @@ struct SRSExplainerSheet: View {
                     FlashcardSurface(seed: 606, style: .regular) {
                         VStack(alignment: .leading, spacing: 10) {
                             HandwrittenText(verbatim: "FSRS-6", weight: 1)
-                                .font(RemnTypography.display(36, relativeTo: .title))
-                                .foregroundStyle(Color.remnAccent)
+                                .font(InkeptTypography.display(36, relativeTo: .title))
+                                .foregroundStyle(Color.inkeptAccent)
                             HandwrittenText("srs.intro")
-                                .font(RemnTypography.body)
-                                .foregroundStyle(Color.remnInk)
+                                .font(InkeptTypography.body)
+                                .foregroundStyle(Color.inkeptInk)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
@@ -34,18 +34,18 @@ struct SRSExplainerSheet: View {
                     }
 
                     HandwrittenText("srs.history")
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 18)
                 .padding(.bottom, 40)
-                .remnReadableWidth(640)
+                .inkeptReadableWidth(640)
             }
         }
         .paperBackground()
-        .remnSheetFrame(width: 560, height: 720)
+        .inkeptSheetFrame(width: 560, height: 720)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(30)
     }
@@ -59,19 +59,19 @@ struct SRSExplainerSheet: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline, spacing: 16) {
                 HandwrittenText(verbatim: "\(number)", weight: 0.8)
-                    .font(RemnTypography.display(22, relativeTo: .headline))
-                    .foregroundStyle(Color.remnAccent)
+                    .font(InkeptTypography.display(22, relativeTo: .headline))
+                    .foregroundStyle(Color.inkeptAccent)
                     .inkCircled(seed: 620 + number, inset: CGSize(width: -9, height: -5))
                     .padding(.leading, 6)
                 HandwrittenText(title, weight: 0.4)
-                    .font(RemnTypography.sectionTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.sectionTitle)
+                    .foregroundStyle(Color.inkeptInk)
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
             }
             HandwrittenText(body)
-                .font(RemnTypography.body)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.body)
+                .foregroundStyle(Color.inkeptInk)
                 .fixedSize(horizontal: false, vertical: true)
             detail()
         }
@@ -90,12 +90,12 @@ struct SRSExplainerSheet: View {
     private func ratingLine(_ rating: LocalizedStringKey, note: LocalizedStringKey, accent: Bool = false) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
             HandwrittenText(rating, weight: 0.4)
-                .font(RemnTypography.control)
-                .foregroundStyle(accent ? Color.remnAccent : Color.remnInk)
+                .font(InkeptTypography.control)
+                .foregroundStyle(accent ? Color.inkeptAccent : Color.inkeptInk)
                 .frame(minWidth: 70, alignment: .leading)
             HandwrittenText(note)
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -117,8 +117,8 @@ private struct GrowingIntervals: View {
 
     private func step(_ title: LocalizedStringKey, width: CGFloat, seed: Int) -> some View {
         HandwrittenText(title)
-            .font(RemnTypography.note)
-            .foregroundStyle(Color.remnInk)
+            .font(InkeptTypography.note)
+            .foregroundStyle(Color.inkeptInk)
             .lineLimit(1)
             .minimumScaleFactor(0.7)
             .frame(minWidth: width * 0.8, maxWidth: width)
@@ -128,7 +128,7 @@ private struct GrowingIntervals: View {
     }
 
     private func arrow(seed: Int) -> some View {
-        InkIcon(kind: .forward, color: .remnAccent, size: 18)
+        InkIcon(kind: .forward, color: .inkeptAccent, size: 18)
             .accessibilityHidden(true)
     }
 }

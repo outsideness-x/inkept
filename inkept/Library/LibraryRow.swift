@@ -22,22 +22,22 @@ struct LibraryRow: View {
             }
             VStack(alignment: .leading, spacing: compact ? 2 : 5) {
                 HandwrittenText(verbatim: title, weight: 0.3)
-                    .font(compact ? RemnTypography.display(23, relativeTo: .title3) : RemnTypography.rowTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(compact ? InkeptTypography.display(23, relativeTo: .title3) : InkeptTypography.rowTitle)
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                 HStack(spacing: 8) {
                     if dueCount > 0 {
                         HandwrittenText("count.due \(dueCount)")
-                            .foregroundStyle(Color.remnAccent)
+                            .foregroundStyle(Color.inkeptAccent)
                         HandwrittenText(verbatim: "·")
-                            .foregroundStyle(Color.remnGraphite)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .accessibilityHidden(true)
                     }
                     HandwrittenText("count.cards \(totalCount)")
-                        .foregroundStyle(Color.remnGraphite)
+                        .foregroundStyle(Color.inkeptGraphite)
                 }
-                .font(compact ? RemnTypography.caption : RemnTypography.note)
+                .font(compact ? InkeptTypography.caption : InkeptTypography.note)
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
             }
@@ -93,20 +93,20 @@ private struct SidebarRowBody: View {
                 ZStack {
                     if isSelected {
                         InkHatch(seed: seed ^ 0x51, spacing: 4)
-                            .fill(Color.remnAccent.opacity(0.5))
+                            .fill(Color.inkeptAccent.opacity(0.5))
                             .clipShape(InkPatch(seed: seed ^ 0x52, cornerRadius: 12))
                             .offset(x: 3, y: 4)
                         InkBox(
                             seed: seed,
                             cornerRadius: 12,
-                            fill: .remnCardPaper,
-                            outline: .remnInk,
+                            fill: .inkeptCardPaper,
+                            outline: .inkeptInk,
                             pen: .fine,
                             registration: CGSize(width: 0.8, height: 1.1)
                         )
                     } else if isHovered || configuration.isPressed {
                         InkPatch(seed: seed ^ 0x53, cornerRadius: 12)
-                            .fill(Color.remnInk.opacity(configuration.isPressed ? 0.08 : 0.045))
+                            .fill(Color.inkeptInk.opacity(configuration.isPressed ? 0.08 : 0.045))
                     }
                 }
                 .transition(.opacity)

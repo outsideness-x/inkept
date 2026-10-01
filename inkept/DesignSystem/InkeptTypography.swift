@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// One hand, several sizes. Every style scales with Dynamic Type.
-enum RemnTypography {
+enum InkeptTypography {
     static func display(_ size: CGFloat, relativeTo textStyle: Font.TextStyle = .body) -> Font {
         .custom("Neucha", size: size, relativeTo: textStyle)
     }

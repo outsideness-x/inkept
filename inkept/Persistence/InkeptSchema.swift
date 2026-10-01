@@ -1,7 +1,7 @@
 import SwiftData
 
 /// The schema in use: version 2 with an icon for each subject.
-enum RemnSchemaV3: VersionedSchema {
+enum InkeptSchemaV3: VersionedSchema {
     static let versionIdentifier = Schema.Version(3, 0, 0)
     static var models: [any PersistentModel.Type] {
         [
@@ -14,12 +14,12 @@ enum RemnSchemaV3: VersionedSchema {
     }
 }
 
-enum RemnMigrationPlan: SchemaMigrationPlan {
-    static var schemas: [any VersionedSchema.Type] { [RemnSchemaV1.self, RemnSchemaV2.self, RemnSchemaV3.self] }
+enum InkeptMigrationPlan: SchemaMigrationPlan {
+    static var schemas: [any VersionedSchema.Type] { [InkeptSchemaV1.self, InkeptSchemaV2.self, InkeptSchemaV3.self] }
     static var stages: [MigrationStage] {
         [
-            .lightweight(fromVersion: RemnSchemaV1.self, toVersion: RemnSchemaV2.self),
-            .lightweight(fromVersion: RemnSchemaV2.self, toVersion: RemnSchemaV3.self),
+            .lightweight(fromVersion: InkeptSchemaV1.self, toVersion: InkeptSchemaV2.self),
+            .lightweight(fromVersion: InkeptSchemaV2.self, toVersion: InkeptSchemaV3.self),
         ]
     }
 }

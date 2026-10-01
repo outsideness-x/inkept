@@ -5,11 +5,11 @@ import SwiftData
 @MainActor
 enum TestStore {
     static func makeContainer() throws -> ModelContainer {
-        let schema = Schema(versionedSchema: RemnSchemaV3.self)
+        let schema = Schema(versionedSchema: InkeptSchemaV3.self)
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)
         return try ModelContainer(
             for: schema,
-            migrationPlan: RemnMigrationPlan.self,
+            migrationPlan: InkeptMigrationPlan.self,
             configurations: [configuration]
         )
     }

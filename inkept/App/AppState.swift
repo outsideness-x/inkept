@@ -53,7 +53,7 @@ final class AppState {
 
 extension FocusedValues {
     /// The state of the window in front, for menu commands.
-    @Entry var remnAppState: AppState?
+    @Entry var inkeptAppState: AppState?
 }
 
 enum AppearanceMode: String, CaseIterable, Identifiable {

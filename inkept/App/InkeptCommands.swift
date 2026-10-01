@@ -1,8 +1,8 @@
 import SwiftUI
 
 /// The menu bar on the Mac, and the shortcuts a hardware keyboard shows on iPad.
-struct RemnCommands: Commands {
-    @FocusedValue(\.remnAppState) private var appState
+struct InkeptCommands: Commands {
+    @FocusedValue(\.inkeptAppState) private var appState
     @AppStorage("notesViewMode") private var notesViewMode: NotesViewMode = .list
     @AppStorage("notes.showsLinks") private var showsNoteLinks = false
 

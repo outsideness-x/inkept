@@ -41,7 +41,7 @@ struct SubjectIconPicker: View {
             }
         }
         .paperBackground()
-        .remnSheetFrame(width: 560, height: 660)
+        .inkeptSheetFrame(width: 560, height: 660)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(30)
     }
@@ -57,8 +57,8 @@ struct SubjectIconPicker: View {
                 let found = SubjectIcon.search(query)
                 if found.isEmpty {
                     HandwrittenText("icon.nothing")
-                        .font(RemnTypography.body)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.body)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .frame(maxWidth: .infinity)
                         .padding(.top, 40)
                 } else {
@@ -80,24 +80,24 @@ struct SubjectIconPicker: View {
 
     private var searchField: some View {
         HStack(spacing: 12) {
-            InkIcon(kind: .search, color: .remnGraphite, size: 19)
+            InkIcon(kind: .search, color: .inkeptGraphite, size: 19)
             TextField("icon.search", text: $query)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif
                 .autocorrectionDisabled()
-                .font(RemnTypography.display(22, relativeTo: .title3))
-                .foregroundStyle(Color.remnInk)
-                .tint(.remnAccent)
+                .font(InkeptTypography.display(22, relativeTo: .title3))
+                .foregroundStyle(Color.inkeptInk)
+                .tint(.inkeptAccent)
             if !query.isEmpty {
-                InkIconButton(kind: .close, label: "search.clear", color: .remnGraphite, size: 14) { query = "" }
+                InkIconButton(kind: .close, label: "search.clear", color: .inkeptGraphite, size: 14) { query = "" }
                     .padding(.trailing, -12)
             }
         }
         .frame(minHeight: 44)
         .overlay(alignment: .bottom) {
             InkLine(seed: 9_032, pen: .fine)
-                .fill(Color.remnInk.opacity(0.5))
+                .fill(Color.inkeptInk.opacity(0.5))
                 .frame(height: 6)
                 .offset(y: 2)
         }
@@ -129,8 +129,8 @@ struct SubjectIconPicker: View {
     private func section(_ title: Text, icons: [SubjectIcon]) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HandwrittenText(text: title, weight: 0.3)
-                .font(RemnTypography.control)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.control)
+                .foregroundStyle(Color.inkeptGraphite)
                 .lineLimit(1)
                 .padding(.horizontal, 8)
                 .accessibilityAddTraits(.isHeader)
@@ -182,7 +182,7 @@ struct SubjectIconChoice: View {
                 .background {
                     if isChosen {
                         InkEllipse(seed: icon.id.inkSeed, pen: .fine)
-                            .fill(Color.remnAccent)
+                            .fill(Color.inkeptAccent)
                             .padding(2)
                     }
                 }
@@ -212,7 +212,7 @@ private struct IconChoiceBody: View {
             .background {
                 if isHovered {
                     InkPatch(seed: 9_040, cornerRadius: 12)
-                        .fill(Color.remnInk.opacity(0.05))
+                        .fill(Color.inkeptInk.opacity(0.05))
                 }
             }
             .scaleEffect(configuration.isPressed && !reduceMotion ? 0.88 : 1)
@@ -232,7 +232,7 @@ struct SubjectIconSlot: View {
             if let icon = SubjectIcon.named(icon) {
                 SubjectIconView(icon: icon, size: size)
             } else {
-                InkIcon(kind: fallback, color: .remnGraphite.opacity(0.75), size: size * 0.7)
+                InkIcon(kind: fallback, color: .inkeptGraphite.opacity(0.75), size: size * 0.7)
             }
         }
         .frame(width: size, height: size)
@@ -246,9 +246,9 @@ struct EmptyIconSlot: View {
     var body: some View {
         ZStack {
             InkDashedRing(seed: 9_050)
-                .fill(Color.remnGraphite.opacity(0.8))
+                .fill(Color.inkeptGraphite.opacity(0.8))
                 .padding(size * 0.06)
-            InkIcon(kind: .plus, color: .remnGraphite, size: size * 0.36)
+            InkIcon(kind: .plus, color: .inkeptGraphite, size: size * 0.36)
         }
         .frame(width: size, height: size)
     }

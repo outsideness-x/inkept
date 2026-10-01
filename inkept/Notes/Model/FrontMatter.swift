@@ -2,7 +2,7 @@ import Foundation
 
 /// The YAML block at the top of a note, the way Obsidian writes it.
 ///
-/// remn reads and writes only the keys it understands — `tags` and `font` — and keeps every other
+/// inkept reads and writes only the keys it understands — `tags` and `font` — and keeps every other
 /// line exactly where it was, so notes written elsewhere survive a round trip.
 struct FrontMatter: Equatable, Sendable {
     private enum Entry: Equatable, Sendable {

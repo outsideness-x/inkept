@@ -39,7 +39,7 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             let character = characterIndexes[index]
             var property = properties[index]
             if character < storage.length {
-                if storage.attribute(.remnPicture, at: character, effectiveRange: nil) != nil {
+                if storage.attribute(.inkeptPicture, at: character, effectiveRange: nil) != nil {
                     property = .controlCharacter
                     changed = true
                 } else if isConcealed(character) {
@@ -105,7 +105,7 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     ) -> Bool {
         guard let storage = textStorage, glyphRange.length > 0 else { return false }
         let character = characterIndexForGlyph(at: glyphRange.location)
-        guard character < storage.length, storage.attribute(.remnCollapse, at: character, effectiveRange: nil) != nil else {
+        guard character < storage.length, storage.attribute(.inkeptCollapse, at: character, effectiveRange: nil) != nil else {
             return false
         }
         lineFragmentRect.pointee.size.height = 0
@@ -116,12 +116,12 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
 
     private func isConcealed(_ characterIndex: Int) -> Bool {
         guard let storage = textStorage, characterIndex < storage.length else { return false }
-        return storage.attribute(.remnConceal, at: characterIndex, effectiveRange: nil) != nil
+        return storage.attribute(.inkeptConceal, at: characterIndex, effectiveRange: nil) != nil
     }
 
     private func picture(at characterIndex: Int) -> LivePicture? {
         guard let storage = textStorage, characterIndex < storage.length else { return nil }
-        return storage.attribute(.remnPicture, at: characterIndex, effectiveRange: nil) as? LivePicture
+        return storage.attribute(.inkeptPicture, at: characterIndex, effectiveRange: nil) as? LivePicture
     }
 
     /// Pictures never run past the page; wide ones are scaled down to fit.
@@ -140,10 +140,10 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         let characters = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
         let whole = NSRange(location: 0, length: storage.length)
         var drawn = Set<Int>()
-        storage.enumerateAttribute(.remnDecoration, in: characters) { value, range, _ in
+        storage.enumerateAttribute(.inkeptDecoration, in: characters) { value, range, _ in
             guard let decoration = value as? LiveDecoration else { return }
             var full = range
-            _ = storage.attribute(.remnDecoration, at: range.location, longestEffectiveRange: &full, in: whole)
+            _ = storage.attribute(.inkeptDecoration, at: range.location, longestEffectiveRange: &full, in: whole)
             guard drawn.insert(full.location).inserted else { return }
             context.saveGState()
             draw(decoration, range: full, container: container, origin: origin, in: context)
@@ -155,7 +155,7 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         super.drawGlyphs(forGlyphRange: glyphsToShow, at: origin)
         guard let context = Self.currentContext, let storage = textStorage, let container = textContainers.first else { return }
         let characters = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
-        storage.enumerateAttribute(.remnPicture, in: characters) { value, range, _ in
+        storage.enumerateAttribute(.inkeptPicture, in: characters) { value, range, _ in
             guard let picture = value as? LivePicture else { return }
             let glyph = glyphIndexForCharacter(at: range.location)
             let line = lineFragmentRect(forGlyphAt: glyph, effectiveRange: nil)
@@ -173,7 +173,7 @@ final class LiveLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             }
             draw(picture, in: rect.offsetBy(dx: origin.x, dy: origin.y), context: context)
         }
-        storage.enumerateAttribute(.remnPreview, in: characters) { value, range, _ in
+        storage.enumerateAttribute(.inkeptPreview, in: characters) { value, range, _ in
             guard let picture = value as? LivePicture else { return }
             let glyph = glyphIndexForCharacter(at: max(range.location, NSMaxRange(range) - 1))
             let line = lineFragmentUsedRect(forGlyphAt: glyph, effectiveRange: nil).offsetBy(dx: origin.x, dy: origin.y)

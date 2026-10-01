@@ -84,7 +84,7 @@ struct CardEditorView: View {
         .sheet(isPresented: $showNewDeck) {
             NameEditorSheet(title: "deck.new") { name in createDeck(named: name) }
         }
-        .remnSheetFrame(width: 640, height: 760)
+        .inkeptSheetFrame(width: 640, height: 760)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(30)
         .interactiveDismissDisabled(hasChanges)
@@ -96,8 +96,8 @@ struct CardEditorView: View {
                     focusedSide = nil
                 } label: {
                     HandwrittenText("done")
-                        .font(RemnTypography.control)
-                        .foregroundStyle(Color.remnAccent)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(Color.inkeptAccent)
                 }
             }
         }
@@ -136,10 +136,10 @@ struct CardEditorView: View {
         } label: {
             VStack(spacing: 0) {
                 HandwrittenText(title, weight: chosen ? 0.5 : 0)
-                    .font(RemnTypography.control)
-                    .foregroundStyle(chosen ? Color.remnInk : Color.remnGraphite)
+                    .font(InkeptTypography.control)
+                    .foregroundStyle(chosen ? Color.inkeptInk : Color.inkeptGraphite)
                 InkUnderline(seed: value == .edit ? 71 : 72, pen: .bold, progress: chosen ? 1 : 0)
-                    .fill(Color.remnAccent)
+                    .fill(Color.inkeptAccent)
                     .frame(width: 52, height: 8)
                     .animation(.easeOut(duration: chosen ? 0.3 : 0.1), value: chosen)
             }
@@ -169,7 +169,7 @@ struct CardEditorView: View {
             }
             .padding(.top, 14)
             .padding(.bottom, 36)
-            .remnReadableWidth(680)
+            .inkeptReadableWidth(680)
         }
         .scrollDismissesKeyboard(.interactively)
     }
@@ -180,11 +180,11 @@ struct CardEditorView: View {
             NotebookDoodle(width: 20)
             VStack(alignment: .leading, spacing: 1) {
                 HandwrittenText("card.fromNote")
-                    .font(RemnTypography.caption)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.caption)
+                    .foregroundStyle(Color.inkeptGraphite)
                 HandwrittenText(verbatim: VaultPath.title(ofNoteNamed: VaultPath.name(of: path)))
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(1)
             }
             Spacer(minLength: 8)
@@ -192,7 +192,7 @@ struct CardEditorView: View {
                 withAnimation(.spring(duration: 0.3, bounce: 0.2)) { swap(&front, &back) }
             } label: {
                 HStack(spacing: 6) {
-                    InkIcon(kind: .flip, color: .remnAccent, size: 17)
+                    InkIcon(kind: .flip, color: .inkeptAccent, size: 17)
                     HandwrittenText("card.swapSides")
                         .lineLimit(1)
                         .fixedSize()
@@ -208,28 +208,28 @@ struct CardEditorView: View {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 2) {
                     HandwrittenText("deck")
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                     if selectedDeck == nil {
                         HandwrittenText(decks.isEmpty ? "deck.noneYet" : "deck.choose", weight: 0.3)
-                            .font(RemnTypography.display(23, relativeTo: .body))
-                            .foregroundStyle(Color.remnAccent)
+                            .font(InkeptTypography.display(23, relativeTo: .body))
+                            .foregroundStyle(Color.inkeptAccent)
                     }
                     if let selectedDeck {
                         HandwrittenText(verbatim: selectedDeck.name, weight: 0.3)
-                            .font(RemnTypography.display(23, relativeTo: .body))
-                            .foregroundStyle(Color.remnInk)
+                            .font(InkeptTypography.display(23, relativeTo: .body))
+                            .foregroundStyle(Color.inkeptInk)
                             .lineLimit(1)
                         if let subject = selectedDeck.subject {
                             HandwrittenText(verbatim: subject.name)
-                                .font(RemnTypography.note)
-                                .foregroundStyle(Color.remnGraphite)
+                                .font(InkeptTypography.note)
+                                .foregroundStyle(Color.inkeptGraphite)
                                 .lineLimit(1)
                         }
                     }
                 }
                 Spacer(minLength: 8)
-                InkIcon(kind: .down, color: .remnGraphite, size: 18)
+                InkIcon(kind: .down, color: .inkeptGraphite, size: 18)
                     .frame(width: 44, height: 44)
             }
             .padding(.bottom, 8)
@@ -311,14 +311,14 @@ struct CardEditorView: View {
         let focused = focusedSide == side
         return VStack(alignment: .leading, spacing: 8) {
             HandwrittenText(title, weight: focused ? 0.4 : 0)
-                .font(RemnTypography.display(23, relativeTo: .headline))
-                .foregroundStyle(focused ? Color.remnAccent : Color.remnGraphite)
+                .font(InkeptTypography.display(23, relativeTo: .headline))
+                .foregroundStyle(focused ? Color.inkeptAccent : Color.inkeptGraphite)
 
             ZStack(alignment: .topLeading) {
                 if text.wrappedValue.isEmpty {
                     HandwrittenText(side == .front ? "editor.front.placeholder" : "editor.back.placeholder")
-                        .font(RemnTypography.body)
-                        .foregroundStyle(Color.remnGraphite.opacity(0.75))
+                        .font(InkeptTypography.body)
+                        .foregroundStyle(Color.inkeptGraphite.opacity(0.75))
                         .padding(.horizontal, 16)
                         .padding(.vertical, 16)
                         .allowsHitTesting(false)
@@ -328,8 +328,8 @@ struct CardEditorView: View {
                 TextEditor(text: text, selection: selection)
                     .focused($focusedSide, equals: side)
                     .font(.system(.callout, design: .monospaced))
-                    .foregroundStyle(Color.remnInk)
-                    .tint(.remnAccent)
+                    .foregroundStyle(Color.inkeptInk)
+                    .tint(.inkeptAccent)
                     .scrollContentBackground(.hidden)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 8)
@@ -340,8 +340,8 @@ struct CardEditorView: View {
                 InkBox(
                     seed: side == .front ? 141 : 177,
                     cornerRadius: 14,
-                    fill: .remnCardPaper,
-                    outline: focused ? .remnAccent : .remnInk.opacity(0.55),
+                    fill: .inkeptCardPaper,
+                    outline: focused ? .inkeptAccent : .inkeptInk.opacity(0.55),
                     pen: focused ? .pen : .fine,
                     registration: CGSize(width: 1, height: 1.4)
                 )
@@ -363,7 +363,7 @@ struct CardEditorView: View {
                         .padding(.bottom, 14)
                     CardContentView(markdown: front, context: .preview)
                     InkDashes(seed: 90)
-                        .fill(Color.remnGraphite.opacity(0.6))
+                        .fill(Color.inkeptGraphite.opacity(0.6))
                         .frame(height: 6)
                         .padding(.vertical, 18)
                     FlashcardSideLabel(title: "card.back")
@@ -374,7 +374,7 @@ struct CardEditorView: View {
             .padding(.horizontal, 20)
             .padding(.top, 20)
             .padding(.bottom, 44)
-            .remnReadableWidth()
+            .inkeptReadableWidth()
         }
     }
 

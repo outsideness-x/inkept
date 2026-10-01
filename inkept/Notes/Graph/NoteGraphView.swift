@@ -330,14 +330,14 @@ struct NoteGraphView: View {
             toggle("notes.graph.folders", isOn: $showsFolders, seed: 9_201)
             toggle("notes.graph.tags", isOn: $showsTags, seed: 9_202)
             Spacer(minLength: 8)
-            InkIconButton(kind: .fit, label: "notes.graph.fit", color: .remnGraphite, size: 18) {
+            InkIconButton(kind: .fit, label: "notes.graph.fit", color: .inkeptGraphite, size: 18) {
                 fit(animated: true)
             }
             .padding(.trailing, -10)
         }
         .padding(.horizontal, 22)
         .padding(.top, 2)
-        .remnReadableWidth()
+        .inkeptReadableWidth()
     }
 
     private func toggle(_ title: LocalizedStringKey, isOn: Binding<Bool>, seed: Int) -> some View {
@@ -347,8 +347,8 @@ struct NoteGraphView: View {
                     .scaleEffect(0.8)
                     .frame(width: 26, height: 26)
                 HandwrittenText(title)
-                    .font(RemnTypography.note)
-                    .foregroundStyle(isOn.wrappedValue ? Color.remnInk : Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(isOn.wrappedValue ? Color.inkeptInk : Color.inkeptGraphite)
             }
             .frame(minHeight: 40)
             .contentShape(Rectangle())
@@ -499,13 +499,13 @@ struct NoteGraphView: View {
                 var opacity: Double
                 switch edge.kind {
                 case .link:
-                    colour = emphasised ? .remnAccent : .remnInk
+                    colour = emphasised ? .inkeptAccent : .inkeptInk
                     opacity = emphasised ? 0.85 : 0.5
                 case .folder:
-                    colour = emphasised ? .remnAccent : .remnGraphite
+                    colour = emphasised ? .inkeptAccent : .inkeptGraphite
                     opacity = emphasised ? 0.7 : 0.34
                 case .tag:
-                    colour = .remnAccent
+                    colour = .inkeptAccent
                     opacity = emphasised ? 0.75 : 0.28
                 }
                 if focus != nil, !emphasised { opacity *= 0.3 }
@@ -541,15 +541,15 @@ struct NoteGraphView: View {
 
             switch node.kind {
             case .note where node.id == centreID:
-                layer.fill(disc, with: .color(.remnAccent))
-                layer.fill(outline, with: .color(.remnInk))
+                layer.fill(disc, with: .color(.inkeptAccent))
+                layer.fill(outline, with: .color(.inkeptInk))
             case .note:
-                let tint = SubjectIcon.named(node.icon)?.tint.color ?? .remnCardPaper
+                let tint = SubjectIcon.named(node.icon)?.tint.color ?? .inkeptCardPaper
                 layer.fill(disc, with: .color(tint.opacity(node.icon == nil ? 1 : 0.9)))
-                layer.fill(outline, with: .color(.remnInk))
+                layer.fill(outline, with: .color(.inkeptInk))
             case .folder:
-                layer.fill(disc, with: .color(.remnCardPaper))
-                layer.fill(outline, with: .color(.remnInk))
+                layer.fill(disc, with: .color(.inkeptCardPaper))
+                layer.fill(outline, with: .color(.inkeptInk))
                 if let icon = SubjectIcon.named(node.icon) {
                     let side = (r * 1.45 / 2).rounded() * 2
                     var inside = layer
@@ -559,15 +559,15 @@ struct NoteGraphView: View {
                     let letter = layer.resolve(
                         Text(verbatim: String(node.title.prefix(1)).uppercased())
                             .font(.custom("Neucha", fixedSize: max(r * 0.95, 9)))
-                            .foregroundStyle(Color.remnInk)
+                            .foregroundStyle(Color.inkeptInk)
                     )
                     layer.draw(letter, at: centre, anchor: .center)
                 }
             case .tag:
-                layer.fill(disc, with: .color(Color.remnAccent.opacity(0.14)))
-                layer.fill(outline, with: .color(.remnAccent))
+                layer.fill(disc, with: .color(Color.inkeptAccent.opacity(0.14)))
+                layer.fill(outline, with: .color(.inkeptAccent))
             case .missing:
-                layer.fill(outline, with: .color(.remnGraphite))
+                layer.fill(outline, with: .color(.inkeptGraphite))
             }
 
             if node.id == selected || node.id == centreID {
@@ -576,7 +576,7 @@ struct NoteGraphView: View {
                     pen: .fine,
                     seed: 60_013
                 )
-                context.fill(ring, with: .color(.remnAccent))
+                context.fill(ring, with: .color(.inkeptAccent))
             }
             if showsLabel(for: index, node: node, focus: focus, lit: lit, zoom: zoom) {
                 labels.append((index, centre, r))
@@ -598,9 +598,9 @@ struct NoteGraphView: View {
             let emphasised = focus == label.index || node.id == centreID
             let fontSize = isSubject ? min(max(15 * zoom, 13), 20) : min(max(12.5 * zoom, 11), 16)
             let colour: Color = switch node.kind {
-            case .tag: .remnAccent
-            case .missing: .remnGraphite
-            default: emphasised || isSubject ? .remnInk : .remnInk.opacity(0.8)
+            case .tag: .inkeptAccent
+            case .missing: .inkeptGraphite
+            default: emphasised || isSubject ? .inkeptInk : .inkeptInk.opacity(0.8)
             }
             let text = context.resolve(
                 Text(verbatim: shortened(node.title))
@@ -627,7 +627,7 @@ struct NoteGraphView: View {
             paper.opacity = (focus != nil && !lit.contains(label.index) ? 0.3 : 1) * (node.isOutside ? 0.6 : 1)
             paper.fill(
                 Path(roundedRect: CGRect(origin: origin, size: measured).insetBy(dx: -3, dy: -1), cornerRadius: 4),
-                with: .color(Color.remnPaper.opacity(0.62))
+                with: .color(Color.inkeptPaper.opacity(0.62))
             )
             paper.draw(text, in: CGRect(origin: origin, size: measured))
             if isSubject || emphasised {
@@ -681,28 +681,28 @@ private struct GraphNodeCard: View {
                 }
                 VStack(alignment: .leading, spacing: 3) {
                     HandwrittenText(verbatim: node.title, weight: 0.4)
-                        .font(RemnTypography.display(21, relativeTo: .headline))
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.display(21, relativeTo: .headline))
+                        .foregroundStyle(Color.inkeptInk)
                         .lineLimit(2)
                     if let detail {
                         HandwrittenText(verbatim: detail)
-                            .font(RemnTypography.caption)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.caption)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .lineLimit(2)
                     }
                     HandwrittenText(caption)
-                        .font(RemnTypography.caption)
-                        .foregroundStyle(node.kind == .missing ? Color.remnAccent : Color.remnGraphite)
+                        .font(InkeptTypography.caption)
+                        .foregroundStyle(node.kind == .missing ? Color.inkeptAccent : Color.inkeptGraphite)
                 }
                 Spacer(minLength: 8)
                 Button(action: open) {
                     HandwrittenText(action, weight: 0.4)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnOnAccent)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptOnAccent)
                         .padding(.horizontal, 14)
                         .frame(minHeight: 40)
                         .background {
-                            InkBox(seed: 9_310, cornerRadius: 11, fill: .remnAccent, outline: .remnInk, pen: .fine, registration: CGSize(width: 1.2, height: 1.6))
+                            InkBox(seed: 9_310, cornerRadius: 11, fill: .inkeptAccent, outline: .inkeptInk, pen: .fine, registration: CGSize(width: 1.2, height: 1.6))
                         }
                         .contentShape(Rectangle())
                 }

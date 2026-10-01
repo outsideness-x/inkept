@@ -2,15 +2,15 @@ import SwiftUI
 
 extension NSAttributedString.Key {
     /// The character takes no room and isn't drawn: Markdown punctuation away from the cursor.
-    static let remnConceal = NSAttributedString.Key("remnConceal")
+    static let inkeptConceal = NSAttributedString.Key("inkeptConceal")
     /// The first character of something drawn as a picture (a formula, an image, a Typst block).
-    static let remnPicture = NSAttributedString.Key("remnPicture")
+    static let inkeptPicture = NSAttributedString.Key("inkeptPicture")
     /// A line that folds away completely while the picture above it stands in for it.
-    static let remnCollapse = NSAttributedString.Key("remnCollapse")
+    static let inkeptCollapse = NSAttributedString.Key("inkeptCollapse")
     /// Something drawn in ink around or behind the text: a code box, a quote rule, a heading swash.
-    static let remnDecoration = NSAttributedString.Key("remnDecoration")
+    static let inkeptDecoration = NSAttributedString.Key("inkeptDecoration")
     /// A picture drawn under the source while the source is being edited.
-    static let remnPreview = NSAttributedString.Key("remnPreview")
+    static let inkeptPreview = NSAttributedString.Key("inkeptPreview")
 }
 
 /// A picture that stands in for Markdown source.
@@ -96,11 +96,11 @@ struct LiveTheme {
         self.size = font.bodySize
     }
 
-    static let ink = PlatformColor.remnDynamic(light: 0x1D1B19, dark: 0xEFEADF)
-    static let graphite = PlatformColor.remnDynamic(light: 0x5E5952, dark: 0xA39E95)
-    static let accent = PlatformColor.remnDynamic(light: 0xBE3B2C, dark: 0xF0674E)
-    static let emphasis = PlatformColor.remnDynamic(light: 0x3B5873, dark: 0x94B3CE)
-    static let paper = PlatformColor.remnDynamic(light: 0xFBF8F1, dark: 0x1F1D1A)
+    static let ink = PlatformColor.inkeptDynamic(light: 0x1D1B19, dark: 0xEFEADF)
+    static let graphite = PlatformColor.inkeptDynamic(light: 0x5E5952, dark: 0xA39E95)
+    static let accent = PlatformColor.inkeptDynamic(light: 0xBE3B2C, dark: 0xF0674E)
+    static let emphasis = PlatformColor.inkeptDynamic(light: 0x3B5873, dark: 0x94B3CE)
+    static let paper = PlatformColor.inkeptDynamic(light: 0xFBF8F1, dark: 0x1F1D1A)
 
     var codeSize: CGFloat { (size * (font == .neucha ? 0.74 : 0.86)).rounded() }
 

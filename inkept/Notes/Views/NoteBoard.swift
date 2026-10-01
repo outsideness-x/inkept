@@ -25,7 +25,7 @@ struct NoteBoard: View {
                         NavigationLink(value: NotesRoute.folder(child.path)) {
                             HStack(spacing: 8) {
                                 HandwrittenText("notes.board.more \(notes.count - perSection)")
-                                InkIcon(kind: .forward, color: .remnAccent, size: 16)
+                                InkIcon(kind: .forward, color: .inkeptAccent, size: 16)
                             }
                         }
                         .buttonStyle(InkButtonStyle(kind: .quiet, seed: child.path.inkSeed))
@@ -56,7 +56,7 @@ private struct NoteBoardHeader: View {
                 }
             }
             Spacer(minLength: 8)
-            InkIcon(kind: .forward, color: .remnGraphite, size: 16)
+            InkIcon(kind: .forward, color: .inkeptGraphite, size: 16)
         }
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
@@ -64,15 +64,15 @@ private struct NoteBoardHeader: View {
 
     private var title: some View {
         HandwrittenText(verbatim: folder.name, weight: 0.5)
-            .font(RemnTypography.sectionTitle)
-            .foregroundStyle(Color.remnInk)
+            .font(InkeptTypography.sectionTitle)
+            .foregroundStyle(Color.inkeptInk)
             .lineLimit(1)
     }
 
     private var count: some View {
         HandwrittenText("count.notes \(folder.totalNoteCount)")
-            .font(RemnTypography.note)
-            .foregroundStyle(Color.remnGraphite)
+            .font(InkeptTypography.note)
+            .foregroundStyle(Color.inkeptGraphite)
             .lineLimit(1)
     }
 }
@@ -144,28 +144,28 @@ struct NoteCard: View {
                 NoteCoverView(cover: cover, notePath: note.path, modified: note.modified)
             }
             HandwrittenText(verbatim: note.title, weight: 0.4)
-                .font(RemnTypography.display(20, relativeTo: .headline))
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.display(20, relativeTo: .headline))
+                .foregroundStyle(Color.inkeptInk)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
             if !note.excerpt.isEmpty {
                 HandwrittenText(verbatim: note.excerpt)
-                    .font(RemnTypography.display(15.5, relativeTo: .subheadline))
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.display(15.5, relativeTo: .subheadline))
+                    .foregroundStyle(Color.inkeptGraphite)
                     .lineLimit(note.cover == nil ? 8 : 4)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
             }
             HStack(spacing: 8) {
-                HandwrittenText(verbatim: note.isDownloaded ? RemnFormatters.noteDate(note.modified) : String(localized: "notes.downloading"))
-                    .foregroundStyle(Color.remnGraphite.opacity(0.85))
+                HandwrittenText(verbatim: note.isDownloaded ? InkeptFormatters.noteDate(note.modified) : String(localized: "notes.downloading"))
+                    .foregroundStyle(Color.inkeptGraphite.opacity(0.85))
                 ForEach(note.tags.prefix(2), id: \.self) { tag in
                     HandwrittenText(verbatim: "#\(tag)")
-                        .foregroundStyle(Color.remnAccent)
+                        .foregroundStyle(Color.inkeptAccent)
                 }
             }
-            .font(RemnTypography.caption)
+            .font(InkeptTypography.caption)
             .lineLimit(1)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -176,8 +176,8 @@ struct NoteCard: View {
             InkBox(
                 seed: note.path.inkSeed,
                 cornerRadius: 5,
-                fill: .remnCardPaper,
-                outline: .remnInk.opacity(0.8),
+                fill: .inkeptCardPaper,
+                outline: .inkeptInk.opacity(0.8),
                 pen: .fine,
                 registration: CGSize(width: 0.9, height: 1.2)
             )
@@ -231,7 +231,7 @@ private struct NoteCoverView: View {
                 ForEach(Array(lines.prefix(5).enumerated()), id: \.offset) { _, line in
                     Text(verbatim: line.isEmpty ? " " : line)
                         .font(.system(size: 10.5, design: .monospaced))
-                        .foregroundStyle(Color.remnInk.opacity(0.8))
+                        .foregroundStyle(Color.inkeptInk.opacity(0.8))
                         .lineLimit(1)
                 }
             }
@@ -239,7 +239,7 @@ private struct NoteCoverView: View {
             .padding(8)
             .background {
                 InkPatch(seed: notePath.inkSeed ^ 0xC0DE, cornerRadius: 6)
-                    .fill(Color.remnInk.opacity(0.05))
+                    .fill(Color.inkeptInk.opacity(0.05))
             }
             .accessibilityHidden(true)
         case .image, .typst:
@@ -253,7 +253,7 @@ private struct NoteCoverView: View {
                         .frame(maxWidth: .infinity)
                 } else {
                     InkHatch(seed: notePath.inkSeed, spacing: 5)
-                        .fill(Color.remnGraphite.opacity(0.18))
+                        .fill(Color.inkeptGraphite.opacity(0.18))
                         .clipShape(InkPatch(seed: notePath.inkSeed ^ 0x51, cornerRadius: 6))
                         .frame(height: 70)
                 }
@@ -268,7 +268,7 @@ private struct NoteCoverView: View {
             .mathFont(.init(name: .latinModern, size: size))
             .mathTypesettingStyle(.display)
             .mathRenderingMode(.monochrome)
-            .foregroundStyle(Color.remnInk)
+            .foregroundStyle(Color.inkeptInk)
             .fixedSize()
     }
 

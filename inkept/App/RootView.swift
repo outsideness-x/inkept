@@ -32,7 +32,7 @@ struct RootView: View {
             }
         }
         .environment(appState)
-        .focusedSceneValue(\.remnAppState, appState)
+        .focusedSceneValue(\.inkeptAppState, appState)
         #if DEBUG
         .onAppear {
             // Design reviews: `-openNote "Folder/Note.md"` opens straight into a note.
@@ -70,7 +70,7 @@ struct RootView: View {
             CardEditorView(initialDeck: deck)
                 .environment(appState)
         }
-        .remnFullScreenCover(
+        .inkeptFullScreenCover(
             isPresented: Binding(
                 get: { appState.presentedSession != nil },
                 set: { if !$0 { appState.presentedSession = nil } }
@@ -134,9 +134,9 @@ struct LibrarySplitView: View {
                     NotesSidebar(selection: $notesSelection)
                 }
             }
-            .frame(width: RemnPlatform.isMac ? 300 : 330)
+            .frame(width: InkeptPlatform.isMac ? 300 : 330)
             InkLine(seed: 7_001, pen: .hairline, vertical: true)
-                .fill(Color.remnInk.opacity(0.28))
+                .fill(Color.inkeptInk.opacity(0.28))
                 .frame(width: 6)
                 .padding(.vertical, 18)
                 .background { PaperBackground() }
@@ -145,7 +145,7 @@ struct LibrarySplitView: View {
                 if appState.showsSettings {
                     NavigationStack {
                         SettingsView()
-                            .environment(\.remnIsNavigationRoot, true)
+                            .environment(\.inkeptIsNavigationRoot, true)
                     }
                     .transition(.opacity)
                 } else {
@@ -153,7 +153,7 @@ struct LibrarySplitView: View {
                     case .cards:
                         NavigationStack {
                             detail
-                                .environment(\.remnIsNavigationRoot, true)
+                                .environment(\.inkeptIsNavigationRoot, true)
                         }
                         .id(selection)
                     case .notes:
@@ -162,7 +162,7 @@ struct LibrarySplitView: View {
                     }
                 }
             }
-            .padding(.top, RemnPlatform.isMac ? 22 : 0)
+            .padding(.top, InkeptPlatform.isMac ? 22 : 0)
             .background { PaperBackground() }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -200,15 +200,15 @@ struct LibrarySplitView: View {
         VStack(spacing: 22) {
             StackedCardsDoodle(width: 92)
             HandwrittenText("library.pickSubject")
-                .font(RemnTypography.sectionTitle)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.sectionTitle)
+                .foregroundStyle(Color.inkeptGraphite)
                 .multilineTextAlignment(.center)
         }
         .inkWritesOn(duration: 0.8)
         .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
     }
 
     private func chooseFirstSubjectIfNeeded() {

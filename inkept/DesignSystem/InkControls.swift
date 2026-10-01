@@ -8,8 +8,8 @@ struct InkBox: View {
 
     var seed: Int
     var cornerRadius: CGFloat = 14
-    var fill: Color? = .remnCardPaper
-    var outline: Color? = .remnInk
+    var fill: Color? = .inkeptCardPaper
+    var outline: Color? = .inkeptInk
     var pen: InkPen = .pen
     var registration = CGSize(width: 1.3, height: 1.8)
 
@@ -32,7 +32,7 @@ struct InkBox: View {
 /// A light pencil rule between rows.
 struct InkDivider: View {
     var seed: Int
-    var color: Color = .remnInk.opacity(0.3)
+    var color: Color = .inkeptInk.opacity(0.3)
 
     var body: some View {
         InkLine(seed: seed, pen: .hairline)
@@ -48,7 +48,7 @@ struct IndexRule: View {
 
     var body: some View {
         InkLine(seed: seed, pen: .hairline)
-            .ink(.remnAccent.opacity(0.75))
+            .ink(.inkeptAccent.opacity(0.75))
             .frame(height: 6)
             .accessibilityHidden(true)
     }
@@ -61,7 +61,7 @@ struct TitleSwash: View {
 
     var body: some View {
         InkUnderline(seed: seed, pen: .bold)
-            .ink(.remnAccent)
+            .ink(.inkeptAccent)
             .frame(width: width, height: 9)
             .accessibilityHidden(true)
     }
@@ -111,24 +111,24 @@ private struct InkButtonBody: View {
         switch kind {
         case .primary:
             configuration.label
-                .font(RemnTypography.control)
-                .foregroundStyle(Color.remnOnAccent)
+                .font(InkeptTypography.control)
+                .foregroundStyle(Color.inkeptOnAccent)
                 .padding(.horizontal, 22)
                 .frame(minHeight: 56)
                 .background {
                     InkBox(
                         seed: pressed ? seed &+ 1 : seed,
                         cornerRadius: 17,
-                        fill: .remnAccent,
-                        outline: .remnInk,
+                        fill: .inkeptAccent,
+                        outline: .inkeptInk,
                         pen: .pen,
                         registration: pressed ? .zero : CGSize(width: 2.2, height: 2.8)
                     )
                 }
         case .secondary, .destructive:
-            let ink = kind == .destructive ? Color.remnAccent : Color.remnInk
+            let ink = kind == .destructive ? Color.inkeptAccent : Color.inkeptInk
             configuration.label
-                .font(RemnTypography.control)
+                .font(InkeptTypography.control)
                 .foregroundStyle(ink)
                 .padding(.horizontal, 22)
                 .frame(minHeight: 56)
@@ -136,7 +136,7 @@ private struct InkButtonBody: View {
                     InkBox(
                         seed: pressed ? seed &+ 1 : seed,
                         cornerRadius: 17,
-                        fill: pressed ? ink.opacity(0.08) : .remnCardPaper,
+                        fill: pressed ? ink.opacity(0.08) : .inkeptCardPaper,
                         outline: ink,
                         pen: .fine,
                         registration: pressed ? .zero : CGSize(width: 1.4, height: 2)
@@ -144,13 +144,13 @@ private struct InkButtonBody: View {
                 }
         case .quiet:
             configuration.label
-                .font(RemnTypography.control)
-                .foregroundStyle(Color.remnAccent)
+                .font(InkeptTypography.control)
+                .foregroundStyle(Color.inkeptAccent)
                 .padding(.horizontal, 10)
                 .frame(minHeight: 44)
                 .overlay(alignment: .bottom) {
                     InkUnderline(seed: seed, pen: .fine, progress: pressed ? 1 : 0)
-                        .fill(Color.remnAccent)
+                        .fill(Color.inkeptAccent)
                         .frame(height: 6)
                         .padding(.horizontal, 8)
                         .offset(y: -6)
@@ -164,7 +164,7 @@ private struct InkButtonBody: View {
 struct InkIconButton: View {
     let kind: InkIconKind
     let label: LocalizedStringKey
-    var color: Color = .remnInk
+    var color: Color = .inkeptInk
     var size: CGFloat = 22
     let action: () -> Void
 
@@ -227,10 +227,10 @@ struct InkCheckbox: View {
     var body: some View {
         ZStack {
             InkRoundedRect(seed: seed, cornerRadius: 6, pen: .fine)
-                .fill(isOn ? Color.remnInk : Color.remnGraphite)
+                .fill(isOn ? Color.inkeptInk : Color.inkeptGraphite)
                 .frame(width: 22, height: 22)
             InkTick(seed: seed &+ 5, progress: isOn ? 1 : 0)
-                .fill(Color.remnAccent)
+                .fill(Color.inkeptAccent)
                 .frame(width: 26, height: 24)
                 .offset(x: 4, y: -5)
                 .animation(reduceMotion ? nil : .easeOut(duration: isOn ? 0.28 : 0.12), value: isOn)
@@ -245,7 +245,7 @@ struct InkCircled: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let isOn: Bool
     let seed: Int
-    var color: Color = .remnAccent
+    var color: Color = .inkeptAccent
     var inset = CGSize(width: -12, height: -7)
 
     func body(content: Content) -> some View {
@@ -264,7 +264,7 @@ extension View {
     func inkCircled(
         _ isOn: Bool = true,
         seed: Int,
-        color: Color = .remnAccent,
+        color: Color = .inkeptAccent,
         inset: CGSize = CGSize(width: -12, height: -7)
     ) -> some View {
         modifier(InkCircled(isOn: isOn, seed: seed, color: color, inset: inset))
@@ -293,8 +293,8 @@ struct InkChoiceRow<Value: Hashable>: View {
                     selection = option.value
                 } label: {
                     HandwrittenText(text: option.title)
-                        .font(RemnTypography.control)
-                        .foregroundStyle(chosen ? Color.remnInk : Color.remnGraphite)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(chosen ? Color.inkeptInk : Color.inkeptGraphite)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                         .inkCircled(chosen, seed: seed &+ index &* 17)
@@ -329,12 +329,12 @@ struct InkSlider: View {
 
             ZStack(alignment: .leading) {
                 InkLine(seed: 611, pen: .hairline)
-                    .fill(Color.remnGraphite.opacity(0.8))
+                    .fill(Color.inkeptGraphite.opacity(0.8))
                     .frame(height: 8)
                     .padding(.horizontal, knob / 2)
 
                 InkLine(seed: 612, pen: .marker)
-                    .fill(Color.remnAccent)
+                    .fill(Color.inkeptAccent)
                     .frame(height: 10)
                     .padding(.horizontal, knob / 2)
                     .mask(alignment: .leading) {
@@ -344,7 +344,7 @@ struct InkSlider: View {
                 ForEach(marks, id: \.self) { mark in
                     let x = travel * CGFloat((mark - range.lowerBound) / (range.upperBound - range.lowerBound))
                     InkLine(seed: 613, pen: .fine)
-                        .fill(Color.remnGraphite)
+                        .fill(Color.inkeptGraphite)
                         .frame(width: 10, height: 4)
                         .rotationEffect(.degrees(88))
                         .offset(x: x + knob / 2 - 5, y: 12)
@@ -352,10 +352,10 @@ struct InkSlider: View {
 
                 ZStack {
                     Circle()
-                        .fill(Color.remnCardPaper)
+                        .fill(Color.inkeptCardPaper)
                         .padding(2)
                     InkEllipse(seed: 614, pen: .pen)
-                        .fill(Color.remnInk)
+                        .fill(Color.inkeptInk)
                 }
                 .frame(width: knob, height: knob)
                 .offset(x: knobX)

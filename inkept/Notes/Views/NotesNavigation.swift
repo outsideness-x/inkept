@@ -67,9 +67,9 @@ struct NotesTab: View {
                 } else {
                     VaultStatusView()
                         .safeAreaInset(edge: .bottom) {
-                            RemnTabBar(selection: $appState.section)
+                            InkeptTabBar(selection: $appState.section)
                         }
-                        .remnHidesSystemBar()
+                        .inkeptHidesSystemBar()
                 }
             }
             .navigationDestination(for: NotesRoute.self) { route in
@@ -92,7 +92,7 @@ struct NotesSplitDetail: View {
             Group {
                 if vault.status != .ready {
                     VaultStatusView()
-                        .remnHidesSystemBar()
+                        .inkeptHidesSystemBar()
                 } else {
                     switch selection {
                     case .folder, nil:
@@ -105,7 +105,7 @@ struct NotesSplitDetail: View {
                     }
                 }
             }
-            .environment(\.remnIsNavigationRoot, true)
+            .environment(\.inkeptIsNavigationRoot, true)
             .navigationDestination(for: NotesRoute.self) { route in
                 NotesDestination(route: route)
             }
@@ -148,18 +148,18 @@ struct NotesSidebar: View {
                         .padding(.top, 26)
                 } else {
                     HandwrittenText("notes.sidebar.setup")
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .padding(.top, 22)
                 }
             }
             .padding(.horizontal, 16)
-            .padding(.top, RemnPlatform.isMac ? 30 : 6)
+            .padding(.top, InkeptPlatform.isMac ? 30 : 6)
             .padding(.bottom, 40)
         }
         .scrollIndicators(.never)
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .sheet(isPresented: $showNewFolder) {
             NameEditorSheet(title: "notes.folder.new", initialIcon: nil) { name, icon in
                 Task {
@@ -254,14 +254,14 @@ struct NotesSidebar: View {
                     hasChildren: !entry.folder.folders.isEmpty,
                     item: .folder(entry.folder.path)
                 )
-                .remnContextMenu(actions(for: entry.folder))
+                .inkeptContextMenu(actions(for: entry.folder))
             }
             Button {
                 newFolderParent = ""
                 showNewFolder = true
             } label: {
                 HStack(spacing: 8) {
-                    InkIcon(kind: .plus, color: .remnAccent, size: 18)
+                    InkIcon(kind: .plus, color: .inkeptAccent, size: 18)
                     HandwrittenText("notes.folder.new")
                 }
             }
@@ -303,7 +303,7 @@ struct NotesSidebar: View {
                             if expanded.contains(path) { expanded.remove(path) } else { expanded.insert(path) }
                         }
                     } label: {
-                        InkIcon(kind: expanded.contains(path) ? .down : .forward, color: .remnGraphite, size: 12)
+                        InkIcon(kind: expanded.contains(path) ? .down : .forward, color: .inkeptGraphite, size: 12)
                             .frame(width: 18, height: 28)
                             .contentShape(Rectangle())
                     }
@@ -312,19 +312,19 @@ struct NotesSidebar: View {
                     Color.clear.frame(width: 18, height: 28)
                 }
                 if path.isEmpty {
-                    NotebookDoodle(ink: .remnGraphite, accent: .remnAccent, width: 17)
+                    NotebookDoodle(ink: .inkeptGraphite, accent: .inkeptAccent, width: 17)
                         .frame(width: 24, height: 24)
                 } else {
                     SubjectIconSlot(icon: icon, size: depth == 0 ? 24 : 21)
                 }
                 HandwrittenText(verbatim: title, weight: depth == 0 ? 0.3 : 0)
-                    .font(depth == 0 ? RemnTypography.display(22, relativeTo: .title3) : RemnTypography.display(20, relativeTo: .body))
-                    .foregroundStyle(Color.remnInk)
+                    .font(depth == 0 ? InkeptTypography.display(22, relativeTo: .title3) : InkeptTypography.display(20, relativeTo: .body))
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(1)
                 Spacer(minLength: 6)
                 HandwrittenText(verbatim: "\(count)")
-                    .font(RemnTypography.caption)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.caption)
+                    .foregroundStyle(Color.inkeptGraphite)
             }
             .padding(.leading, 6 + CGFloat(depth) * 16)
             .padding(.trailing, 12)
@@ -362,8 +362,8 @@ struct NotesSidebar: View {
         if !tags.isEmpty {
             VStack(alignment: .leading, spacing: 10) {
                 HandwrittenText("notes.tags", weight: 0.3)
-                    .font(RemnTypography.control)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.control)
+                    .foregroundStyle(Color.inkeptGraphite)
                 FlowLayout(spacing: 6, lineSpacing: 6) {
                     ForEach(tags, id: \.tag) { item in
                         Button {

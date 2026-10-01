@@ -52,8 +52,8 @@ struct StudySessionView: View {
             if session.isActive, currentCard != nil {
                 VStack(spacing: 2) {
                     HandwrittenText(verbatim: "\(position)/\(total)")
-                        .font(RemnTypography.control)
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(Color.inkeptInk)
                         .contentTransition(.numericText())
                     StudyProgressLine(fraction: progress)
                         .frame(width: 96, height: 8)
@@ -71,7 +71,7 @@ struct StudySessionView: View {
                 if showUndo {
                     Button(action: undo) {
                         HStack(spacing: 5) {
-                            InkIcon(kind: .undo, color: .remnAccent, size: 17)
+                            InkIcon(kind: .undo, color: .inkeptAccent, size: 17)
                             HandwrittenText("undo")
                         }
                     }
@@ -94,15 +94,15 @@ struct StudySessionView: View {
                 ScrollView {
                     VStack(spacing: 14) {
                         HandwrittenText(verbatim: card.deckContext)
-                            .font(RemnTypography.note)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.note)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .lineLimit(1)
                         studyCard(card, height: cardHeight)
                     }
                     .padding(.horizontal, 22)
                     .padding(.vertical, 12)
                     .frame(maxWidth: .infinity, minHeight: proxy.size.height)
-                    .remnReadableWidth(620)
+                    .inkeptReadableWidth(620)
                 }
                 .scrollIndicators(.hidden)
                 .scrollBounceBehavior(.basedOnSize)
@@ -114,7 +114,7 @@ struct StudySessionView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
                 .padding(.bottom, 8)
-                .remnReadableWidth(620)
+                .inkeptReadableWidth(620)
         }
     }
 
@@ -143,10 +143,10 @@ struct StudySessionView: View {
             .overlay(alignment: .bottomTrailing) {
                 if revealed {
                     HStack(spacing: 7) {
-                        InkIcon(kind: .flip, color: .remnGraphite, size: 17)
+                        InkIcon(kind: .flip, color: .inkeptGraphite, size: 17)
                         HandwrittenText("study.tapFlip")
-                            .font(RemnTypography.caption)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.caption)
+                            .foregroundStyle(Color.inkeptGraphite)
                     }
                     .accessibilityHidden(true)
                 }
@@ -177,7 +177,7 @@ struct StudySessionView: View {
         ZStack(alignment: .bottom) {
             Button { revealOrFlip(card) } label: {
                 HStack(spacing: 10) {
-                    InkIcon(kind: .flip, color: .remnInk, size: 19)
+                    InkIcon(kind: .flip, color: .inkeptInk, size: 19)
                     HandwrittenText("study.showAnswer")
                 }
                 .frame(maxWidth: .infinity)
@@ -200,10 +200,10 @@ struct StudySessionView: View {
         VStack(spacing: 6) {
             HStack(spacing: 0) {
                 HandwrittenText("study.rate")
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
                 Spacer()
-                InkIconButton(kind: .info, label: "study.ratingsHelp.title", color: .remnGraphite, size: 19) {
+                InkIconButton(kind: .info, label: "study.ratingsHelp.title", color: .inkeptGraphite, size: 19) {
                     showRatingsHelp = true
                 }
                 .padding(.trailing, -8)
@@ -214,7 +214,7 @@ struct StudySessionView: View {
                     if let candidate = candidates[rating] {
                         RatingButton(
                             rating: rating,
-                            interval: RemnFormatters.interval(from: reviewTime, to: candidate.schedule.due)
+                            interval: InkeptFormatters.interval(from: reviewTime, to: candidate.schedule.due)
                         ) {
                             grade(rating, candidate: candidate, card: card)
                         }
@@ -382,9 +382,9 @@ struct StudyProgressLine: View {
         GeometryReader { proxy in
             ZStack(alignment: .leading) {
                 InkLine(seed: 2_701, pen: .hairline)
-                    .fill(Color.remnGraphite.opacity(0.7))
+                    .fill(Color.inkeptGraphite.opacity(0.7))
                 InkLine(seed: 2_702, pen: .bold)
-                    .fill(Color.remnAccent)
+                    .fill(Color.inkeptAccent)
                     .mask(alignment: .leading) {
                         Rectangle()
                             .frame(width: proxy.size.width * min(max(fraction, 0), 1))

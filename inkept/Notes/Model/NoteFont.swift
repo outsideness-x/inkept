@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Typefaces a note can be written in. Every one is on both iOS and macOS and sets Cyrillic as well as Latin.
 enum NoteFont: String, CaseIterable, Identifiable, Sendable {
-    /// The hand the rest of remn is drawn in.
+    /// The hand the rest of inkept is drawn in.
     case neucha
     case sfPro
     case sfRounded
@@ -72,7 +72,7 @@ enum NoteFont: String, CaseIterable, Identifiable, Sendable {
         case .avenirNext, .seravek, .sfPro, .sfRounded: base = 17.5
         default: base = 18.5
         }
-        return RemnPlatform.isMac ? (base * 0.88).rounded() : base
+        return InkeptPlatform.isMac ? (base * 0.88).rounded() : base
     }
 
     /// Extra space between lines, as a fraction of the size.

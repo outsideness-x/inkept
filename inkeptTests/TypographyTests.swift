@@ -4,6 +4,6 @@ import Testing
 @MainActor
 struct TypographyTests {
     @Test func bundledDisplayFontIsRegistered() {
-        #expect(RemnTypography.isDisplayFontAvailable)
+        #expect(InkeptTypography.isDisplayFontAvailable)
     }
 }

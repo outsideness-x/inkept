@@ -15,7 +15,7 @@ struct DeckDetailView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemnNavigationHeader(backTitle: deck.subject?.name) {
+            InkeptNavigationHeader(backTitle: deck.subject?.name) {
                 InkIconButton(kind: .plus, label: "card.new") { showCreateCard = true }
             }
             ScrollView {
@@ -30,8 +30,8 @@ struct DeckDetailView: View {
                         .padding(.top, 24)
                     } else {
                         HandwrittenText("count.cards \(deckCards.count)")
-                            .font(RemnTypography.note)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.note)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .padding(.top, 14)
                         LazyVStack(spacing: 14) {
                             ForEach(deckCards, id: \.id) { card in
@@ -42,13 +42,13 @@ struct DeckDetailView: View {
                                 }
                                 .buttonStyle(InkRowStyle())
                                 .overlay(alignment: .topTrailing) {
-                                    InkIconButton(kind: .more, label: "actions", color: .remnGraphite, size: 19) {
+                                    InkIconButton(kind: .more, label: "actions", color: .inkeptGraphite, size: 19) {
                                         manageCard = card
                                     }
                                     .padding(.top, 2)
                                     .padding(.trailing, 8)
                                 }
-                                .remnContextMenu(cardActions(for: card))
+                                .inkeptContextMenu(cardActions(for: card))
                             }
                         }
                         .padding(.top, 16)
@@ -57,11 +57,11 @@ struct DeckDetailView: View {
                 .padding(.horizontal, 22)
                 .padding(.top, 10)
                 .padding(.bottom, 40)
-                .remnReadableWidth()
+                .inkeptReadableWidth()
             }
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .onAppear {
             appState.currentDeckID = deck.id
             appState.currentSubjectID = deck.subject?.id
@@ -79,8 +79,8 @@ struct DeckDetailView: View {
                 .buttonStyle(InkButtonStyle(kind: .primary, seed: deck.id.inkSeed))
                 .padding(.horizontal, 20)
                 .padding(.top, 14)
-                .padding(.bottom, RemnPlatform.bottomButtonPadding)
-                .remnReadableWidth(600)
+                .padding(.bottom, InkeptPlatform.bottomButtonPadding)
+                .inkeptReadableWidth(600)
                 .background(alignment: .bottom) { PaperFade() }
             }
         }
@@ -96,7 +96,7 @@ struct DeckDetailView: View {
                 set: { if !$0 { manageCard = nil } }
             ),
             title: "card",
-            message: Text(verbatim: manageCard.map { RemnFormatters.usefulLine($0.frontMarkdown) } ?? ""),
+            message: Text(verbatim: manageCard.map { InkeptFormatters.usefulLine($0.frontMarkdown) } ?? ""),
             actions: cardActions
         )
         .handmadeDialog(

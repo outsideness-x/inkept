@@ -3,9 +3,9 @@ import Foundation
 /// Where the notes folder is. Each device remembers its own choice.
 struct VaultLocation: Codable, Equatable, Sendable {
     enum Kind: String, Codable, Sendable {
-        /// `iCloud Drive/remn`, shared by every device signed in to the same iCloud.
+        /// `iCloud Drive/inkept`, shared by every device signed in to the same iCloud.
         case iCloud
-        /// The app's own folder on this device (`On My iPhone/remn` in Files).
+        /// The app's own folder on this device (`On My iPhone/inkept` in Files).
         case device
         /// A folder the person picked, remembered with a security-scoped bookmark.
         case folder

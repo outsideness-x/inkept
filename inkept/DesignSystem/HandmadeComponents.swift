@@ -29,8 +29,8 @@ struct ScreenTitle: View {
             }
             VStack(alignment: .leading, spacing: 0) {
                 HandwrittenText(verbatim: title, weight: 0.7)
-                    .font(RemnTypography.pageTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.pageTitle)
+                    .foregroundStyle(Color.inkeptInk)
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
                 TitleSwash(seed: title.inkSeed)
@@ -46,11 +46,11 @@ struct ScreenTitle: View {
     }
 }
 
-/// Two index cards, one on top of the other: remn's mark.
+/// Two index cards, one on top of the other: inkept's mark.
 struct StackedCardsDoodle: View {
-    var ink: Color = .remnInk
-    var accent: Color = .remnAccent
-    var paper: Color = .remnCardPaper
+    var ink: Color = .inkeptInk
+    var accent: Color = .inkeptAccent
+    var paper: Color = .inkeptCardPaper
     var width: CGFloat = 58
 
     var body: some View {
@@ -90,8 +90,8 @@ struct QuietEmptyState: View {
         VStack(spacing: 26) {
             StackedCardsDoodle(width: 92)
             HandwrittenText(title)
-                .font(RemnTypography.sectionTitle)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.sectionTitle)
+                .foregroundStyle(Color.inkeptInk)
                 .multilineTextAlignment(.center)
             Button(action: action) {
                 HandwrittenText(actionTitle)
@@ -106,7 +106,7 @@ struct QuietEmptyState: View {
 
 extension View {
     /// Keeps lines of hand-drawn content a comfortable length on wide screens.
-    func remnReadableWidth(_ width: CGFloat = 640) -> some View {
+    func inkeptReadableWidth(_ width: CGFloat = 640) -> some View {
         frame(maxWidth: width)
             .frame(maxWidth: .infinity)
     }

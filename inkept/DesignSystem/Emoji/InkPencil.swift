@@ -33,9 +33,9 @@ enum InkPencil: Int, CaseIterable, Sendable {
 
     private static let colors: [Color] = allCases.map { pencil in
         switch pencil {
-        case .ink: .remnInk
-        case .graphite: .remnGraphite
-        case .paper: .remnCardPaper
+        case .ink: .inkeptInk
+        case .graphite: .inkeptGraphite
+        case .paper: .inkeptCardPaper
         case .red: tone(0xC7432F, 0xE2644C)
         case .rose: tone(0xE59AA2, 0xEBADB4)
         case .orange: tone(0xE07D3A, 0xEC9656)
@@ -59,6 +59,6 @@ enum InkPencil: Int, CaseIterable, Sendable {
     }
 
     private static func tone(_ light: UInt32, _ dark: UInt32) -> Color {
-        Color(PlatformColor.remnDynamic(light: light, dark: dark))
+        Color(PlatformColor.inkeptDynamic(light: light, dark: dark))
     }
 }

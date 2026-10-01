@@ -14,7 +14,7 @@ typealias PlatformFont = NSFont
 typealias PlatformImage = NSImage
 #endif
 
-enum RemnPlatform {
+enum InkeptPlatform {
     static var isMac: Bool {
         #if os(macOS)
         true
@@ -29,9 +29,9 @@ enum RemnPlatform {
 }
 
 extension View {
-    /// remn draws its own navigation chrome, so the system bar stays out of the way.
+    /// inkept draws its own navigation chrome, so the system bar stays out of the way.
     @ViewBuilder
-    func remnHidesSystemBar() -> some View {
+    func inkeptHidesSystemBar() -> some View {
         #if os(iOS)
         toolbar(.hidden, for: .navigationBar)
         #else
@@ -42,7 +42,7 @@ extension View {
 
     /// On the Mac a sheet only grows as large as its content asks, so give it a comfortable page.
     @ViewBuilder
-    func remnSheetFrame(width: CGFloat = 560, height: CGFloat = 640) -> some View {
+    func inkeptSheetFrame(width: CGFloat = 560, height: CGFloat = 640) -> some View {
         #if os(macOS)
         frame(minWidth: width, idealWidth: width, minHeight: height, idealHeight: height)
         #else
@@ -52,7 +52,7 @@ extension View {
 
     /// Covers the whole screen on iPhone and iPad, and the whole window on the Mac.
     @ViewBuilder
-    func remnFullScreenCover<Content: View>(
+    func inkeptFullScreenCover<Content: View>(
         isPresented: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {

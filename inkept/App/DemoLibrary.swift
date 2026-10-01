@@ -13,11 +13,11 @@ enum DemoLibrary {
     }
 
     static func makeContainer() throws -> ModelContainer {
-        let schema = Schema(versionedSchema: RemnSchemaV3.self)
+        let schema = Schema(versionedSchema: InkeptSchemaV3.self)
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)
         let container = try ModelContainer(
             for: schema,
-            migrationPlan: RemnMigrationPlan.self,
+            migrationPlan: InkeptMigrationPlan.self,
             configurations: [configuration]
         )
         seed(ModelContext(container))

@@ -64,9 +64,9 @@ struct NameEditorSheet: View {
                     iconButton
                 }
                 TextField("name", text: $name)
-                    .font(RemnTypography.display(28, relativeTo: .title2))
-                    .foregroundStyle(Color.remnInk)
-                    .tint(.remnAccent)
+                    .font(InkeptTypography.display(28, relativeTo: .title2))
+                    .foregroundStyle(Color.inkeptInk)
+                    .tint(.inkeptAccent)
                     .textFieldStyle(.plain)
                     .submitLabel(.done)
                     .focused($isFocused)
@@ -74,7 +74,7 @@ struct NameEditorSheet: View {
                     .padding(.vertical, 10)
                     .overlay(alignment: .bottom) {
                         InkLine(seed: 41, pen: .fine)
-                            .fill(Color.remnInk.opacity(0.55))
+                            .fill(Color.inkeptInk.opacity(0.55))
                             .frame(height: 6)
                             .offset(y: 2)
                     }
@@ -91,7 +91,7 @@ struct NameEditorSheet: View {
         }
         .paperBackground()
         .onAppear { isFocused = true }
-        .remnSheetFrame(width: choosesIcon ? 480 : 440, height: choosesIcon ? 250 : 170)
+        .inkeptSheetFrame(width: choosesIcon ? 480 : 440, height: choosesIcon ? 250 : 170)
         .presentationDetents([.height(choosesIcon ? 296 : 210)])
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(30)

@@ -16,18 +16,18 @@ struct StudyCompletionView: View {
                 StackedCardsDoodle(width: 84)
                 HStack(alignment: .center, spacing: 6) {
                     HandwrittenText("done.", weight: 1)
-                        .font(RemnTypography.display(54, relativeTo: .largeTitle))
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.display(54, relativeTo: .largeTitle))
+                        .foregroundStyle(Color.inkeptInk)
                         .accessibilityAddTraits(.isHeader)
                     InkTick(seed: 91, pen: .marker, progress: tick)
-                        .fill(Color.remnAccent)
+                        .fill(Color.inkeptAccent)
                         .frame(width: 46, height: 42)
                         .offset(y: -8)
                         .accessibilityHidden(true)
                 }
                 HandwrittenText(verbatim: summary)
-                    .font(RemnTypography.body)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.body)
+                    .foregroundStyle(Color.inkeptGraphite)
                     .multilineTextAlignment(.center)
             }
             .inkWritesOn(duration: 0.7)
@@ -43,7 +43,7 @@ struct StudyCompletionView: View {
                 }
                 .buttonStyle(InkButtonStyle(kind: .quiet, seed: 64))
             }
-            .remnReadableWidth(560)
+            .inkeptReadableWidth(560)
         }
         .padding(.horizontal, 24)
         .padding(.bottom, 12)

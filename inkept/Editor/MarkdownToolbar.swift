@@ -94,16 +94,16 @@ struct MarkdownToolbar: View {
                 ForEach(Array(MarkdownInsertion.allCases.enumerated()), id: \.element.id) { index, item in
                     Button { insert(item) } label: {
                         HandwrittenText(item.label)
-                            .font(RemnTypography.note)
-                            .foregroundStyle(Color.remnInk)
+                            .font(InkeptTypography.note)
+                            .foregroundStyle(Color.inkeptInk)
                             .padding(.horizontal, 14)
                             .frame(minHeight: 40)
                             .background {
                                 InkBox(
                                     seed: 601 + index * 29,
                                     cornerRadius: 10,
-                                    fill: .remnCardPaper,
-                                    outline: .remnGraphite,
+                                    fill: .inkeptCardPaper,
+                                    outline: .inkeptGraphite,
                                     pen: .hairline,
                                     registration: CGSize(width: 1, height: 1.4)
                                 )

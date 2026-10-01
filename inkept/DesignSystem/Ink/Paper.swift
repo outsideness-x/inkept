@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The sheet everything is drawn on: a flat, even tone.
 struct PaperBackground: View {
-    var tone: Color = .remnPaper
+    var tone: Color = .inkeptPaper
 
     var body: some View {
         Rectangle()

@@ -53,8 +53,8 @@ struct TypstGallerySheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     HandwrittenText("typst.gallery.message")
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .fixedSize(horizontal: false, vertical: true)
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 250), spacing: 16)], spacing: 16) {
                         blankCard
@@ -71,11 +71,11 @@ struct TypstGallerySheet: View {
                     }
                 }
                 .padding(20)
-                .remnReadableWidth(860)
+                .inkeptReadableWidth(860)
             }
         }
         .paperBackground()
-        .remnSheetFrame(width: 720, height: 780)
+        .inkeptSheetFrame(width: 720, height: 780)
         .presentationSizing(.page)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(30)
@@ -86,15 +86,15 @@ struct TypstGallerySheet: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text(verbatim: "#set text(…)\n$ E = m c^2 $")
                     .font(.system(size: 14, design: .monospaced))
-                    .foregroundStyle(Color.remnGraphite)
+                    .foregroundStyle(Color.inkeptGraphite)
                     .frame(maxWidth: .infinity, minHeight: 150, alignment: .center)
                 HandwrittenText("typst.template.blank", weight: 0.3)
-                    .font(RemnTypography.control)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.control)
+                    .foregroundStyle(Color.inkeptInk)
             }
             .padding(16)
             .background {
-                InkBox(seed: 9_001, cornerRadius: 14, fill: .remnCardPaper, outline: .remnInk.opacity(0.6), pen: .fine, registration: CGSize(width: 1.2, height: 1.6))
+                InkBox(seed: 9_001, cornerRadius: 14, fill: .inkeptCardPaper, outline: .inkeptInk.opacity(0.6), pen: .fine, registration: CGSize(width: 1.2, height: 1.6))
             }
             .contentShape(Rectangle())
         }
@@ -124,7 +124,7 @@ private struct TypstTemplateCard: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(maxHeight: 170)
                 } else if failed {
-                    InkIcon(kind: .close, color: .remnGraphite, size: 20)
+                    InkIcon(kind: .close, color: .inkeptGraphite, size: 20)
                 } else {
                     NotebookDoodle(width: 28)
                         .opacity(0.5)
@@ -132,12 +132,12 @@ private struct TypstTemplateCard: View {
             }
             .frame(maxWidth: .infinity, minHeight: 150)
             HandwrittenText(template.title, weight: 0.3)
-                .font(RemnTypography.control)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.control)
+                .foregroundStyle(Color.inkeptInk)
         }
         .padding(16)
         .background {
-            InkBox(seed: template.id.inkSeed, cornerRadius: 14, fill: .remnCardPaper, outline: .remnInk.opacity(0.6), pen: .fine, registration: CGSize(width: 1.2, height: 1.6))
+            InkBox(seed: template.id.inkSeed, cornerRadius: 14, fill: .inkeptCardPaper, outline: .inkeptInk.opacity(0.6), pen: .fine, registration: CGSize(width: 1.2, height: 1.6))
         }
         .contentShape(Rectangle())
         .task(id: dark) {

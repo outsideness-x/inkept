@@ -195,7 +195,7 @@ struct LiveStyler {
 
     private func conceal(_ range: NSRange, in storage: NSTextStorage) {
         guard range.length > 0 else { return }
-        storage.addAttribute(.remnConceal, value: true, range: range)
+        storage.addAttribute(.inkeptConceal, value: true, range: range)
     }
 
     // MARK: - Blocks
@@ -249,7 +249,7 @@ struct LiveStyler {
                 }
                 if level <= 2, NSMaxRange(marker) < textEnd {
                     let content = NSRange(location: NSMaxRange(marker), length: textEnd - NSMaxRange(marker))
-                    storage.addAttribute(.remnDecoration, value: LiveDecoration(.headingSwash(level: level), seed: 4_100 + level), range: content)
+                    storage.addAttribute(.inkeptDecoration, value: LiveDecoration(.headingSwash(level: level), seed: 4_100 + level), range: content)
                 }
             }
 
@@ -258,7 +258,7 @@ struct LiveStyler {
             storage.addAttributes([
                 .foregroundColor: LiveTheme.graphite,
                 .paragraphStyle: theme.paragraphStyle(indent: 20, after: theme.size * 0.25),
-                .remnDecoration: LiveDecoration(.quoteRule, seed: seed),
+                .inkeptDecoration: LiveDecoration(.quoteRule, seed: seed),
             ], range: block.range)
             if let marker = block.marker {
                 if active {
@@ -277,7 +277,7 @@ struct LiveStyler {
             } else if let bullet = bulletCharacter(in: marker, string: string) {
                 storage.addAttributes([
                     .foregroundColor: PlatformColor.clear,
-                    .remnDecoration: LiveDecoration(.bullet, seed: seed),
+                    .inkeptDecoration: LiveDecoration(.bullet, seed: seed),
                 ], range: bullet)
             }
 
@@ -286,7 +286,7 @@ struct LiveStyler {
             let indent = width(of: string.substring(with: marker), font: theme.bodyFont())
             storage.addAttribute(.paragraphStyle, value: theme.paragraphStyle(indent: indent, firstLineIndent: 0, after: theme.size * 0.2), range: block.range)
             storage.addAttribute(.foregroundColor, value: PlatformColor.clear, range: marker)
-            storage.addAttribute(.remnDecoration, value: LiveDecoration(.checkbox(checked: checked), seed: seed), range: box)
+            storage.addAttribute(.inkeptDecoration, value: LiveDecoration(.checkbox(checked: checked), seed: seed), range: box)
             if checked, NSMaxRange(marker) < textEnd {
                 let content = NSRange(location: NSMaxRange(marker), length: textEnd - NSMaxRange(marker))
                 storage.addAttributes([
@@ -302,7 +302,7 @@ struct LiveStyler {
             } else {
                 storage.addAttributes([
                     .foregroundColor: PlatformColor.clear,
-                    .remnDecoration: LiveDecoration(.rule, seed: 4_500 &+ seed),
+                    .inkeptDecoration: LiveDecoration(.rule, seed: 4_500 &+ seed),
                 ], range: text)
             }
 
@@ -367,7 +367,7 @@ struct LiveStyler {
             .font: theme.codeFont,
             .foregroundColor: LiveTheme.ink,
             .paragraphStyle: codeStyle,
-            .remnDecoration: LiveDecoration(.codeBox(label: active || language.isEmpty ? nil : language), seed: 4_300 + index),
+            .inkeptDecoration: LiveDecoration(.codeBox(label: active || language.isEmpty ? nil : language), seed: 4_300 + index),
         ], range: block.range)
         if let content = block.content, content.length > 0 {
             CodeHighlighter.highlight(string.substring(with: content), language: language, offset: content.location, storage: storage, theme: theme)
@@ -414,7 +414,7 @@ struct LiveStyler {
         style.minimumLineHeight = height
         style.maximumLineHeight = height
         storage.addAttribute(.paragraphStyle, value: style, range: firstLine)
-        storage.addAttribute(.remnPicture, value: picture, range: NSRange(location: block.range.location, length: 1))
+        storage.addAttribute(.inkeptPicture, value: picture, range: NSRange(location: block.range.location, length: 1))
         if firstEnd > block.range.location + 1 {
             conceal(NSRange(location: block.range.location + 1, length: firstEnd - block.range.location - 1), in: storage)
         }
@@ -444,12 +444,12 @@ struct LiveStyler {
         let style = ((storage.attribute(.paragraphStyle, at: lastLine.location, effectiveRange: nil) as? NSParagraphStyle)
             ?? theme.paragraphStyle()).mutableCopy() as! NSMutableParagraphStyle
         style.paragraphSpacing = picture.size.height + theme.size * 1.4
-        storage.addAttributes([.paragraphStyle: style, .remnPreview: picture], range: lastLine)
+        storage.addAttributes([.paragraphStyle: style, .inkeptPreview: picture], range: lastLine)
     }
 
     private func collapse(_ line: NSRange, in storage: NSTextStorage, string: NSString) {
         storage.addAttributes([
-            .remnCollapse: true,
+            .inkeptCollapse: true,
             .paragraphStyle: theme.collapsedParagraphStyle,
             .font: PlatformFont.systemFont(ofSize: 0.5),
         ], range: line)
@@ -486,13 +486,13 @@ struct LiveStyler {
             ], range: inline.content)
             hideOrDim(inline.markers)
         case .highlight:
-            storage.addAttribute(.remnDecoration, value: LiveDecoration(.highlight, seed: seed), range: inline.content)
+            storage.addAttribute(.inkeptDecoration, value: LiveDecoration(.highlight, seed: seed), range: inline.content)
             hideOrDim(inline.markers)
         case .code:
             storage.addAttributes([
                 .font: theme.codeFont,
                 .foregroundColor: LiveTheme.ink,
-                .remnDecoration: LiveDecoration(.inlineCode, seed: seed),
+                .inkeptDecoration: LiveDecoration(.inlineCode, seed: seed),
             ], range: inline.content)
             storage.removeAttribute(.strokeWidth, range: inline.range)
             if active {
@@ -509,7 +509,7 @@ struct LiveStyler {
                 storage.removeAttribute(.strokeWidth, range: inline.range)
             } else {
                 let picture = picture(LivePictureRequest(kind: .inlineMath, source: latex))
-                storage.addAttribute(.remnPicture, value: picture, range: NSRange(location: inline.range.location, length: 1))
+                storage.addAttribute(.inkeptPicture, value: picture, range: NSRange(location: inline.range.location, length: 1))
                 conceal(NSRange(location: inline.range.location + 1, length: inline.range.length - 1), in: storage)
             }
         case .link, .wikiLink:
@@ -528,7 +528,7 @@ struct LiveStyler {
                 storage.addAttributes([.font: theme.codeFont, .foregroundColor: LiveTheme.graphite], range: inline.range)
             } else {
                 let picture = picture(LivePictureRequest(kind: .image, source: url))
-                storage.addAttribute(.remnPicture, value: picture, range: NSRange(location: inline.range.location, length: 1))
+                storage.addAttribute(.inkeptPicture, value: picture, range: NSRange(location: inline.range.location, length: 1))
                 conceal(NSRange(location: inline.range.location + 1, length: inline.range.length - 1), in: storage)
             }
         case .tag:

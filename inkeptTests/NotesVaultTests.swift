@@ -77,7 +77,7 @@ struct FrontMatterTests {
 struct VaultTests {
     private func makeVault() throws -> (Vault, URL) {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("remn-vault-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("inkept-vault-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         return (Vault(rootURL: root), root)
     }

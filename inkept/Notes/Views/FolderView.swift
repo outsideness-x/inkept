@@ -6,7 +6,7 @@ struct FolderView: View {
     @Environment(Vault.self) private var vault
     @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.remnIsNavigationRoot) private var isColumnRoot
+    @Environment(\.inkeptIsNavigationRoot) private var isColumnRoot
 
     let path: String
     /// The first page of the notes tab on iPhone, with the tab bar under it.
@@ -33,7 +33,7 @@ struct FolderView: View {
     var body: some View {
         VStack(spacing: 0) {
             if !isTabRoot {
-                RemnNavigationHeader(backTitle: backTitle) {
+                InkeptNavigationHeader(backTitle: backTitle) {
                     HStack(spacing: 0) {
                         InkIconButton(kind: .plus, label: "notes.new") { createNote() }
                         InkIconButton(kind: .more, label: "actions") { showActions = true }
@@ -48,7 +48,7 @@ struct FolderView: View {
                 }
                 .padding(.horizontal, 22)
                 .padding(.top, isTabRoot ? 6 : 10)
-                .remnReadableWidth()
+                .inkeptReadableWidth()
                 NoteGraphView(scope: .folder(path)) { route in
                     appState.notesPath.append(route)
                 }
@@ -74,32 +74,32 @@ struct FolderView: View {
                     .padding(.horizontal, 22)
                     .padding(.top, isTabRoot ? 6 : 10)
                     .padding(.bottom, 40)
-                    .remnReadableWidth(shownMode == .board ? 1_060 : 640)
+                    .inkeptReadableWidth(shownMode == .board ? 1_060 : 640)
                 }
             }
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .onAppear { appState.currentNotesFolder = path }
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
                 Button(action: createNote) {
                     HStack(spacing: 12) {
-                        NotebookDoodle(ink: .remnOnAccent, accent: .remnOnAccent, paper: .remnAccent, width: 22)
+                        NotebookDoodle(ink: .inkeptOnAccent, accent: .inkeptOnAccent, paper: .inkeptAccent, width: 22)
                         HandwrittenText("notes.new", weight: 0.5)
                         Spacer()
-                        InkIcon(kind: .plus, color: .remnOnAccent, size: 20)
+                        InkIcon(kind: .plus, color: .inkeptOnAccent, size: 20)
                     }
                     .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(InkButtonStyle(kind: .primary, seed: path.inkSeed ^ 0x77))
                 .padding(.horizontal, 20)
                 .padding(.top, 14)
-                .padding(.bottom, isTabRoot ? 4 : RemnPlatform.bottomButtonPadding)
-                .remnReadableWidth(600)
+                .padding(.bottom, isTabRoot ? 4 : InkeptPlatform.bottomButtonPadding)
+                .inkeptReadableWidth(600)
                 if isTabRoot {
                     @Bindable var appState = appState
-                    RemnTabBar(selection: $appState.section)
+                    InkeptTabBar(selection: $appState.section)
                 }
             }
             .background(alignment: .bottom) { PaperFade() }
@@ -203,8 +203,8 @@ struct FolderView: View {
     private func board(_ folder: VaultFolder) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HandwrittenText("count.notes \(folder.totalNoteCount)")
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
             NoteBoard(folder: folder)
                 .padding(.top, 22)
         }
@@ -233,8 +233,8 @@ struct FolderView: View {
             VStack(spacing: 24) {
                 NotebookDoodle(width: 84)
                 HandwrittenText(path.isEmpty ? "notes.empty.root" : "notes.empty.folder")
-                    .font(RemnTypography.sectionTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.sectionTitle)
+                    .foregroundStyle(Color.inkeptInk)
                     .multilineTextAlignment(.center)
                 if path.isEmpty {
                     Button { showNewFolder = true } label: {
@@ -248,8 +248,8 @@ struct FolderView: View {
             .padding(.vertical, 48)
         } else {
             HandwrittenText("count.notes \(total)")
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
                 .padding(.top, isTabRoot ? 2 : 14)
 
             if isTabRoot, !vault.tags.isEmpty {
@@ -273,12 +273,12 @@ struct FolderView: View {
                                 FolderRow(folder: child)
                             }
                             .buttonStyle(InkRowStyle())
-                            InkIconButton(kind: .more, label: "actions", color: .remnGraphite, size: 20) {
+                            InkIconButton(kind: .more, label: "actions", color: .inkeptGraphite, size: 20) {
                                 manageFolder = child
                             }
                             .padding(.trailing, -10)
                         }
-                        .remnContextMenu(folderActions(for: child))
+                        .inkeptContextMenu(folderActions(for: child))
                     }
                 }
                 .padding(.top, 18)
@@ -287,7 +287,7 @@ struct FolderView: View {
             if path.isEmpty || !folder.folders.isEmpty {
                 Button { showNewFolder = true } label: {
                     HStack(spacing: 8) {
-                        InkIcon(kind: .plus, color: .remnAccent, size: 18)
+                        InkIcon(kind: .plus, color: .inkeptAccent, size: 18)
                         HandwrittenText("notes.folder.new")
                     }
                 }
@@ -358,8 +358,8 @@ struct FolderRow: View {
             SubjectIconSlot(icon: folder.icon, size: compact ? 28 : 38)
             VStack(alignment: .leading, spacing: compact ? 2 : 5) {
                 HandwrittenText(verbatim: folder.name, weight: 0.3)
-                    .font(compact ? RemnTypography.display(22, relativeTo: .title3) : RemnTypography.rowTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(compact ? InkeptTypography.display(22, relativeTo: .title3) : InkeptTypography.rowTitle)
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                 HStack(spacing: 8) {
@@ -370,8 +370,8 @@ struct FolderRow: View {
                         HandwrittenText("count.folders \(folder.folders.count)")
                     }
                 }
-                .font(compact ? RemnTypography.caption : RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(compact ? InkeptTypography.caption : InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
             }
@@ -392,7 +392,7 @@ struct TagNotesView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemnNavigationHeader(backTitle: String(localized: "section.notes"))
+            InkeptNavigationHeader(backTitle: String(localized: "section.notes"))
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     if tag.isEmpty {
@@ -401,8 +401,8 @@ struct TagNotesView: View {
                         ScreenTitle(title: "#\(tag)")
                     }
                     HandwrittenText("count.notes \(notes.count)")
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .padding(.top, 14)
                     LazyVStack(spacing: 14) {
                         ForEach(notes) { note in
@@ -417,36 +417,36 @@ struct TagNotesView: View {
                 .padding(.horizontal, 22)
                 .padding(.top, 10)
                 .padding(.bottom, 40)
-                .remnReadableWidth()
+                .inkeptReadableWidth()
             }
             .scrollDismissesKeyboard(.interactively)
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .onAppear { if tag.isEmpty { searchFocused = true } }
     }
 
     private var searchField: some View {
         HStack(spacing: 12) {
-            InkIcon(kind: .search, color: .remnGraphite, size: 21)
+            InkIcon(kind: .search, color: .inkeptGraphite, size: 21)
             TextField("notes.search.placeholder", text: $query)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif
                 .autocorrectionDisabled()
-                .font(RemnTypography.display(24, relativeTo: .title3))
-                .foregroundStyle(Color.remnInk)
-                .tint(.remnAccent)
+                .font(InkeptTypography.display(24, relativeTo: .title3))
+                .foregroundStyle(Color.inkeptInk)
+                .tint(.inkeptAccent)
                 .focused($searchFocused)
             if !query.isEmpty {
-                InkIconButton(kind: .close, label: "search.clear", color: .remnGraphite, size: 15) { query = "" }
+                InkIconButton(kind: .close, label: "search.clear", color: .inkeptGraphite, size: 15) { query = "" }
                     .padding(.trailing, -12)
             }
         }
         .frame(minHeight: 44)
         .overlay(alignment: .bottom) {
             InkLine(seed: 8_301, pen: .fine)
-                .fill(Color.remnInk.opacity(0.55))
+                .fill(Color.inkeptInk.opacity(0.55))
                 .frame(height: 6)
                 .offset(y: 2)
         }

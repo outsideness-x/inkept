@@ -48,8 +48,8 @@ private struct TimelineDay: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HandwrittenText(verbatim: title, weight: 0.4)
-                .font(RemnTypography.control)
-                .foregroundStyle(isToday ? Color.remnAccent : Color.remnInk)
+                .font(InkeptTypography.control)
+                .foregroundStyle(isToday ? Color.inkeptAccent : Color.inkeptInk)
                 .accessibilityAddTraits(.isHeader)
             ForEach(notes) { note in
                 NavigationLink(value: NotesRoute.note(note.path)) {
@@ -65,13 +65,13 @@ private struct TimelineDay: View {
             ZStack(alignment: .top) {
                 if !isLast {
                     InkLine(seed: seed, pen: .hairline, vertical: true)
-                        .fill(Color.remnInk.opacity(0.3))
+                        .fill(Color.inkeptInk.opacity(0.3))
                         .frame(width: 6)
                         .padding(.top, 16)
                 }
                 InkEllipse(seed: seed, pen: .fine)
-                    .fill(isToday ? Color.remnAccent : Color.remnInk)
-                    .background(Circle().fill(isToday ? Color.remnAccent.opacity(0.25) : Color.remnCardPaper).padding(1))
+                    .fill(isToday ? Color.inkeptAccent : Color.inkeptInk)
+                    .background(Circle().fill(isToday ? Color.inkeptAccent.opacity(0.25) : Color.inkeptCardPaper).padding(1))
                     .frame(width: 13, height: 13)
                     .padding(.top, 9)
             }
@@ -112,14 +112,14 @@ private struct TimelineEntry: View {
                 .padding(.top, 2)
             VStack(alignment: .leading, spacing: 2) {
                 HandwrittenText(verbatim: note.title, weight: 0.3)
-                    .font(RemnTypography.display(21, relativeTo: .headline))
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.display(21, relativeTo: .headline))
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                 if !note.snippet.isEmpty {
                     HandwrittenText(verbatim: note.snippet)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                 }
@@ -130,8 +130,8 @@ private struct TimelineEntry: View {
                             .lineLimit(1)
                     }
                 }
-                .font(RemnTypography.caption)
-                .foregroundStyle(Color.remnGraphite.opacity(0.85))
+                .font(InkeptTypography.caption)
+                .foregroundStyle(Color.inkeptGraphite.opacity(0.85))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -159,8 +159,8 @@ struct NoteRhythm: View {
         let total = columns.joined().compactMap { $0 }.reduce(0) { $0 + (counts[$1] ?? 0) }
         VStack(alignment: .leading, spacing: 10) {
             HandwrittenText("notes.timeline.rhythm \(total)")
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
             HStack(alignment: .top, spacing: 6) {
                 VStack(alignment: .trailing, spacing: Self.gap) {
                     Color.clear.frame(width: 1, height: Self.labelHeight)
@@ -189,7 +189,7 @@ struct NoteRhythm: View {
     private func label(_ text: String) -> some View {
         HandwrittenText(verbatim: text)
             .font(.custom("Neucha", fixedSize: 12.5))
-            .foregroundStyle(Color.remnGraphite)
+            .foregroundStyle(Color.inkeptGraphite)
     }
 
     @ViewBuilder
@@ -199,14 +199,14 @@ struct NoteRhythm: View {
             if let day {
                 if count > 0 {
                     InkPatch(seed: seed, cornerRadius: 3)
-                        .fill(Color.remnAccent.opacity(min(0.3 + Double(count) * 0.22, 0.95)))
+                        .fill(Color.inkeptAccent.opacity(min(0.3 + Double(count) * 0.22, 0.95)))
                 } else {
                     InkPatch(seed: seed, cornerRadius: 3)
-                        .fill(Color.remnInk.opacity(0.06))
+                        .fill(Color.inkeptInk.opacity(0.06))
                 }
                 if Calendar.current.isDateInToday(day) {
                     InkRoundedRect(seed: seed, cornerRadius: 3, pen: .hairline)
-                        .fill(Color.remnInk)
+                        .fill(Color.inkeptInk)
                 }
             }
         }

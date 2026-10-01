@@ -8,21 +8,21 @@ struct SearchView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemnNavigationHeader(backTitle: String(localized: "library"))
+            InkeptNavigationHeader(backTitle: String(localized: "library"))
             HStack(spacing: 12) {
-                InkIcon(kind: .search, color: .remnGraphite, size: 21)
+                InkIcon(kind: .search, color: .inkeptGraphite, size: 21)
                 TextField("search.placeholder", text: $query)
                     #if os(iOS)
                     .textInputAutocapitalization(.never)
                     #endif
                     .autocorrectionDisabled()
                     .submitLabel(.search)
-                    .font(RemnTypography.display(24, relativeTo: .title3))
-                    .foregroundStyle(Color.remnInk)
-                    .tint(.remnAccent)
+                    .font(InkeptTypography.display(24, relativeTo: .title3))
+                    .foregroundStyle(Color.inkeptInk)
+                    .tint(.inkeptAccent)
                     .focused($focused)
                 if !query.isEmpty {
-                    InkIconButton(kind: .close, label: "search.clear", color: .remnGraphite, size: 15) {
+                    InkIconButton(kind: .close, label: "search.clear", color: .inkeptGraphite, size: 15) {
                         query = ""
                     }
                     .padding(.trailing, -12)
@@ -32,34 +32,34 @@ struct SearchView: View {
             .padding(.vertical, 4)
             .overlay(alignment: .bottom) {
                 InkLine(seed: 64, pen: .fine)
-                    .fill(Color.remnInk.opacity(0.55))
+                    .fill(Color.inkeptInk.opacity(0.55))
                     .frame(height: 6)
                     .offset(y: 2)
             }
             .padding(.horizontal, 24)
             .padding(.top, 6)
-            .remnReadableWidth()
+            .inkeptReadableWidth()
 
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 14) {
                     if query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         HandwrittenText("search.prompt")
-                            .font(RemnTypography.body)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.body)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .padding(.top, 22)
                     } else if results.isEmpty {
                         VStack(spacing: 18) {
                             StackedCardsDoodle(width: 70)
                             HandwrittenText("search.empty")
-                                .font(RemnTypography.sectionTitle)
-                                .foregroundStyle(Color.remnGraphite)
+                                .font(InkeptTypography.sectionTitle)
+                                .foregroundStyle(Color.inkeptGraphite)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.top, 56)
                     } else {
                         HandwrittenText("count.cards \(results.count)")
-                            .font(RemnTypography.note)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.note)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .padding(.top, 16)
                         ForEach(results, id: \.id) { card in
                             NavigationLink {
@@ -73,12 +73,12 @@ struct SearchView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 36)
-                .remnReadableWidth()
+                .inkeptReadableWidth()
             }
             .scrollDismissesKeyboard(.interactively)
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .onAppear { focused = query.isEmpty }
     }
 
@@ -97,17 +97,17 @@ private struct SearchResultRow: View {
         FlashcardSurface(seed: card.id.inkSeed, style: .compact) {
             VStack(alignment: .leading, spacing: 8) {
                 HandwrittenText(verbatim: context)
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
                     .lineLimit(1)
-                HandwrittenText(verbatim: RemnFormatters.usefulLine(card.frontMarkdown))
-                    .font(RemnTypography.display(22, relativeTo: .body))
-                    .foregroundStyle(Color.remnInk)
+                HandwrittenText(verbatim: InkeptFormatters.usefulLine(card.frontMarkdown))
+                    .font(InkeptTypography.display(22, relativeTo: .body))
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(3)
                     .multilineTextAlignment(.leading)
-                HandwrittenText(verbatim: RemnFormatters.dueStatus(for: card))
-                    .font(RemnTypography.note)
-                    .foregroundStyle(card.state != .new && card.due <= .now ? Color.remnAccent : Color.remnGraphite)
+                HandwrittenText(verbatim: InkeptFormatters.dueStatus(for: card))
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(card.state != .new && card.due <= .now ? Color.inkeptAccent : Color.inkeptGraphite)
             }
         }
         .accessibilityElement(children: .combine)

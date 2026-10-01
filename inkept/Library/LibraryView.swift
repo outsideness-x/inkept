@@ -53,11 +53,11 @@ struct LibraryView: View {
             .padding(.horizontal, isSidebar ? 16 : 22)
             .padding(.top, topInset)
             .padding(.bottom, 40)
-            .remnReadableWidth()
+            .inkeptReadableWidth()
         }
         .scrollIndicators(isSidebar ? .never : .automatic)
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
                 if !cards.isEmpty {
@@ -65,7 +65,7 @@ struct LibraryView: View {
                 }
                 if !isSidebar {
                     @Bindable var appState = appState
-                    RemnTabBar(selection: $appState.section)
+                    InkeptTabBar(selection: $appState.section)
                 }
             }
             .background(alignment: .bottom) { PaperFade() }
@@ -133,7 +133,7 @@ struct LibraryView: View {
 
     /// Room for the window buttons, which sit on the paper at the top of the sidebar on the Mac.
     private var topInset: CGFloat {
-        isSidebar && RemnPlatform.isMac ? 30 : 6
+        isSidebar && InkeptPlatform.isMac ? 30 : 6
     }
 
     @ViewBuilder
@@ -153,8 +153,8 @@ struct LibraryView: View {
     private var phoneHeader: some View {
         HStack(alignment: .center, spacing: 0) {
             HandwrittenText("remn", weight: 1)
-                .font(RemnTypography.wordmark)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.wordmark)
+                .foregroundStyle(Color.inkeptInk)
                 .accessibilityAddTraits(.isHeader)
                 .inkWritesOn(duration: 0.55)
             Spacer()
@@ -191,8 +191,8 @@ struct LibraryView: View {
                 HandwrittenText("home.noCards")
             }
         }
-        .font(isSidebar ? RemnTypography.note : RemnTypography.body)
-        .foregroundStyle(Color.remnGraphite)
+        .font(isSidebar ? InkeptTypography.note : InkeptTypography.body)
+        .foregroundStyle(Color.inkeptGraphite)
         .fixedSize(horizontal: false, vertical: true)
     }
 
@@ -218,12 +218,12 @@ struct LibraryView: View {
                     }
                     .buttonStyle(SidebarRowStyle(isSelected: isSelected, seed: subject.id.inkSeed))
                     .overlay(alignment: .trailing) {
-                        InkIconButton(kind: .more, label: "actions", color: .remnGraphite, size: 18) {
+                        InkIconButton(kind: .more, label: "actions", color: .inkeptGraphite, size: 18) {
                             manageSubject = subject
                         }
                         .padding(.trailing, 2)
                     }
-                    .remnContextMenu(subjectActions(for: subject))
+                    .inkeptContextMenu(subjectActions(for: subject))
                     .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
             }
@@ -246,7 +246,7 @@ struct LibraryView: View {
                         }
                         .buttonStyle(InkRowStyle())
 
-                        InkIconButton(kind: .more, label: "actions", color: .remnGraphite, size: 20) {
+                        InkIconButton(kind: .more, label: "actions", color: .inkeptGraphite, size: 20) {
                             manageSubject = subject
                         }
                         .padding(.trailing, -10)
@@ -259,7 +259,7 @@ struct LibraryView: View {
     private var newSubjectButton: some View {
         Button { showCreate = true } label: {
             HStack(spacing: 8) {
-                InkIcon(kind: .plus, color: .remnAccent, size: 18)
+                InkIcon(kind: .plus, color: .inkeptAccent, size: 18)
                 HandwrittenText("subject.new")
             }
         }
@@ -283,14 +283,14 @@ struct LibraryView: View {
             } label: {
                 HStack(spacing: 14) {
                     StackedCardsDoodle(
-                        ink: .remnOnAccent,
-                        accent: .remnOnAccent,
-                        paper: .remnAccent,
+                        ink: .inkeptOnAccent,
+                        accent: .inkeptOnAccent,
+                        paper: .inkeptAccent,
                         width: 36
                     )
                     HandwrittenText("study", weight: 0.6)
                     Spacer()
-                    InkIcon(kind: .forward, color: .remnOnAccent, size: 22)
+                    InkIcon(kind: .forward, color: .inkeptOnAccent, size: 22)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -298,8 +298,8 @@ struct LibraryView: View {
         }
         .padding(.horizontal, isSidebar ? 14 : 20)
         .padding(.top, 14)
-        .padding(.bottom, isSidebar ? max(14, RemnPlatform.bottomButtonPadding) : 4)
-        .remnReadableWidth(600)
+        .padding(.bottom, isSidebar ? max(14, InkeptPlatform.bottomButtonPadding) : 4)
+        .inkeptReadableWidth(600)
     }
 
     private var activeSession: StudySessionRecord? {

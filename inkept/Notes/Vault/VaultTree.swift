@@ -96,7 +96,7 @@ struct VaultFolder: Identifiable, Hashable, Sendable {
     }
 }
 
-/// What remn keeps about a folder besides its notes — for now, the subject's icon — in a hidden
+/// What inkept keeps about a folder besides its notes — for now, the subject's icon — in a hidden
 /// `.remn.json` inside it. It travels with the folder when it's renamed or moved, in any app,
 /// and Obsidian and Finder leave hidden files alone.
 enum VaultFolderInfo {
@@ -319,7 +319,7 @@ enum VaultFiles {
         try result.get()
     }
 
-    /// Removes a file outright, for remn's own bookkeeping; notes go to the Trash instead.
+    /// Removes a file outright, for inkept's own bookkeeping; notes go to the Trash instead.
     static func remove(_ url: URL) throws {
         var result: Result<Void, Error> = .success(())
         var coordinationError: NSError?

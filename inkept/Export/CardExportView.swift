@@ -7,8 +7,8 @@ struct CardExportView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HandwrittenText(verbatim: card.deckContext)
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
             FlashcardSurface(seed: card.id.inkSeed, style: .export) {
                 VStack(alignment: .leading, spacing: 0) {
                     FlashcardSideLabel(title: "card.front")
@@ -17,7 +17,7 @@ struct CardExportView: View {
                         .padding(.bottom, 14)
                     CardContentView(markdown: card.frontMarkdown, context: .export)
                     InkDashes(seed: card.id.inkSeed ^ 0x22)
-                        .fill(Color.remnGraphite.opacity(0.6))
+                        .fill(Color.inkeptGraphite.opacity(0.6))
                         .frame(height: 6)
                         .padding(.vertical, 18)
                     FlashcardSideLabel(title: "card.back")
@@ -29,14 +29,14 @@ struct CardExportView: View {
                 Spacer()
                 StackedCardsDoodle(width: 30)
                 HandwrittenText("remn", weight: 0.8)
-                    .font(RemnTypography.display(22, relativeTo: .body))
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.display(22, relativeTo: .body))
+                    .foregroundStyle(Color.inkeptInk)
             }
         }
         .padding(30)
         .frame(width: 540, alignment: .leading)
         .fixedSize(horizontal: false, vertical: true)
-        .background(Color.remnPaper)
+        .background(Color.inkeptPaper)
         .environment(\.colorScheme, .light)
     }
 }

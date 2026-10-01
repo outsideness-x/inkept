@@ -6,7 +6,7 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var context
     @Environment(Vault.self) private var vault
     @Environment(AppState.self) private var appState: AppState?
-    @Environment(\.remnIsNavigationRoot) private var isColumnRoot
+    @Environment(\.inkeptIsNavigationRoot) private var isColumnRoot
     @AppStorage("desiredRetention") private var desiredRetention = 0.90
     @AppStorage("appearanceMode") private var appearanceMode = AppearanceMode.system.rawValue
 
@@ -19,7 +19,7 @@ struct SettingsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemnNavigationHeader(backTitle: String(localized: "library")) {
+            InkeptNavigationHeader(backTitle: String(localized: "library")) {
                 if isColumnRoot {
                     Button {
                         withAnimation(.easeOut(duration: 0.18)) { appState?.showsSettings = false }
@@ -47,11 +47,11 @@ struct SettingsView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 10)
                 .padding(.bottom, 44)
-                .remnReadableWidth()
+                .inkeptReadableWidth()
             }
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .fileExporter(
             isPresented: $showExporter,
             document: exportDocument,
@@ -91,8 +91,8 @@ struct SettingsView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             HandwrittenText(title, weight: 0.4)
-                .font(RemnTypography.sectionTitle)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.sectionTitle)
+                .foregroundStyle(Color.inkeptInk)
                 .accessibilityAddTraits(.isHeader)
             content()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -103,12 +103,12 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline) {
                 HandwrittenText("settings.retention")
-                    .font(RemnTypography.control)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.control)
+                    .foregroundStyle(Color.inkeptInk)
                 Spacer()
                 HandwrittenText(verbatim: desiredRetention.formatted(.percent.precision(.fractionLength(0))), weight: 0.6)
-                    .font(RemnTypography.display(26, relativeTo: .title3))
-                    .foregroundStyle(Color.remnAccent)
+                    .font(InkeptTypography.display(26, relativeTo: .title3))
+                    .foregroundStyle(Color.inkeptAccent)
                     .contentTransition(.numericText())
                     .animation(.snappy, value: desiredRetention)
             }
@@ -120,14 +120,14 @@ struct SettingsView: View {
                 marks: [0.90]
             )
             HandwrittenText("settings.retention.help")
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 2)
             Button { showSRSExplanation = true } label: {
                 HStack(spacing: 8) {
                     HandwrittenText("settings.srs.open")
-                    InkIcon(kind: .forward, color: .remnAccent, size: 17)
+                    InkIcon(kind: .forward, color: .inkeptAccent, size: 17)
                 }
             }
             .buttonStyle(InkButtonStyle(kind: .quiet, seed: 144))
@@ -162,15 +162,15 @@ struct SettingsView: View {
     private var notesSettings: some View {
         Button { showVaultSetup = true } label: {
             HStack(alignment: .top, spacing: 14) {
-                InkIcon(kind: vault.location?.kind == .iCloud ? .cloud : .folder, color: .remnInk, size: 24)
+                InkIcon(kind: vault.location?.kind == .iCloud ? .cloud : .folder, color: .inkeptInk, size: 24)
                     .frame(width: 28, height: 28)
                 VStack(alignment: .leading, spacing: 2) {
                     HandwrittenText(verbatim: vaultTitle)
-                        .font(RemnTypography.control)
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(Color.inkeptInk)
                     HandwrittenText("settings.notes.change")
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnAccent)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptAccent)
                 }
                 Spacer(minLength: 0)
             }
@@ -193,15 +193,15 @@ struct SettingsView: View {
     private var syncRow: some View {
         let isSignedIn = FileManager.default.ubiquityIdentityToken != nil
         return HStack(alignment: .top, spacing: 14) {
-            InkIcon(kind: .cloud, color: isSignedIn ? .remnInk : .remnGraphite, size: 24)
+            InkIcon(kind: .cloud, color: isSignedIn ? .inkeptInk : .inkeptGraphite, size: 24)
                 .frame(width: 28, height: 28)
             VStack(alignment: .leading, spacing: 2) {
                 HandwrittenText("sync.icloud")
-                    .font(RemnTypography.control)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.control)
+                    .foregroundStyle(Color.inkeptInk)
                 HandwrittenText(isSignedIn ? "sync.on" : "sync.off")
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
@@ -218,15 +218,15 @@ struct SettingsView: View {
     ) -> some View {
         Button(action: action) {
             HStack(alignment: .top, spacing: 14) {
-                InkIcon(kind: icon, color: .remnInk, size: 22)
+                InkIcon(kind: icon, color: .inkeptInk, size: 22)
                     .frame(width: 28, height: 28)
                 VStack(alignment: .leading, spacing: 2) {
                     HandwrittenText(title)
-                        .font(RemnTypography.control)
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(Color.inkeptInk)
                     HandwrittenText(note)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
@@ -274,46 +274,46 @@ struct SettingsView: View {
     }
 }
 
-/// The colophon: what remn is, and whose cards these are.
+/// The colophon: what inkept is, and whose cards these are.
 private struct AboutCard: View {
     var body: some View {
         FlashcardSurface(seed: 734, style: .regular) {
             VStack(alignment: .leading, spacing: 14) {
                 HStack(alignment: .center) {
                     HandwrittenText("remn", weight: 1)
-                        .font(RemnTypography.display(40, relativeTo: .title))
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.display(40, relativeTo: .title))
+                        .foregroundStyle(Color.inkeptInk)
                     Spacer()
                     StackedCardsDoodle(width: 50)
                 }
                 HandwrittenText("about.tagline")
-                    .font(RemnTypography.body)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.body)
+                    .foregroundStyle(Color.inkeptInk)
                     .fixedSize(horizontal: false, vertical: true)
                 InkDashes(seed: 735)
-                    .fill(Color.remnGraphite.opacity(0.6))
+                    .fill(Color.inkeptGraphite.opacity(0.6))
                     .frame(height: 6)
                 HStack(alignment: .center, spacing: 14) {
                     VStack(alignment: .leading, spacing: 3) {
                         HandwrittenText("about.openSource")
-                            .font(RemnTypography.note)
-                            .foregroundStyle(Color.remnInk)
+                            .font(InkeptTypography.note)
+                            .foregroundStyle(Color.inkeptInk)
                         HandwrittenText(verbatim: versionText)
-                            .font(RemnTypography.caption)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.caption)
+                            .foregroundStyle(Color.inkeptGraphite)
                     }
                     Spacer()
                     HandwrittenText(verbatim: "MIT", weight: 0.8)
-                        .font(RemnTypography.display(24, relativeTo: .title3))
-                        .foregroundStyle(Color.remnAccent)
+                        .font(InkeptTypography.display(24, relativeTo: .title3))
+                        .foregroundStyle(Color.inkeptAccent)
                         .inkCircled(seed: 738, inset: CGSize(width: -12, height: -6))
                         .rotationEffect(.degrees(-4))
                         .padding(.trailing, 10)
                         .accessibilityLabel(Text("about.mit"))
                 }
                 HandwrittenText("about.ownership")
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }

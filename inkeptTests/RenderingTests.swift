@@ -89,7 +89,7 @@ struct RenderingTests {
             )
             .frame(width: 320)
             .padding(24)
-            .background(Color.remnPaper)
+            .background(Color.inkeptPaper)
             .environment(\.colorScheme, .dark)
         )
         renderer.scale = 3
@@ -97,7 +97,7 @@ struct RenderingTests {
         let image = try #require(renderer.uiImage)
         let png = try #require(image.pngData())
         let output = FileManager.default.temporaryDirectory
-            .appendingPathComponent("remn-math-render.png")
+            .appendingPathComponent("inkept-math-render.png")
         try png.write(to: output, options: .atomic)
 
         #expect(image.size.width == 368)

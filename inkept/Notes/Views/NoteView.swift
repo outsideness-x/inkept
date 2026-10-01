@@ -48,7 +48,7 @@ struct NoteView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemnNavigationHeader(backTitle: folderTitle) {
+            InkeptNavigationHeader(backTitle: folderTitle) {
                 HStack(spacing: 0) {
                     InkIconButton(kind: .links, label: "notes.links") { showsLinks.wrappedValue.toggle() }
                     InkIconButton(kind: .typeface, label: "notes.font") { showFonts = true }
@@ -59,8 +59,8 @@ struct NoteView: View {
                 VStack(spacing: 16) {
                     NotebookDoodle(width: 60)
                     HandwrittenText(verbatim: loadError)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .multilineTextAlignment(.center)
                 }
                 .padding(30)
@@ -82,7 +82,7 @@ struct NoteView: View {
             }
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .safeAreaInset(edge: .bottom) {
             if isLoaded, showsToolbar {
                 NoteToolbar(controller: controller, onInsertTypst: { showTypstGallery = true }, onInsertImage: {
@@ -196,11 +196,11 @@ struct NoteView: View {
     }
 
     private var showsLinks: Binding<Bool> {
-        RemnPlatform.isMac ? $showsLinksBeside : $showsLinksHere
+        InkeptPlatform.isMac ? $showsLinksBeside : $showsLinksHere
     }
 
     private var showsToolbar: Bool {
-        RemnPlatform.isMac || controller.isFocused
+        InkeptPlatform.isMac || controller.isFocused
     }
 
     private var folderTitle: String {
@@ -305,7 +305,7 @@ struct NoteView: View {
 
     /// Goes to a note from the links panel, which on iPhone and iPad is closed on the way.
     private func openLinked(_ target: String) {
-        if !RemnPlatform.isMac { showsLinksHere = false }
+        if !InkeptPlatform.isMac { showsLinksHere = false }
         appState.notesPath.append(.note(target))
     }
 
@@ -432,8 +432,8 @@ struct NoteHeader: View {
             VStack(alignment: .leading, spacing: 2) {
                 TextField("notes.title.placeholder", text: $title, axis: .vertical)
                     .font(titleFont)
-                    .foregroundStyle(Color.remnInk)
-                    .tint(.remnAccent)
+                    .foregroundStyle(Color.inkeptInk)
+                    .tint(.inkeptAccent)
                     .textFieldStyle(.plain)
                     .focused($titleFocused)
                     .onChange(of: title) { _, value in
@@ -459,10 +459,10 @@ struct NoteHeader: View {
                 }
                 Button(action: onEditTags) {
                     HStack(spacing: 4) {
-                        InkIcon(kind: .plus, color: .remnGraphite, size: 13)
+                        InkIcon(kind: .plus, color: .inkeptGraphite, size: 13)
                         HandwrittenText(shownTags.isEmpty ? "notes.tags.add" : "notes.tags.edit")
-                            .font(RemnTypography.note)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.note)
+                            .foregroundStyle(Color.inkeptGraphite)
                     }
                     .padding(.vertical, 5)
                     .padding(.horizontal, 4)
@@ -478,8 +478,8 @@ struct NoteHeader: View {
 
     private var titleFont: Font {
         switch font {
-        case .neucha: RemnTypography.display(RemnPlatform.isMac ? 34 : 36, relativeTo: .largeTitle)
-        default: font.font(size: RemnPlatform.isMac ? 28 : 30, relativeTo: .largeTitle).weight(.semibold)
+        case .neucha: InkeptTypography.display(InkeptPlatform.isMac ? 34 : 36, relativeTo: .largeTitle)
+        default: font.font(size: InkeptPlatform.isMac ? 28 : 30, relativeTo: .largeTitle).weight(.semibold)
         }
     }
 }

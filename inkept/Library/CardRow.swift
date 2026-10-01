@@ -7,15 +7,15 @@ struct CardRow: View {
     var body: some View {
         FlashcardSurface(seed: card.id.inkSeed, style: .compact) {
             VStack(alignment: .leading, spacing: 8) {
-                HandwrittenText(verbatim: RemnFormatters.usefulLine(card.frontMarkdown))
-                    .font(RemnTypography.display(22, relativeTo: .body))
-                    .foregroundStyle(Color.remnInk)
+                HandwrittenText(verbatim: InkeptFormatters.usefulLine(card.frontMarkdown))
+                    .font(InkeptTypography.display(22, relativeTo: .body))
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(3)
                     .multilineTextAlignment(.leading)
                     .padding(.trailing, 30)
-                HandwrittenText(verbatim: RemnFormatters.dueStatus(for: card))
-                    .font(RemnTypography.note)
-                    .foregroundStyle(isDue ? Color.remnAccent : Color.remnGraphite)
+                HandwrittenText(verbatim: InkeptFormatters.dueStatus(for: card))
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(isDue ? Color.inkeptAccent : Color.inkeptGraphite)
             }
         }
         .contentShape(Rectangle())

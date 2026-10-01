@@ -22,12 +22,12 @@ struct VaultSetupView: View {
                         .padding(.top, isSheet ? 12 : 36)
                     VStack(spacing: 10) {
                         HandwrittenText("notes.setup.title", weight: 0.6)
-                            .font(RemnTypography.display(32, relativeTo: .title))
-                            .foregroundStyle(Color.remnInk)
+                            .font(InkeptTypography.display(32, relativeTo: .title))
+                            .foregroundStyle(Color.inkeptInk)
                             .multilineTextAlignment(.center)
                         HandwrittenText("notes.setup.message")
-                            .font(RemnTypography.body)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.body)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -71,12 +71,12 @@ struct VaultSetupView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
-                .remnReadableWidth(540)
+                .inkeptReadableWidth(540)
             }
             .scrollIndicators(.hidden)
         }
         .paperBackground()
-        .remnSheetFrame(width: 560, height: 700)
+        .inkeptSheetFrame(width: 560, height: 700)
         .fileImporter(isPresented: $pickingFolder, allowedContentTypes: [.folder]) { result in
             do {
                 let url = try result.get()
@@ -111,20 +111,20 @@ struct VaultSetupView: View {
     ) -> some View {
         Button(action: action) {
             HStack(alignment: .top, spacing: 14) {
-                InkIcon(kind: icon, color: isCurrent ? .remnAccent : .remnInk, size: 24)
+                InkIcon(kind: icon, color: isCurrent ? .inkeptAccent : .inkeptInk, size: 24)
                     .frame(width: 30, height: 30)
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 8) {
                         HandwrittenText(title, weight: 0.3)
-                            .font(RemnTypography.control)
-                            .foregroundStyle(Color.remnInk)
+                            .font(InkeptTypography.control)
+                            .foregroundStyle(Color.inkeptInk)
                         if isCurrent {
-                            InkIcon(kind: .check, color: .remnAccent, size: 16)
+                            InkIcon(kind: .check, color: .inkeptAccent, size: 16)
                         }
                     }
                     HandwrittenText(note)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -136,8 +136,8 @@ struct VaultSetupView: View {
                 InkBox(
                     seed: seed,
                     cornerRadius: 16,
-                    fill: .remnCardPaper,
-                    outline: isCurrent ? .remnAccent : .remnInk,
+                    fill: .inkeptCardPaper,
+                    outline: isCurrent ? .inkeptAccent : .inkeptInk,
                     pen: .fine,
                     registration: CGSize(width: 1.4, height: 2)
                 )
@@ -163,8 +163,8 @@ struct VaultStatusView: View {
             VStack(spacing: 16) {
                 NotebookDoodle(width: 56)
                 HandwrittenText("notes.opening")
-                    .font(RemnTypography.control)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.control)
+                    .foregroundStyle(Color.inkeptGraphite)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .paperBackground()
@@ -172,11 +172,11 @@ struct VaultStatusView: View {
             VStack(spacing: 18) {
                 NotebookDoodle(width: 70)
                 HandwrittenText("notes.failed")
-                    .font(RemnTypography.sectionTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.sectionTitle)
+                    .foregroundStyle(Color.inkeptInk)
                 HandwrittenText(verbatim: message)
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
                     .multilineTextAlignment(.center)
                 HStack(spacing: 12) {
                     Button { vault.open() } label: { HandwrittenText("notes.retry") }

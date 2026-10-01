@@ -74,7 +74,7 @@ struct InkIconShape: Shape {
 
 struct InkIcon: View {
     let kind: InkIconKind
-    var color: Color = .remnInk
+    var color: Color = .inkeptInk
     var size: CGFloat = 22
 
     var body: some View {

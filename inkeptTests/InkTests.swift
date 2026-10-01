@@ -26,8 +26,8 @@ struct InkTests {
     @Test func seedsSurviveRelaunches() throws {
         let id = try #require(UUID(uuidString: "5F0C9A52-2B7E-4C41-9D3A-3A0C2E4F9B11"))
         #expect(id.inkSeed == 6_849_018_811_031_374_913)
-        #expect("remn".inkSeed == "remn".inkSeed)
-        #expect("remn".inkSeed != "remn.".inkSeed)
+        #expect("inkept".inkSeed == "inkept".inkSeed)
+        #expect("inkept".inkSeed != "inkept.".inkSeed)
     }
 
     @Test func aHandDrawnBoxKeepsItsShape() {

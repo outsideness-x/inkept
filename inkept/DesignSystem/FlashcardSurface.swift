@@ -62,14 +62,14 @@ struct FlashcardSurface<Content: View>: View {
             .background {
                 ZStack {
                     InkHatch(seed: seed ^ 0x3C1, spacing: style == .compact ? 4 : 4.6)
-                        .fill(Color.remnAccent.opacity(style == .compact ? 0.55 : 0.45))
+                        .fill(Color.inkeptAccent.opacity(style == .compact ? 0.55 : 0.45))
                         .clipShape(InkPatch(seed: seed ^ 0x3C2, cornerRadius: style.cornerRadius))
                         .offset(style.underneath)
                     InkBox(
                         seed: seed,
                         cornerRadius: style.cornerRadius,
-                        fill: .remnCardPaper,
-                        outline: .remnInk,
+                        fill: .inkeptCardPaper,
+                        outline: .inkeptInk,
                         pen: style.pen,
                         registration: CGSize(width: 0.8, height: 1.1)
                     )
@@ -86,7 +86,7 @@ struct FlashcardSideLabel: View {
 
     var body: some View {
         HandwrittenText(title)
-            .font(RemnTypography.note)
-            .foregroundStyle(Color.remnGraphite)
+            .font(InkeptTypography.note)
+            .foregroundStyle(Color.inkeptGraphite)
     }
 }

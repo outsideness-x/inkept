@@ -82,14 +82,14 @@ private struct HandmadeDialogModifier: ViewModifier {
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 8) {
                     HandwrittenText(title, weight: 0.5)
-                        .font(RemnTypography.display(28, relativeTo: .title2))
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.display(28, relativeTo: .title2))
+                        .foregroundStyle(Color.inkeptInk)
                         .fixedSize(horizontal: false, vertical: true)
                         .accessibilityAddTraits(.isHeader)
                     if let message {
                         HandwrittenText(text: message)
-                            .font(RemnTypography.body)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.body)
+                            .foregroundStyle(Color.inkeptGraphite)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
@@ -173,7 +173,7 @@ extension View {
 extension View {
     /// On the Mac a right click offers the same actions as the drawn "more" button, in a native menu.
     @ViewBuilder
-    func remnContextMenu(_ actions: [HandmadeDialogAction]) -> some View {
+    func inkeptContextMenu(_ actions: [HandmadeDialogAction]) -> some View {
         #if os(macOS)
         contextMenu {
             ForEach(actions) { action in

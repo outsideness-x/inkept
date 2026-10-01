@@ -10,13 +10,13 @@ final class MigrationTests: XCTestCase {
         let cardID = UUID()
 
         do {
-            let schema = Schema(versionedSchema: RemnSchemaV1.self)
+            let schema = Schema(versionedSchema: InkeptSchemaV1.self)
             let configuration = ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
             let container = try ModelContainer(for: schema, configurations: [configuration])
             let context = ModelContext(container)
-            let subject = RemnSchemaV1.SubjectModel(name: "Mathematics")
-            let deck = RemnSchemaV1.Deck(subject: subject, name: "Linear Algebra")
-            let card = RemnSchemaV1.Flashcard(id: cardID, deck: deck, frontMarkdown: "front", backMarkdown: "back")
+            let subject = InkeptSchemaV1.SubjectModel(name: "Mathematics")
+            let deck = InkeptSchemaV1.Deck(subject: subject, name: "Linear Algebra")
+            let card = InkeptSchemaV1.Flashcard(id: cardID, deck: deck, frontMarkdown: "front", backMarkdown: "back")
             card.stateRaw = ScheduleState.review.rawValue
             card.stability = 12.5
             context.insert(subject)
@@ -43,13 +43,13 @@ final class MigrationTests: XCTestCase {
         let subjectID = UUID()
 
         do {
-            let schema = Schema(versionedSchema: RemnSchemaV2.self)
+            let schema = Schema(versionedSchema: InkeptSchemaV2.self)
             let configuration = ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
             let container = try ModelContainer(for: schema, configurations: [configuration])
             let context = ModelContext(container)
-            let subject = RemnSchemaV2.SubjectModel(id: subjectID, name: "Physics", manualSortOrder: 3)
-            let deck = RemnSchemaV2.Deck(subject: subject, name: "Optics")
-            let card = RemnSchemaV2.Flashcard(deck: deck, frontMarkdown: "front", backMarkdown: "back", sourceNotePath: "Physics/Lenses.md")
+            let subject = InkeptSchemaV2.SubjectModel(id: subjectID, name: "Physics", manualSortOrder: 3)
+            let deck = InkeptSchemaV2.Deck(subject: subject, name: "Optics")
+            let card = InkeptSchemaV2.Flashcard(deck: deck, frontMarkdown: "front", backMarkdown: "back", sourceNotePath: "Physics/Lenses.md")
             context.insert(subject)
             context.insert(deck)
             context.insert(card)
@@ -74,14 +74,14 @@ final class MigrationTests: XCTestCase {
 
     private func storeURL() throws -> URL {
         let folder = FileManager.default.temporaryDirectory
-            .appendingPathComponent("remn-migration-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("inkept-migration-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-        return folder.appendingPathComponent("remn.store")
+        return folder.appendingPathComponent("inkept.store")
     }
 
     private func currentContainer(at url: URL) throws -> ModelContainer {
-        let schema = Schema(versionedSchema: RemnSchemaV3.self)
+        let schema = Schema(versionedSchema: InkeptSchemaV3.self)
         let configuration = ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
-        return try ModelContainer(for: schema, migrationPlan: RemnMigrationPlan.self, configurations: [configuration])
+        return try ModelContainer(for: schema, migrationPlan: InkeptMigrationPlan.self, configurations: [configuration])
     }
 }

@@ -14,7 +14,7 @@ struct SubjectDetailView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemnNavigationHeader(backTitle: String(localized: "library")) {
+            InkeptNavigationHeader(backTitle: String(localized: "library")) {
                 InkIconButton(kind: .plus, label: "deck.new") { showCreate = true }
             }
             ScrollView {
@@ -35,11 +35,11 @@ struct SubjectDetailView: View {
                 .padding(.horizontal, 22)
                 .padding(.top, 10)
                 .padding(.bottom, 40)
-                .remnReadableWidth()
+                .inkeptReadableWidth()
             }
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .onAppear {
             appState.currentSubjectID = subject.id
             appState.currentDeckID = nil
@@ -55,8 +55,8 @@ struct SubjectDetailView: View {
                 .buttonStyle(InkButtonStyle(kind: .primary, seed: subject.id.inkSeed))
                 .padding(.horizontal, 20)
                 .padding(.top, 14)
-                .padding(.bottom, RemnPlatform.bottomButtonPadding)
-                .remnReadableWidth(600)
+                .padding(.bottom, InkeptPlatform.bottomButtonPadding)
+                .inkeptReadableWidth(600)
                 .background(alignment: .bottom) { PaperFade() }
             }
         }
@@ -126,12 +126,12 @@ struct SubjectDetailView: View {
                     }
                     .buttonStyle(InkRowStyle())
 
-                    InkIconButton(kind: .more, label: "actions", color: .remnGraphite, size: 20) {
+                    InkIconButton(kind: .more, label: "actions", color: .inkeptGraphite, size: 20) {
                         manageDeck = deck
                     }
                     .padding(.trailing, -10)
                 }
-                .remnContextMenu(deckActions(for: deck))
+                .inkeptContextMenu(deckActions(for: deck))
             }
         }
     }

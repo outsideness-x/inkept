@@ -1,6 +1,6 @@
 import Foundation
 
-enum RemnFormatters {
+enum InkeptFormatters {
     /// A compact, localized distance in time: "10m", "3d" — "10 мин", "3 дн".
     static func interval(from now: Date, to date: Date) -> String {
         let seconds = max(0, date.timeIntervalSince(now))

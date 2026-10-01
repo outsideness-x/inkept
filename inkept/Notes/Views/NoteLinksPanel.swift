@@ -65,13 +65,13 @@ struct NoteLinksPanel: View {
             }
             #endif
             HStack(spacing: 8) {
-                InkIcon(kind: .links, color: .remnInk, size: 21)
+                InkIcon(kind: .links, color: .inkeptInk, size: 21)
                 HandwrittenText("notes.links", weight: 0.4)
-                    .font(RemnTypography.navigationTitle)
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.navigationTitle)
+                    .foregroundStyle(Color.inkeptInk)
                     .accessibilityAddTraits(.isHeader)
                 Spacer(minLength: 8)
-                InkIconButton(kind: .close, label: "close", color: .remnGraphite, size: 15, action: onClose)
+                InkIconButton(kind: .close, label: "close", color: .inkeptGraphite, size: 15, action: onClose)
             }
             .padding(.leading, 18)
             .padding(.trailing, 6)
@@ -87,12 +87,12 @@ struct NoteLinksPanel: View {
         .frame(height: 230)
         .background {
             InkPatch(seed: seed ^ 0x51, cornerRadius: 16)
-                .fill(Color.remnCardPaper)
+                .fill(Color.inkeptCardPaper)
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay {
             InkRoundedRect(seed: seed ^ 0x52, cornerRadius: 16, pen: .fine)
-                .fill(Color.remnInk.opacity(0.75))
+                .fill(Color.inkeptInk.opacity(0.75))
                 .allowsHitTesting(false)
         }
         .padding(.top, 8)
@@ -103,8 +103,8 @@ struct NoteLinksPanel: View {
             sectionTitle("notes.links.incoming", count: notes.count)
             if notes.isEmpty {
                 HandwrittenText("notes.links.incoming.none")
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
             }
             ForEach(notes) { note in
                 Button { onOpen(note.path) } label: {
@@ -133,12 +133,12 @@ struct NoteLinksPanel: View {
             ForEach(names, id: \.self) { name in
                 HStack(spacing: 10) {
                     InkDashedRing(seed: name.inkSeed, pen: InkPen(width: 1.3))
-                        .fill(Color.remnGraphite)
+                        .fill(Color.inkeptGraphite)
                         .frame(width: 17, height: 17)
                         .frame(width: 22)
                     HandwrittenText(verbatim: name)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptInk)
                         .lineLimit(2)
                     Spacer(minLength: 8)
                     // `[[Folder/Name]]` points at a place; only a bare name can be written beside this note.
@@ -156,13 +156,13 @@ struct NoteLinksPanel: View {
 
     private var empty: some View {
         VStack(spacing: 12) {
-            InkIcon(kind: .links, color: .remnGraphite, size: 46)
+            InkIcon(kind: .links, color: .inkeptGraphite, size: 46)
             HandwrittenText("notes.links.empty", weight: 0.3)
-                .font(RemnTypography.control)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.control)
+                .foregroundStyle(Color.inkeptInk)
             HandwrittenText("notes.links.empty.hint \(VaultPath.title(ofNoteNamed: VaultPath.name(of: path)))")
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
@@ -173,11 +173,11 @@ struct NoteLinksPanel: View {
     private func sectionTitle(_ title: LocalizedStringKey, count: Int) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
             HandwrittenText(title, weight: 0.4)
-                .font(RemnTypography.control)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.control)
+                .foregroundStyle(Color.inkeptInk)
             HandwrittenText(verbatim: "\(count)")
-                .font(RemnTypography.note)
-                .foregroundStyle(Color.remnGraphite)
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
         }
         .padding(.top, 22)
         .padding(.bottom, 4)
@@ -215,27 +215,27 @@ private struct LinkedNoteRow: View {
                 .padding(.top, 2)
             VStack(alignment: .leading, spacing: 4) {
                 HandwrittenText(verbatim: note.title, weight: 0.3)
-                    .font(RemnTypography.display(19, relativeTo: .headline))
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.display(19, relativeTo: .headline))
+                    .foregroundStyle(Color.inkeptInk)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                 ForEach(Array(mentions.enumerated()), id: \.offset) { index, mention in
                     HandwrittenText(text: Text(mention.attributed))
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .lineLimit(3)
                         .multilineTextAlignment(.leading)
                         .padding(.leading, 10)
                         .overlay(alignment: .leading) {
                             InkLine(seed: note.path.inkSeed &+ index, pen: .hairline, vertical: true)
-                                .fill(Color.remnAccent.opacity(0.55))
+                                .fill(Color.inkeptAccent.opacity(0.55))
                                 .frame(width: 4)
                         }
                 }
                 if showsSnippet, !note.snippet.isEmpty {
                     HandwrittenText(verbatim: note.snippet)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .lineLimit(1)
                 }
             }
@@ -252,7 +252,7 @@ extension NoteMention {
     var attributed: AttributedString {
         pieces.reduce(into: AttributedString()) { text, piece in
             var run = AttributedString(piece.text)
-            if piece.isLink { run.foregroundColor = .remnAccent }
+            if piece.isLink { run.foregroundColor = .inkeptAccent }
             text += run
         }
     }

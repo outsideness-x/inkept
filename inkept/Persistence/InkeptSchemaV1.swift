@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 /// The first schema, as shipped: kept exactly as it was so existing libraries can be migrated.
-enum RemnSchemaV1: VersionedSchema {
+enum InkeptSchemaV1: VersionedSchema {
     static let versionIdentifier = Schema.Version(1, 0, 0)
     static var models: [any PersistentModel.Type] {
         [

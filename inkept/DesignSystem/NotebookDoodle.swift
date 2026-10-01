@@ -2,9 +2,9 @@ import SwiftUI
 
 /// A spiral notebook, drawn in the same pen as the stacked cards: the mark for notes.
 struct NotebookDoodle: View {
-    var ink: Color = .remnInk
-    var accent: Color = .remnAccent
-    var paper: Color = .remnCardPaper
+    var ink: Color = .inkeptInk
+    var accent: Color = .inkeptAccent
+    var paper: Color = .inkeptCardPaper
     var width: CGFloat = 58
 
     var body: some View {
@@ -57,14 +57,14 @@ enum AppSection: String, CaseIterable, Identifiable {
 }
 
 /// The bottom of the iPhone screen: two words and their drawings; the one you're on is underlined in red pencil.
-struct RemnTabBar: View {
+struct InkeptTabBar: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Binding var selection: AppSection
 
     var body: some View {
         VStack(spacing: 0) {
             InkLine(seed: 7_210, pen: .hairline)
-                .fill(Color.remnInk.opacity(0.22))
+                .fill(Color.inkeptInk.opacity(0.22))
                 .frame(height: 6)
                 .padding(.horizontal, 14)
             HStack(spacing: 0) {
@@ -88,24 +88,24 @@ struct RemnTabBar: View {
                     switch section {
                     case .cards:
                         StackedCardsDoodle(
-                            ink: chosen ? .remnInk : .remnGraphite,
-                            accent: chosen ? .remnAccent : .remnGraphite,
+                            ink: chosen ? .inkeptInk : .inkeptGraphite,
+                            accent: chosen ? .inkeptAccent : .inkeptGraphite,
                             width: 30
                         )
                     case .notes:
                         NotebookDoodle(
-                            ink: chosen ? .remnInk : .remnGraphite,
-                            accent: chosen ? .remnAccent : .remnGraphite,
+                            ink: chosen ? .inkeptInk : .inkeptGraphite,
+                            accent: chosen ? .inkeptAccent : .inkeptGraphite,
                             width: 21
                         )
                     }
                 }
                 .frame(height: 25)
                 HandwrittenText(section.title, weight: chosen ? 0.4 : 0)
-                    .font(RemnTypography.display(15, relativeTo: .caption))
-                    .foregroundStyle(chosen ? Color.remnInk : Color.remnGraphite)
+                    .font(InkeptTypography.display(15, relativeTo: .caption))
+                    .foregroundStyle(chosen ? Color.inkeptInk : Color.inkeptGraphite)
                 InkUnderline(seed: section == .cards ? 7_221 : 7_222, pen: .fine, progress: chosen ? 1 : 0)
-                    .fill(Color.remnAccent)
+                    .fill(Color.inkeptAccent)
                     .frame(width: 34, height: 5)
                     .animation(reduceMotion ? nil : .easeOut(duration: chosen ? 0.3 : 0.1), value: chosen)
             }
@@ -129,16 +129,16 @@ struct SidebarHeader: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center, spacing: 0) {
                 HandwrittenText("remn", weight: 1)
-                    .font(RemnTypography.display(38, relativeTo: .largeTitle))
-                    .foregroundStyle(Color.remnInk)
+                    .font(InkeptTypography.display(38, relativeTo: .largeTitle))
+                    .foregroundStyle(Color.inkeptInk)
                     .accessibilityAddTraits(.isHeader)
                     .inkWritesOn(duration: 0.55)
                 Spacer()
-                InkIconButton(kind: .search, label: "search", color: searchSelected && !appState.showsSettings ? .remnAccent : .remnInk, size: 22) {
+                InkIconButton(kind: .search, label: "search", color: searchSelected && !appState.showsSettings ? .inkeptAccent : .inkeptInk, size: 22) {
                     appState.showsSettings = false
                     onSearch()
                 }
-                InkIconButton(kind: .settings, label: "settings", color: appState.showsSettings ? .remnAccent : .remnInk, size: 23) {
+                InkIconButton(kind: .settings, label: "settings", color: appState.showsSettings ? .inkeptAccent : .inkeptInk, size: 23) {
                     withAnimation(.easeOut(duration: 0.18)) { appState.showsSettings.toggle() }
                 }
             }

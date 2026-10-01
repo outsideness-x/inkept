@@ -4,7 +4,7 @@ import SwiftData
 /// The first schema ready for iCloud, as shipped: no unique constraints, a default for every value,
 /// optional relationships, and a link from a card back to the note it came from. Kept exactly as it
 /// was so libraries made with it can be migrated.
-enum RemnSchemaV2: VersionedSchema {
+enum InkeptSchemaV2: VersionedSchema {
     static let versionIdentifier = Schema.Version(2, 0, 0)
     static var models: [any PersistentModel.Type] {
         [

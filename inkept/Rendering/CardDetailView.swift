@@ -16,7 +16,7 @@ struct CardDetailView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemnNavigationHeader(backTitle: card.deck?.name) {
+            InkeptNavigationHeader(backTitle: card.deck?.name) {
                 InkIconButton(kind: .more, label: "actions") { showActions = true }
             }
             ScrollView {
@@ -26,16 +26,16 @@ struct CardDetailView: View {
                             HStack(alignment: .firstTextBaseline) {
                                 FlashcardSideLabel(title: "card.front")
                                 Spacer()
-                                HandwrittenText(verbatim: RemnFormatters.dueStatus(for: card))
-                                    .font(RemnTypography.note)
-                                    .foregroundStyle(isDue ? Color.remnAccent : Color.remnGraphite)
+                                HandwrittenText(verbatim: InkeptFormatters.dueStatus(for: card))
+                                    .font(InkeptTypography.note)
+                                    .foregroundStyle(isDue ? Color.inkeptAccent : Color.inkeptGraphite)
                             }
                             IndexRule(seed: card.id.inkSeed ^ 0x11)
                                 .padding(.top, 4)
                                 .padding(.bottom, 14)
                             CardContentView(markdown: card.frontMarkdown)
                             InkDashes(seed: card.id.inkSeed ^ 0x22)
-                                .fill(Color.remnGraphite.opacity(0.6))
+                                .fill(Color.inkeptGraphite.opacity(0.6))
                                 .frame(height: 6)
                                 .padding(.vertical, 18)
                                 .accessibilityHidden(true)
@@ -45,21 +45,21 @@ struct CardDetailView: View {
                         }
                     }
                     HandwrittenText(verbatim: history)
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                         .padding(.horizontal, 4)
                     if let notePath = card.sourceNotePath {
                         Button { appState.openNote(notePath) } label: {
                             HStack(spacing: 10) {
                                 NotebookDoodle(width: 18)
                                 HandwrittenText("card.fromNote")
-                                    .foregroundStyle(Color.remnGraphite)
+                                    .foregroundStyle(Color.inkeptGraphite)
                                 HandwrittenText(verbatim: VaultPath.title(ofNoteNamed: VaultPath.name(of: notePath)))
-                                    .foregroundStyle(Color.remnAccent)
+                                    .foregroundStyle(Color.inkeptAccent)
                                     .lineLimit(1)
-                                InkIcon(kind: .forward, color: .remnAccent, size: 15)
+                                InkIcon(kind: .forward, color: .inkeptAccent, size: 15)
                             }
-                            .font(RemnTypography.note)
+                            .font(InkeptTypography.note)
                         }
                         .buttonStyle(InkPressStyle())
                         .padding(.horizontal, 4)
@@ -68,11 +68,11 @@ struct CardDetailView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
                 .padding(.bottom, 44)
-                .remnReadableWidth()
+                .inkeptReadableWidth()
             }
         }
         .paperBackground()
-        .remnHidesSystemBar()
+        .inkeptHidesSystemBar()
         .overlay {
             if isExporting {
                 ZStack {
@@ -81,8 +81,8 @@ struct CardDetailView: View {
                     VStack(spacing: 12) {
                         StackedCardsDoodle(width: 48)
                         HandwrittenText("export.saving")
-                            .font(RemnTypography.control)
-                            .foregroundStyle(Color.remnInk)
+                            .font(InkeptTypography.control)
+                            .foregroundStyle(Color.inkeptInk)
                     }
                     .padding(.horizontal, 30)
                     .padding(.vertical, 22)
@@ -98,7 +98,7 @@ struct CardDetailView: View {
         .handmadeDialog(
             isPresented: $showActions,
             title: "card",
-            message: Text(verbatim: RemnFormatters.usefulLine(card.frontMarkdown)),
+            message: Text(verbatim: InkeptFormatters.usefulLine(card.frontMarkdown)),
             actions: cardActions
         )
         .handmadeDialog(

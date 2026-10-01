@@ -66,7 +66,7 @@ enum CardImageExporter {
     }
 
     private static func filename(for card: Flashcard) -> String {
-        let title = RemnFormatters.usefulLine(card.frontMarkdown)
+        let title = InkeptFormatters.usefulLine(card.frontMarkdown)
             .components(separatedBy: CharacterSet(charactersIn: "/\\:?%*|\"<>"))
             .joined()
             .prefix(60)

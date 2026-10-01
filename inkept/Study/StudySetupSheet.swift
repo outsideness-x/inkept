@@ -80,7 +80,7 @@ struct StudySetupSheet: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
                 .padding(.bottom, 24)
-                .remnReadableWidth(600)
+                .inkeptReadableWidth(600)
             }
         }
         .paperBackground()
@@ -93,11 +93,11 @@ struct StudySetupSheet: View {
             .disabled(selectedSubjectIDs.isEmpty && initialDeckID == nil)
             .padding(.horizontal, 20)
             .padding(.top, 12)
-            .padding(.bottom, RemnPlatform.bottomButtonPadding)
-            .remnReadableWidth(600)
+            .padding(.bottom, InkeptPlatform.bottomButtonPadding)
+            .inkeptReadableWidth(600)
             .background(alignment: .bottom) { PaperFade() }
         }
-        .remnSheetFrame(width: 520, height: 640)
+        .inkeptSheetFrame(width: 520, height: 640)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(30)
         .onAppear(perform: restoreSelection)
@@ -118,18 +118,18 @@ struct StudySetupSheet: View {
                 InkCheckbox(isOn: true, seed: 505)
                 VStack(alignment: .leading, spacing: 2) {
                     HandwrittenText(verbatim: deck.name, weight: 0.3)
-                        .font(RemnTypography.rowTitle)
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.rowTitle)
+                        .foregroundStyle(Color.inkeptInk)
                     if let subject = deck.subject {
                         HandwrittenText(verbatim: subject.name)
-                            .font(RemnTypography.note)
-                            .foregroundStyle(Color.remnGraphite)
+                            .font(InkeptTypography.note)
+                            .foregroundStyle(Color.inkeptGraphite)
                     }
                 }
                 Spacer()
                 HandwrittenText("count.cards \(deck.allCards.count)")
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
             }
             .padding(.vertical, 10)
             .accessibilityElement(children: .combine)
@@ -161,13 +161,13 @@ struct StudySetupSheet: View {
                         .padding(.trailing, -4)
                 }
                 HandwrittenText(verbatim: subject.name, weight: 0.3)
-                    .font(RemnTypography.display(23, relativeTo: .headline))
-                    .foregroundStyle(isOn ? Color.remnInk : Color.remnGraphite)
+                    .font(InkeptTypography.display(23, relativeTo: .headline))
+                    .foregroundStyle(isOn ? Color.inkeptInk : Color.inkeptGraphite)
                     .multilineTextAlignment(.leading)
                 Spacer(minLength: 8)
                 HandwrittenText("count.cards \(subject.cards.count)")
-                    .font(RemnTypography.note)
-                    .foregroundStyle(Color.remnGraphite)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptGraphite)
             }
             .frame(minHeight: 52)
             .contentShape(Rectangle())
@@ -187,8 +187,8 @@ struct StudySetupSheet: View {
                     countChoice = choice
                 } label: {
                     HandwrittenText(text: choice.title)
-                        .font(RemnTypography.control)
-                        .foregroundStyle(chosen ? Color.remnInk : Color.remnGraphite)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(chosen ? Color.inkeptInk : Color.inkeptGraphite)
                         .lineLimit(1)
                         .minimumScaleFactor(0.75)
                         .inkCircled(chosen, seed: 310 + index * 19, inset: CGSize(width: -14, height: -6))
@@ -207,8 +207,8 @@ struct StudySetupSheet: View {
             stepperButton(.minus, label: "decrease") { customCount = max(1, customCount - 5) }
                 .disabled(customCount == 1)
             HandwrittenText("count.cards \(customCount)")
-                .font(RemnTypography.sectionTitle)
-                .foregroundStyle(Color.remnInk)
+                .font(InkeptTypography.sectionTitle)
+                .foregroundStyle(Color.inkeptInk)
                 .contentTransition(.numericText())
                 .frame(maxWidth: .infinity)
             stepperButton(.plus, label: "increase") { customCount = min(500, customCount + 5) }
@@ -232,8 +232,8 @@ struct StudySetupSheet: View {
 
     private func sectionTitle(_ key: LocalizedStringKey) -> some View {
         HandwrittenText(key, weight: 0.3)
-            .font(RemnTypography.sectionTitle)
-            .foregroundStyle(Color.remnInk)
+            .font(InkeptTypography.sectionTitle)
+            .foregroundStyle(Color.inkeptInk)
             .accessibilityAddTraits(.isHeader)
     }
 
@@ -259,17 +259,17 @@ struct StudySetupSheet: View {
         return FlashcardSurface(seed: 441, style: .compact) {
             HStack(alignment: .center, spacing: 16) {
                 HandwrittenText(verbatim: "\(selected)", weight: 1)
-                    .font(RemnTypography.display(46, relativeTo: .largeTitle))
-                    .foregroundStyle(selected > 0 ? Color.remnAccent : Color.remnGraphite)
+                    .font(InkeptTypography.display(46, relativeTo: .largeTitle))
+                    .foregroundStyle(selected > 0 ? Color.inkeptAccent : Color.inkeptGraphite)
                     .contentTransition(.numericText())
                     .frame(minWidth: 44)
                 VStack(alignment: .leading, spacing: 3) {
                     HandwrittenText("study.inSession")
-                        .font(RemnTypography.control)
-                        .foregroundStyle(Color.remnInk)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(Color.inkeptInk)
                     HandwrittenText("study.availability \(availability.availableNow) \(availability.scheduledLater)")
-                        .font(RemnTypography.note)
-                        .foregroundStyle(Color.remnGraphite)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
                 }
                 Spacer(minLength: 0)
             }
