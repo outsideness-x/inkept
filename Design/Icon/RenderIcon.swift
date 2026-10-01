@@ -1,4 +1,4 @@
-// Renders remn's app icon with the same ink engine and hand the app draws with.
+// Renders inkept's app icon, a forget-me-not, with the same ink engine and pen the app draws with.
 //
 //   Design/Icon/render.sh [output directory]
 //
@@ -6,17 +6,13 @@
 // so the hand keeps the proportions it has in the app.
 
 import AppKit
-import CoreText
 import SwiftUI
 
 @main
 struct RenderIcon {
     @MainActor
     static func main() throws {
-        let arguments = CommandLine.arguments.dropFirst()
-        let output = URL(fileURLWithPath: arguments.first ?? ".")
-        let font = URL(fileURLWithPath: arguments.dropFirst().first ?? "inkept/Resources/Fonts/Neucha.ttf")
-        guard CTFontManagerRegisterFontsForURL(font as CFURL, .process, nil) else { throw RenderError.failed(font.path) }
+        let output = URL(fileURLWithPath: CommandLine.arguments.dropFirst().first ?? ".")
         for variant in IconArt.Variant.allCases {
             try write(IconArt(variant: variant), to: output.appendingPathComponent(variant.filename))
         }
@@ -61,73 +57,54 @@ struct IconArt: View {
     var body: some View {
         ZStack {
             Rectangle().fill(paper)
-
-            // The card underneath, shaded with red pencil hatching.
-            ZStack {
-                InkHatch(seed: 71, spacing: 3.1, angle: .degrees(-50), pen: InkPen(width: 1.15, touchDown: 0.7, liftOff: 0.5, pressureVariation: 0.1))
-                    .fill(accent.opacity(variant == .tinted ? 0.55 : 0.85))
-                    .clipShape(InkPatch(seed: 72, cornerRadius: 9))
-                InkRoundedRect(seed: 73, cornerRadius: 9, pen: InkPen(width: 2.3))
-                    .fill(accent)
-            }
-            .frame(width: 86, height: 58)
-            .rotationEffect(.degrees(9))
-            .offset(x: 10, y: 17)
-
-            // The card on top: paper laid a touch off-register, an ink outline, the red index rule
-            // and the app's name, lettered in its hand.
-            ZStack {
-                InkPatch(seed: 81, cornerRadius: 9)
-                    .fill(cardPaper)
-                    .offset(x: 0.9, y: 1.2)
-                InkRoundedRect(seed: 82, cornerRadius: 9, pen: InkPen(width: 3.1, touchDown: 0.6, liftOff: 0.35))
-                    .fill(ink)
-                InkLine(seed: 83, pen: InkPen(width: 2, touchDown: 0.7, liftOff: 0.5))
-                    .fill(accent)
-                    .frame(width: 70, height: 6)
-                    .offset(y: -15)
-                HandwrittenText(verbatim: "remn", weight: 0.8)
-                    .font(.custom("Neucha", fixedSize: 34))
-                    .foregroundStyle(ink)
-                    .offset(y: 5)
-            }
-            .frame(width: 88, height: 60)
-            .rotationEffect(.degrees(-7))
-            .offset(x: -7, y: -8)
+            ForgetMeNot(colors: colors)
         }
         .frame(width: 128, height: 128)
-        .environment(\.colorScheme, variant == .light ? .light : .dark)
     }
 
     private var paper: Color {
         switch variant {
         case .light: Color(red: 0.961, green: 0.945, blue: 0.910)
-        case .dark: Color(red: 0.082, green: 0.078, blue: 0.071)
+        case .dark: Color(red: 0.063, green: 0.063, blue: 0.071)
         case .tinted: .black
         }
     }
 
-    private var cardPaper: Color {
+    private var colors: ForgetMeNot.Colors {
         switch variant {
-        case .light: Color(red: 0.984, green: 0.973, blue: 0.945)
-        case .dark: Color(red: 0.122, green: 0.114, blue: 0.102)
-        case .tinted: Color(white: 0.1)
-        }
-    }
-
-    private var ink: Color {
-        switch variant {
-        case .light: Color(red: 0.114, green: 0.106, blue: 0.098)
-        case .dark: Color(red: 0.937, green: 0.918, blue: 0.875)
-        case .tinted: .white
-        }
-    }
-
-    private var accent: Color {
-        switch variant {
-        case .light: Color(red: 0.745, green: 0.231, blue: 0.173)
-        case .dark: Color(red: 0.941, green: 0.404, blue: 0.306)
-        case .tinted: Color(white: 0.62)
+        case .light:
+            ForgetMeNot.Colors(
+                ink: Color(red: 0.114, green: 0.106, blue: 0.098),
+                petal: Color(red: 0.53, green: 0.70, blue: 0.92),
+                vein: Color(red: 0.29, green: 0.45, blue: 0.76).opacity(0.85),
+                eye: Color(red: 0.96, green: 0.78, blue: 0.26),
+                throat: Color(red: 0.36, green: 0.28, blue: 0.16),
+                halo: Color(red: 0.99, green: 0.98, blue: 0.95),
+                bud: Color(red: 0.93, green: 0.52, blue: 0.50),
+                leaf: Color(red: 0.67, green: 0.74, blue: 0.56)
+            )
+        case .dark:
+            ForgetMeNot.Colors(
+                ink: Color(red: 0.937, green: 0.918, blue: 0.875),
+                petal: Color(red: 0.50, green: 0.67, blue: 0.91),
+                vein: Color(red: 0.27, green: 0.42, blue: 0.72).opacity(0.85),
+                eye: Color(red: 0.96, green: 0.78, blue: 0.26),
+                throat: Color(red: 0.36, green: 0.28, blue: 0.16),
+                halo: Color(red: 0.95, green: 0.93, blue: 0.88),
+                bud: Color(red: 0.94, green: 0.48, blue: 0.48),
+                leaf: Color(red: 0.43, green: 0.50, blue: 0.35)
+            )
+        case .tinted:
+            ForgetMeNot.Colors(
+                ink: .white,
+                petal: Color(white: 0.55),
+                vein: Color(white: 0.3),
+                eye: Color(white: 0.85),
+                throat: Color(white: 0.2),
+                halo: Color(white: 0.95),
+                bud: Color(white: 0.45),
+                leaf: Color(white: 0.3)
+            )
         }
     }
 }

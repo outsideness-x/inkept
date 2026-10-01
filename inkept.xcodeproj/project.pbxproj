@@ -39,6 +39,7 @@
 		2DCCA4C56FEACF9CE5DF215F /* StudyQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFB703ED5D83F28419AE0F8 /* StudyQueueTests.swift */; };
 		2EDEEFA2AF75D16C778AB0D7 /* TypstPackages in Resources */ = {isa = PBXBuildFile; fileRef = D5E821D1CFE62BE903ED7603 /* TypstPackages */; };
 		2EFD41D3DF20783564D61AEA /* WindowSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1962E49E3380DB9CAC5802 /* WindowSnapshot.swift */; };
+		2F21C1F7FCFA06B4BC2889C5 /* InkFlower.swift in Sources */ = {isa = PBXBuildFile; fileRef = E415A740F65E960E3A140D9B /* InkFlower.swift */; };
 		311836E6E2D7270B2CC595C6 /* RenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA76C4C5235851F8030822B /* RenderingTests.swift */; };
 		33C9511900D5EF3231D06126 /* NoteLinksPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96F4471A773B8A4A1A0B59F /* NoteLinksPanel.swift */; };
 		35DEF1F4D379A1C25FD25A03 /* RatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C521D023583ABD22470C1DBA /* RatingButton.swift */; };
@@ -294,6 +295,7 @@
 		E214964E211D82B352287C5E /* CardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRow.swift; sourceTree = "<group>"; };
 		E275AE544D9FFED9DC01A312 /* SubjectIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectIconPicker.swift; sourceTree = "<group>"; };
 		E3002907E5D3C7401C933741 /* LiveMarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMarkdownTests.swift; sourceTree = "<group>"; };
+		E415A740F65E960E3A140D9B /* InkFlower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkFlower.swift; sourceTree = "<group>"; };
 		E8813D994E67CE3C33784D8F /* VaultSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultSetupView.swift; sourceTree = "<group>"; };
 		E9184794AB3D0F552672577E /* LiveEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEditorController.swift; sourceTree = "<group>"; };
 		EFE5746F2B2EF1DA89C64D2B /* InkPencil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkPencil.swift; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				CF46A34CFA6A877932694443 /* InkBrush.swift */,
+				E415A740F65E960E3A140D9B /* InkFlower.swift */,
 				4E985D4621D4726975543E78 /* InkGeometry.swift */,
 				304D034DBD3ADB7C9F9CFE38 /* InkLab.swift */,
 				47FCD2BF05039042BFCDD372 /* InkRandom.swift */,
@@ -862,6 +865,7 @@
 				41799136F2120EBE39BA7276 /* ImageAttachment.swift in Sources */,
 				1228373E503D1DE9687C6148 /* InkBrush.swift in Sources */,
 				3D432658F1FF2788103E7792 /* InkControls.swift in Sources */,
+				2F21C1F7FCFA06B4BC2889C5 /* InkFlower.swift in Sources */,
 				2573671D511BB325CD90BBAD /* InkGeometry.swift in Sources */,
 				D7AFF46B90E0ED728E6251BF /* InkIcon.swift in Sources */,
 				7CE629130595973255B876C0 /* InkLab.swift in Sources */,

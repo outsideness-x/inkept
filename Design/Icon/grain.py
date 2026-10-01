@@ -6,7 +6,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-STRENGTH = {"AppIcon": 3.2, "AppIcon-Dark": 2.4, "AppIcon-Tinted": 0.0, "AppIcon-Mac-1024": 3.2}
+# The dark icon stays flat, like the app's dark paper.
+STRENGTH = {"AppIcon": 3.2, "AppIcon-Dark": 0.0, "AppIcon-Tinted": 0.0, "AppIcon-Mac-1024": 3.2}
 # The rest of the sizes macOS asks for, cut from the 1024-pixel Mac icon.
 MAC_SIZES = (16, 32, 64, 128, 256, 512)
 
