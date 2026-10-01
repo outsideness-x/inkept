@@ -1754,13 +1754,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "the hand remn is written in"
+            "value" : "the hand inkept is written in"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "почерк, которым написан remn"
+            "value" : "почерк, которым написан inkept"
           }
         }
       }
@@ -2201,6 +2201,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "увеличить"
+          }
+        }
+      }
+    },
+    "inkept" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inkept"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inkept"
           }
         }
       }
@@ -3886,13 +3902,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "a remn folder in Files, only on this device"
+            "value" : "an inkept folder in Files, only on this device"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "папка remn в «Файлах», только на этом устройстве"
+            "value" : "папка inkept в «Файлах», только на этом устройстве"
           }
         }
       }
@@ -3950,13 +3966,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "a remn folder in iCloud Drive: notes appear on every device you use, and in Files and Finder"
+            "value" : "an inkept folder in iCloud Drive: notes appear on every device you use, and in Files and Finder"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "папка remn в iCloud Drive: конспекты появятся на всех ваших устройствах, в «Файлах» и Finder"
+            "value" : "папка inkept в iCloud Drive: конспекты появятся на всех ваших устройствах, в «Файлах» и Finder"
           }
         }
       }
@@ -4361,22 +4377,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "трудно"
-          }
-        }
-      }
-    },
-    "remn" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "remn"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "remn"
           }
         }
       }
@@ -4786,13 +4786,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "remn does not use a fixed calendar. It predicts when each memory is about to fade and brings the card back around then."
+            "value" : "inkept does not use a fixed calendar. It predicts when each memory is about to fade and brings the card back around then."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "remn не использует фиксированный календарь. Он предсказывает, когда память начнёт угасать, и возвращает карточку примерно тогда."
+            "value" : "inkept не использует фиксированный календарь. Он предсказывает, когда память начнёт угасать, и возвращает карточку примерно тогда."
           }
         }
       }
@@ -4978,13 +4978,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "how remn remembers"
+            "value" : "how inkept remembers"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "как remn запоминает"
+            "value" : "как inkept запоминает"
           }
         }
       }

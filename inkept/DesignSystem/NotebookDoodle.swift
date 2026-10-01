@@ -128,7 +128,7 @@ struct SidebarHeader: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center, spacing: 0) {
-                HandwrittenText("remn", weight: 1)
+                HandwrittenText("inkept", weight: 1)
                     .font(InkeptTypography.display(38, relativeTo: .largeTitle))
                     .foregroundStyle(Color.inkeptInk)
                     .accessibilityAddTraits(.isHeader)

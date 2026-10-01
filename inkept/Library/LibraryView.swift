@@ -152,7 +152,7 @@ struct LibraryView: View {
 
     private var phoneHeader: some View {
         HStack(alignment: .center, spacing: 0) {
-            HandwrittenText("remn", weight: 1)
+            HandwrittenText("inkept", weight: 1)
                 .font(InkeptTypography.wordmark)
                 .foregroundStyle(Color.inkeptInk)
                 .accessibilityAddTraits(.isHeader)

@@ -27,7 +27,7 @@ enum DemoLibrary {
     /// A notes folder in a temporary directory, filled with a few believable notes.
     static func makeVault() -> Vault {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("remn-demo-notes", isDirectory: true)
+            .appendingPathComponent("inkept-demo-notes", isDirectory: true)
         try? FileManager.default.removeItem(at: root)
         let russian = Locale.preferredLanguages.first?.hasPrefix("ru") == true
         let notes = russian ? russianNotes + russianWeb : englishNotes + englishWeb
@@ -132,7 +132,7 @@ enum DemoLibrary {
         ("Linear Algebra/Pictures.md", """
         # Pictures in Typst
 
-        A sine and a cosine, drawn by the Typst engine inside remn:
+        A sine and a cosine, drawn by the Typst engine inside inkept:
 
         ```typst
         #import "@preview/cetz:0.5.2": canvas
@@ -212,7 +212,7 @@ enum DemoLibrary {
         ("Линейная алгебра/Картинки.md", """
         # Картинки на Typst
 
-        Синус и косинус — их рисует Typst прямо внутри remn:
+        Синус и косинус — их рисует Typst прямо внутри inkept:
 
         ```typst
         #import "@preview/cetz:0.5.2": canvas

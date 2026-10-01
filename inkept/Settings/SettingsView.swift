@@ -280,7 +280,7 @@ private struct AboutCard: View {
         FlashcardSurface(seed: 734, style: .regular) {
             VStack(alignment: .leading, spacing: 14) {
                 HStack(alignment: .center) {
-                    HandwrittenText("remn", weight: 1)
+                    HandwrittenText("inkept", weight: 1)
                         .font(InkeptTypography.display(40, relativeTo: .title))
                         .foregroundStyle(Color.inkeptInk)
                     Spacer()
