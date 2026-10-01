@@ -47,6 +47,7 @@
 		3B1676F10CA8F308CA2E52FF /* FrontMatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA504A72755A7F81C621473 /* FrontMatter.swift */; };
 		3B607D5DF2E8CA7DADDAD996 /* InkShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075C0BA01DF1E678FE449201 /* InkShapes.swift */; };
 		3D432658F1FF2788103E7792 /* InkControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F297663947A90FB1CE3EF4FC /* InkControls.swift */; };
+		3DBBE467EA158A5D14F142FB /* LibraryRecords.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C1C4257437C026251BCEE /* LibraryRecords.swift */; };
 		40EFF7BBA46CBB38F567C76E /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB2A44DBE345093CB40FCCF /* LibraryView.swift */; };
 		41799136F2120EBE39BA7276 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC336D91F25DB324F29D61D /* ImageAttachment.swift */; };
 		42E6A5B6033C446820B91337 /* VaultSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8813D994E67CE3C33784D8F /* VaultSetupView.swift */; };
@@ -261,6 +262,7 @@
 		A96F4471A773B8A4A1A0B59F /* NoteLinksPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLinksPanel.swift; sourceTree = "<group>"; };
 		A9752E887EE4104FFE6328FA /* BackupModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupModels.swift; sourceTree = "<group>"; };
 		ABA42B7397326F529702E406 /* NoteOutline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteOutline.swift; sourceTree = "<group>"; };
+		AC8C1C4257437C026251BCEE /* LibraryRecords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRecords.swift; sourceTree = "<group>"; };
 		ACDD5571DC8E53447C1F558D /* NoteGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGraphView.swift; sourceTree = "<group>"; };
 		ADE22EFA4E2FD7BD1ECBCCB5 /* LiveStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStyler.swift; sourceTree = "<group>"; };
 		B59BEF5A8DED40E5B2C10B16 /* Flashcard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcard.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				4DA3868E68F6F72EBCE73E78 /* InkeptSchema.swift */,
 				0BC866E4B5EC719BBC683960 /* InkeptSchemaV1.swift */,
 				14C9E9D74383AC5854B8FA2B /* InkeptSchemaV2.swift */,
+				AC8C1C4257437C026251BCEE /* LibraryRecords.swift */,
 				F0ED5A7A2353BA2EC3937942 /* LibraryStore.swift */,
 			);
 			path = Persistence;
@@ -882,6 +885,7 @@
 				B9F4381EE326415F36ABE83D /* InkeptTextStyle.swift in Sources */,
 				6D8A6A4C1213F622384B46A1 /* InkeptTypography.swift in Sources */,
 				64ADE0B0908DA33A48402CEB /* LatexCompatibility.swift in Sources */,
+				3DBBE467EA158A5D14F142FB /* LibraryRecords.swift in Sources */,
 				E57FA2712193DE2AB1B278D4 /* LibraryRow.swift in Sources */,
 				5FF442BBAE5D28A09285E0C0 /* LibraryStore.swift in Sources */,
 				40EFF7BBA46CBB38F567C76E /* LibraryView.swift in Sources */,

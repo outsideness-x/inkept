@@ -16,6 +16,7 @@ final class BackupTests: XCTestCase {
         """
         let (subject, deck, card) = TestStore.makeCard(front: front, back: back)
         subject.icon = "atom"
+        card.sourceNotePath = "Linear algebra/Gradients.md"
         source.insert(subject)
         source.insert(deck)
         source.insert(card)
@@ -53,6 +54,7 @@ final class BackupTests: XCTestCase {
         XCTAssertEqual(restored.backMarkdown, back)
         XCTAssertEqual(restored.scheduleSnapshot, card.scheduleSnapshot)
         XCTAssertEqual(restored.deck?.subject?.icon, "atom")
+        XCTAssertEqual(restored.sourceNotePath, "Linear algebra/Gradients.md")
         XCTAssertEqual(try destination.fetchCount(FetchDescriptor<ReviewLogEntry>()), 1)
         XCTAssertEqual(settings.desiredRetention, 0.91)
         XCTAssertEqual(settings.appearanceMode, "dark")

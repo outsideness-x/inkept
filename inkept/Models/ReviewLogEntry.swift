@@ -86,4 +86,19 @@ final class ReviewLogEntry: Identifiable {
             lapses: previousLapses
         )
     }
+
+    var resultingSnapshot: ScheduleSnapshot {
+        ScheduleSnapshot(
+            stateRaw: resultingStateRaw,
+            due: resultingDue,
+            lastReview: resultingLastReview,
+            stability: resultingStability,
+            difficulty: resultingDifficulty,
+            elapsedDays: resultingElapsedDays,
+            scheduledDays: resultingScheduledDays,
+            learningStep: resultingLearningStep,
+            repetitions: resultingRepetitions,
+            lapses: resultingLapses
+        )
+    }
 }

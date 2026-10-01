@@ -33,40 +33,10 @@ enum BackupService {
             schema: BackupArchive.currentSchema,
             exportedAt: date,
             settings: settings,
-            subjects: subjects.map {
-                BackupSubject(
-                    id: $0.id,
-                    name: $0.name,
-                    createdAt: $0.createdAt,
-                    updatedAt: $0.updatedAt,
-                    manualSortOrder: $0.manualSortOrder,
-                    icon: $0.icon
-                )
-            },
-            decks: decks.compactMap { deck in
-                guard let subjectID = deck.subject?.id else { return nil }
-                return BackupDeck(
-                    id: deck.id,
-                    subjectID: subjectID,
-                    name: deck.name,
-                    createdAt: deck.createdAt,
-                    updatedAt: deck.updatedAt,
-                    manualSortOrder: deck.manualSortOrder
-                )
-            },
-            cards: cards.compactMap { card in
-                guard let deckID = card.deck?.id else { return nil }
-                return BackupCard(
-                    id: card.id,
-                    deckID: deckID,
-                    frontMarkdown: card.frontMarkdown,
-                    backMarkdown: card.backMarkdown,
-                    createdAt: card.createdAt,
-                    updatedAt: card.updatedAt,
-                    schedule: card.scheduleSnapshot
-                )
-            },
-            reviewLogs: logs.compactMap(makeBackupLog)
+            subjects: subjects.map(BackupSubject.init),
+            decks: decks.compactMap(BackupDeck.init),
+            cards: cards.compactMap(BackupCard.init),
+            reviewLogs: logs.compactMap(BackupReviewLog.init)
         )
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .millisecondsSince1970
@@ -90,20 +60,9 @@ enum BackupService {
             )
             for value in archive.subjects {
                 if let subject = subjects[value.id] {
-                    subject.name = value.name
-                    subject.createdAt = value.createdAt
-                    subject.updatedAt = value.updatedAt
-                    subject.manualSortOrder = value.manualSortOrder
-                    subject.icon = value.icon
+                    subject.update(from: value)
                 } else {
-                    let subject = SubjectModel(
-                        id: value.id,
-                        name: value.name,
-                        createdAt: value.createdAt,
-                        updatedAt: value.updatedAt,
-                        manualSortOrder: value.manualSortOrder,
-                        icon: value.icon
-                    )
+                    let subject = SubjectModel(value)
                     context.insert(subject)
                     subjects[value.id] = subject
                 }
@@ -115,20 +74,9 @@ enum BackupService {
             for value in archive.decks {
                 guard let subject = subjects[value.subjectID] else { throw BackupError.brokenRelationship }
                 if let deck = decks[value.id] {
-                    deck.subject = subject
-                    deck.name = value.name
-                    deck.createdAt = value.createdAt
-                    deck.updatedAt = value.updatedAt
-                    deck.manualSortOrder = value.manualSortOrder
+                    deck.update(from: value, subject: subject)
                 } else {
-                    let deck = Deck(
-                        id: value.id,
-                        subject: subject,
-                        name: value.name,
-                        createdAt: value.createdAt,
-                        updatedAt: value.updatedAt,
-                        manualSortOrder: value.manualSortOrder
-                    )
+                    let deck = Deck(value, subject: subject)
                     context.insert(deck)
                     decks[value.id] = deck
                 }
@@ -140,22 +88,9 @@ enum BackupService {
             for value in archive.cards {
                 guard let deck = decks[value.deckID] else { throw BackupError.brokenRelationship }
                 if let card = cards[value.id] {
-                    card.deck = deck
-                    card.frontMarkdown = value.frontMarkdown
-                    card.backMarkdown = value.backMarkdown
-                    card.createdAt = value.createdAt
-                    card.updatedAt = value.updatedAt
-                    card.scheduleSnapshot = value.schedule
+                    card.update(from: value, deck: deck)
                 } else {
-                    let card = Flashcard(
-                        id: value.id,
-                        deck: deck,
-                        frontMarkdown: value.frontMarkdown,
-                        backMarkdown: value.backMarkdown,
-                        createdAt: value.createdAt,
-                        updatedAt: value.updatedAt
-                    )
-                    card.scheduleSnapshot = value.schedule
+                    let card = Flashcard(value, deck: deck)
                     context.insert(card)
                     cards[value.id] = card
                 }
@@ -163,22 +98,10 @@ enum BackupService {
 
             let existingLogIDs = Set(try context.fetch(FetchDescriptor<ReviewLogEntry>()).map(\.id))
             for value in archive.reviewLogs where !existingLogIDs.contains(value.id) {
-                guard
-                    let card = cards[value.cardID],
-                    let rating = StudyRating(rawValue: value.ratingRaw)
-                else { throw BackupError.brokenRelationship }
-                context.insert(
-                    ReviewLogEntry(
-                        id: value.id,
-                        card: card,
-                        timestamp: value.timestamp,
-                        rating: rating,
-                        previous: value.previous,
-                        resulting: value.resulting,
-                        elapsedInterval: value.elapsedInterval,
-                        scheduledInterval: value.scheduledInterval
-                    )
-                )
+                guard let card = cards[value.cardID], let log = ReviewLogEntry(value, card: card) else {
+                    throw BackupError.brokenRelationship
+                }
+                context.insert(log)
             }
             try context.save()
             return archive.settings
@@ -210,29 +133,4 @@ enum BackupService {
     }
 
     private static func unique(_ ids: [UUID]) -> Bool { Set(ids).count == ids.count }
-
-    private static func makeBackupLog(_ log: ReviewLogEntry) -> BackupReviewLog? {
-        guard let cardID = log.card?.id else { return nil }
-        return BackupReviewLog(
-            id: log.id,
-            cardID: cardID,
-            timestamp: log.timestamp,
-            ratingRaw: log.ratingRaw,
-            elapsedInterval: log.elapsedInterval,
-            scheduledInterval: log.scheduledInterval,
-            previous: log.previousSnapshot,
-            resulting: ScheduleSnapshot(
-                stateRaw: log.resultingStateRaw,
-                due: log.resultingDue,
-                lastReview: log.resultingLastReview,
-                stability: log.resultingStability,
-                difficulty: log.resultingDifficulty,
-                elapsedDays: log.resultingElapsedDays,
-                scheduledDays: log.resultingScheduledDays,
-                learningStep: log.resultingLearningStep,
-                repetitions: log.resultingRepetitions,
-                lapses: log.resultingLapses
-            )
-        )
-    }
 }

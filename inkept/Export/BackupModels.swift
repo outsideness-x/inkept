@@ -46,6 +46,8 @@ struct BackupCard: Codable, Equatable, Sendable {
     var createdAt: Date
     var updatedAt: Date
     var schedule: ScheduleSnapshot
+    /// The note the card was made from; missing from backups made before cards kept it.
+    var sourceNotePath: String?
 }
 
 struct BackupReviewLog: Codable, Equatable, Sendable {
