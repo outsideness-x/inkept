@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Downloads the Typst packages remn ships for offline use, with everything they import.
+"""Downloads the Typst packages inkept ships for offline use, with everything they import.
 
     Scripts/fetch-typst-packages.py
 
