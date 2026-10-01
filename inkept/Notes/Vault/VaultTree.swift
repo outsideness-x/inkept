@@ -97,34 +97,42 @@ struct VaultFolder: Identifiable, Hashable, Sendable {
 }
 
 /// What inkept keeps about a folder besides its notes — for now, the subject's icon — in a hidden
-/// `.remn.json` inside it. It travels with the folder when it's renamed or moved, in any app,
+/// `.inkept.json` inside it. It travels with the folder when it's renamed or moved, in any app,
 /// and Obsidian and Finder leave hidden files alone.
 enum VaultFolderInfo {
-    static let fileName = ".remn.json"
+    static let fileName = ".inkept.json"
+    /// The same file from when the app was called remn. It's read while it's all a folder has,
+    /// and the next change to the folder's info moves it to `fileName`.
+    static let legacyFileName = ".remn.json"
+    static let fileNames: Set<String> = [fileName, legacyFileName]
 
     static func icon(in folder: URL) -> String? {
-        let url = folder.appendingPathComponent(fileName)
-        guard let text = try? VaultFiles.read(url), let data = text.data(using: .utf8),
-              let info = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-        else { return nil }
-        return (info["icon"] as? String)?.nilIfEmpty
+        (info(in: folder)["icon"] as? String)?.nilIfEmpty
     }
 
     /// Sets or clears the icon, keeping anything else a later version wrote beside it.
     static func setIcon(_ icon: String?, in folder: URL) throws {
         let url = folder.appendingPathComponent(fileName)
-        var info: [String: Any] = [:]
-        if let text = try? VaultFiles.read(url), let data = text.data(using: .utf8),
-           let existing = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-            info = existing
-        }
+        let legacy = folder.appendingPathComponent(legacyFileName)
+        var info = info(in: folder)
         info["icon"] = icon
-        guard !info.isEmpty else {
+        if info.isEmpty {
             if FileManager.default.fileExists(atPath: url.path) { try VaultFiles.remove(url) }
-            return
+        } else {
+            let data = try JSONSerialization.data(withJSONObject: info, options: [.prettyPrinted, .sortedKeys])
+            try VaultFiles.write(data, to: url)
         }
-        let data = try JSONSerialization.data(withJSONObject: info, options: [.prettyPrinted, .sortedKeys])
-        try VaultFiles.write(data, to: url)
+        if FileManager.default.fileExists(atPath: legacy.path) { try VaultFiles.remove(legacy) }
+    }
+
+    private static func info(in folder: URL) -> [String: Any] {
+        for name in [fileName, legacyFileName] {
+            if let text = try? VaultFiles.read(folder.appendingPathComponent(name)), let data = text.data(using: .utf8),
+               let info = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                return info
+            }
+        }
+        return [:]
     }
 }
 
@@ -198,7 +206,7 @@ enum VaultScanner {
                 fileName = String(fileName.dropFirst().dropLast(".icloud".count))
                 isPlaceholder = true
             }
-            if fileName == VaultFolderInfo.fileName {
+            if VaultFolderInfo.fileNames.contains(fileName) {
                 if isPlaceholder {
                     try? manager.startDownloadingUbiquitousItem(at: url.appendingPathComponent(fileName))
                 } else {

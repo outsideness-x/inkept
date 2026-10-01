@@ -175,6 +175,27 @@ struct VaultTests {
         #expect(vault.root.folder(at: renamed)?.icon == nil)
     }
 
+    @Test func foldersKeepTheIconTheyWereGivenAsRemn() async throws {
+        let (vault, root) = try makeVault()
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let physics = try await vault.createFolder(named: "Physics", in: "")
+        let legacy = root.appendingPathComponent("Physics/\(VaultFolderInfo.legacyFileName)")
+        try #"{"icon": "atom", "colour": "red"}"#.write(to: legacy, atomically: true, encoding: .utf8)
+        await vault.reload()
+        #expect(vault.root.folder(at: physics)?.icon == "atom")
+        #expect(vault.root.folder(at: physics)?.notes.isEmpty == true)
+
+        // The next change writes the new file, keeps what the old one held, and drops the old one.
+        try await vault.setIcon("magnet", forFolder: physics)
+        let info = root.appendingPathComponent("Physics/\(VaultFolderInfo.fileName)")
+        let saved = try JSONSerialization.jsonObject(with: Data(contentsOf: info)) as? [String: String]
+        #expect(saved == ["icon": "magnet", "colour": "red"])
+        #expect(!FileManager.default.fileExists(atPath: legacy.path))
+        await vault.reload()
+        #expect(vault.root.folder(at: physics)?.icon == "magnet")
+    }
+
     @Test func attachmentsLiveBesideTheNoteAndStayOutOfTheTree() async throws {
         let (vault, root) = try makeVault()
         defer { try? FileManager.default.removeItem(at: root) }
