@@ -6,7 +6,7 @@ inkept is a focused, free and open-source flashcard app for iPhone, iPad and Mac
 
 It has two sides: **cards**, reviewed with FSRS, and **notes**, written in a live Markdown editor and kept as plain `.md` files in a folder you choose — so Obsidian or any other editor can open them too. Select a passage in a note to turn it into a card.
 
-There is no account, subscription, advertising, analytics, tracking, or backend. Study data lives in a local SwiftData store and syncs between your devices through your own private iCloud database; inkept itself never talks to any server.
+There is no account, subscription, advertising, analytics, tracking, or backend. Everything lives in that one folder: the notes, and beside them the cards with their schedules and history. Choose the same folder on another device and you carry on where you left off; inkept itself never talks to any server.
 
 ## Requirements
 
@@ -44,9 +44,23 @@ xcodebuild -project inkept.xcodeproj -scheme inkept \
 
 The icon is a forget-me-not, drawn with the same ink engine, pen and coloured pencils as the interface (`inkept/DesignSystem/Ink/InkFlower.swift`). `Design/Icon/render.sh` renders its light, dark, tinted and Mac versions into the asset catalog; the same flower sits beside the name in Settings.
 
-## Sync
+## The folder
 
-Cards, decks, subjects, review history and study sessions sync through CloudKit via SwiftData. The schema is versioned, and every shipped version is kept frozen so existing libraries migrate: `InkeptSchemaV1` is the original local-only schema, `InkeptSchemaV2` the CloudKit-compatible one (no unique constraints, defaults everywhere, optional relationships), and `InkeptSchemaV3` gives each subject an icon. Sync follows the system iCloud settings for the app.
+Everything inkept keeps is in one folder: iCloud Drive (`iCloud Drive/inkept`, shared by every device on the same account), a folder on the device, or any folder you pick. The notes are Markdown files in it, and the card library sits beside them in a hidden `.inkept` folder that Obsidian, Finder and Files leave alone:
+
+```text
+.inkept/library.json                        the format, and the desired retention
+.inkept/subjects/<id>.json
+.inkept/decks/<id>.json
+.inkept/cards/<id>.json                     both sides, the note a card came from, and its FSRS schedule
+.inkept/reviews/<device>/<yyyy-MM>.jsonl    every review a device made, one a line, and undos
+```
+
+Each thing is a small file of its own, and each device only ever appends to its own review log, so devices syncing the folder rarely touch the same file. The folder is what syncs; there's no CloudKit.
+
+On each device a SwiftData store is a quick copy of the folder, kept in step by `LibraryFolder` (`inkept/Persistence`): every save is written out as it happens, and what other devices wrote is read in when the folder changes and whenever the app comes back. The first time a store meets a folder the two are merged, so cards made before a folder was chosen move in; choosing a different folder opens that folder's own library, the way it shows that folder's notes.
+
+The store's schema is versioned, and every shipped version is kept frozen so existing libraries migrate: `InkeptSchemaV1` is the original local-only schema, `InkeptSchemaV2` the CloudKit-compatible one from when cards synced through CloudKit (no unique constraints, defaults everywhere, optional relationships), and `InkeptSchemaV3` gives each subject an icon.
 
 ## Scheduling
 
@@ -83,7 +97,7 @@ Rendering is native SwiftUI via Textual. The editor keeps Markdown as the source
 
 ## Notes
 
-Notes are Markdown files in a folder: iCloud Drive (`iCloud Drive/inkept`, shared by every device on the same account), a folder on the device, or any folder you pick, such as an Obsidian vault. Folders are subjects and can nest. Front matter holds `tags` and the note's `font`; every other key is kept as it was.
+Notes are Markdown files in the folder (see [The folder](#the-folder)), which can be an Obsidian vault. Folders are subjects and can nest. Front matter holds `tags` and the note's `font`; every other key is kept as it was.
 
 The editor is one live field in the spirit of Obsidian's Live Preview: Markdown punctuation disappears away from the cursor, formulas are typeset, pictures are shown, and each comes back as source when the cursor enters it. It's TextKit 1 underneath (`inkept/Notes/Editor`): the text storage always holds the exact Markdown, and hidden characters, pictures and folded lines are handled at the glyph and line-fragment level.
 
@@ -101,13 +115,13 @@ A fenced ` ```typst ` block is compiled on the device by the real [Typst](https:
 
 Settings → Data can export and import a portable JSON backup. The current schema identifier is `inkept-backup-v1`; backups exported when the app was called remn (`remn-backup-v1`) import too.
 
-A backup preserves subjects, decks, Markdown source, complete FSRS scheduling state, immutable review logs, desired retention, and appearance. Import validates the entire archive before changing the store, then merges objects by UUID. Invalid archives leave the existing library untouched.
+A backup preserves subjects, decks, Markdown source, the note each card came from, complete FSRS scheduling state, immutable review logs, desired retention, and appearance. Import validates the entire archive before changing the store, then merges objects by UUID. Invalid archives leave the existing library untouched.
 
 Card detail can also render a dedicated high-resolution card layout and save it to Photos.
 
 ## Privacy
 
-inkept has no remote data layer of its own. The card library is mirrored to the signed-in user's private CloudKit database (container `iCloud.com.chemical-pink.inkept`), which only that user can read; without an iCloud account everything stays on the device. Content otherwise leaves the device only when the user explicitly exports a backup or saves a card image.
+inkept has no remote data layer of its own. Everything is in the folder you choose; when that folder is in iCloud Drive, iCloud syncs it the way it syncs any other files, and only you can read it. Content otherwise leaves the device only when you export a backup or save a card image.
 
 ## License
 
