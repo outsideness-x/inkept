@@ -18,16 +18,19 @@ extension Color {
 }
 
 extension ForgetMeNot.Colors {
-    /// The forget-me-not from the icon, in the app's own ink.
+    /// The forget-me-not from the icon, in the app's own ink and pencils; the washes are those
+    /// pencils laid pale on card paper.
     static let inkept = ForgetMeNot.Colors(
         ink: .inkeptInk,
-        petal: Color(light: 0x87B3EB, dark: 0x80ABE8),
-        vein: Color(light: 0x4A73C2, dark: 0x456BB8).opacity(0.85),
-        eye: Color(light: 0xF5C742, dark: 0xF5C742),
-        throat: Color(light: 0x5C4729, dark: 0x5C4729),
-        halo: Color(light: 0xFCFAF2, dark: 0xF2EDE0),
-        bud: Color(light: 0xED8580, dark: 0xF07A7A),
-        leaf: Color(light: 0xABBD8F, dark: 0x6E8059)
+        petal: Color(light: 0xB5D0E4, dark: 0x5D768A),
+        petalPencil: Color(light: 0x3563A6, dark: 0x8FBEE6),
+        eye: InkPencil.yellow.color,
+        throat: InkPencil.brown.color,
+        halo: InkPencil.white.color,
+        bud: InkPencil.rose.color,
+        openingBud: InkPencil.sky.color,
+        leaf: Color(light: 0xACC6A6, dark: 0x3E573A),
+        leafPencil: InkPencil.green.color
     )
 }
 

@@ -42,7 +42,7 @@ xcodebuild -project inkept.xcodeproj -scheme inkept \
 
 ## Icon
 
-The icon is a forget-me-not, drawn by the same ink engine and pen as the interface (`inkept/DesignSystem/Ink/InkFlower.swift`). `Design/Icon/render.sh` renders its light, dark, tinted and Mac versions into the asset catalog; the same flower sits beside the name in Settings.
+The icon is a forget-me-not, drawn with the same ink engine, pen and coloured pencils as the interface (`inkept/DesignSystem/Ink/InkFlower.swift`). `Design/Icon/render.sh` renders its light, dark, tinted and Mac versions into the asset catalog; the same flower sits beside the name in Settings.
 
 ## Sync
 

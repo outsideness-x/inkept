@@ -70,42 +70,55 @@ struct IconArt: View {
         }
     }
 
+    /// The pencils are the app's own (`InkPencil`); the washes are those pencils laid pale on the paper.
     private var colors: ForgetMeNot.Colors {
         switch variant {
         case .light:
             ForgetMeNot.Colors(
-                ink: Color(red: 0.114, green: 0.106, blue: 0.098),
-                petal: Color(red: 0.53, green: 0.70, blue: 0.92),
-                vein: Color(red: 0.29, green: 0.45, blue: 0.76).opacity(0.85),
-                eye: Color(red: 0.96, green: 0.78, blue: 0.26),
-                throat: Color(red: 0.36, green: 0.28, blue: 0.16),
-                halo: Color(red: 0.99, green: 0.98, blue: 0.95),
-                bud: Color(red: 0.93, green: 0.52, blue: 0.50),
-                leaf: Color(red: 0.67, green: 0.74, blue: 0.56)
+                ink: Color(hex: 0x1D1B19),
+                petal: Color(hex: 0xB2CDE0),
+                petalPencil: Color(hex: 0x3563A6),
+                eye: Color(hex: 0xEBBB3F),
+                throat: Color(hex: 0x8A5C3B),
+                halo: Color(hex: 0xFBF8F1),
+                bud: Color(hex: 0xE59AA2),
+                openingBud: Color(hex: 0x6FA9D8),
+                leaf: Color(hex: 0xA9C3A1),
+                leafPencil: Color(hex: 0x4C8A4B)
             )
         case .dark:
             ForgetMeNot.Colors(
-                ink: Color(red: 0.937, green: 0.918, blue: 0.875),
-                petal: Color(red: 0.50, green: 0.67, blue: 0.91),
-                vein: Color(red: 0.27, green: 0.42, blue: 0.72).opacity(0.85),
-                eye: Color(red: 0.96, green: 0.78, blue: 0.26),
-                throat: Color(red: 0.36, green: 0.28, blue: 0.16),
-                halo: Color(red: 0.95, green: 0.93, blue: 0.88),
-                bud: Color(red: 0.94, green: 0.48, blue: 0.48),
-                leaf: Color(red: 0.43, green: 0.50, blue: 0.35)
+                ink: Color(hex: 0xEFEADF),
+                petal: Color(hex: 0x566F87),
+                petalPencil: Color(hex: 0x8FBEE6),
+                eye: Color(hex: 0xF0C85A),
+                throat: Color(hex: 0xB1835F),
+                halo: Color(hex: 0xE7E1D4),
+                bud: Color(hex: 0xEBADB4),
+                openingBud: Color(hex: 0x8FBEE6),
+                leaf: Color(hex: 0x354F35),
+                leafPencil: Color(hex: 0x6DAE69)
             )
         case .tinted:
             ForgetMeNot.Colors(
                 ink: .white,
-                petal: Color(white: 0.55),
-                vein: Color(white: 0.3),
+                petal: Color(white: 0.32),
+                petalPencil: Color(white: 0.78),
                 eye: Color(white: 0.85),
-                throat: Color(white: 0.2),
+                throat: Color(white: 0.3),
                 halo: Color(white: 0.95),
-                bud: Color(white: 0.45),
-                leaf: Color(white: 0.3)
+                bud: Color(white: 0.55),
+                openingBud: Color(white: 0.65),
+                leaf: Color(white: 0.2),
+                leafPencil: Color(white: 0.55)
             )
         }
+    }
+}
+
+private extension Color {
+    init(hex: UInt32) {
+        self.init(red: Double((hex >> 16) & 0xFF) / 255, green: Double((hex >> 8) & 0xFF) / 255, blue: Double(hex & 0xFF) / 255)
     }
 }
 

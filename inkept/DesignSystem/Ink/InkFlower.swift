@@ -1,26 +1,31 @@
 import SwiftUI
 
-/// A forget-me-not, the flower of remembering, drawn with the pen everything else is drawn with:
-/// five round petals outlined one at a time, fine veins, a yellow eye, a leaf, and the curl of buds
-/// at the top of the stem, pink until they open blue. It's the app's icon, and its mark beside its name.
+/// A forget-me-not, the flower of remembering, drawn the way everything else is: bold pen lines that
+/// overshoot where they meet, and colour laid in with a pencil, a pale wash under close hatching,
+/// a touch off-register. Five round petals, a white star and a yellow eye, a leaf, and the curl of
+/// buds at the top of the stem, pink until they open blue. It's the app's icon, and its mark beside its name.
 ///
 /// The drawing is laid out on a 128-point canvas, the scale of the icon, and scaled to `size`.
 struct ForgetMeNot: View {
     struct Colors {
         var ink: Color
+        /// The pale wash under the petals, and the pencil hatched over it.
         var petal: Color
-        var vein: Color
+        var petalPencil: Color
         var eye: Color
         var throat: Color
         /// The white star round the eye.
         var halo: Color
         var bud: Color
+        /// The oldest bud, already opening blue.
+        var openingBud: Color
         var leaf: Color
+        var leafPencil: Color
     }
 
     var colors: Colors
     var size: CGFloat = 128
-    /// Thickens the lines, so they still read when the flower is drawn small.
+    /// Thickens the lines and opens up the hatching, so they still read when the flower is drawn small.
     var lineWeight: CGFloat = 1
 
     private static let blossom = Blossom(center: CGPoint(x: 57, y: 68), radius: 36, rotation: -.pi / 2 + 0.1, seed: 221)
@@ -30,35 +35,46 @@ struct ForgetMeNot: View {
         CGPoint(x: 109, y: 23), CGPoint(x: 112, y: 30), CGPoint(x: 108, y: 35), CGPoint(x: 103, y: 33),
     ])
     private static let buds = Bud.along(curl)
+    /// Where the colour plate sits against the ink.
+    private static let registration = CGSize(width: 0.8, height: 1)
 
     var body: some View {
         let blossom = Self.blossom
+        let registration = Self.registration
         ZStack {
             LeafPatch(leaf: Self.leaf)
                 .fill(colors.leaf)
-                .offset(x: 0.8, y: 1)
-            LeafLines(leaf: Self.leaf, pen: pen(1.4, touchDown: 0.4, liftOff: 0.15))
+                .offset(registration)
+            hatching(seed: 611, angle: -35, color: colors.leafPencil)
+                .clipShape(LeafPatch(leaf: Self.leaf))
+                .offset(registration)
+            LeafLines(leaf: Self.leaf, pen: pen(2.1, touchDown: 0.5, liftOff: 0.2))
                 .fill(colors.ink)
 
-            Stroke(points: Self.curl, pen: pen(1.37, touchDown: 0.6, liftOff: 0.2, attack: 4.3, release: 10), seed: 321)
+            Stroke(points: Self.curl, pen: pen(1.9, touchDown: 0.6, liftOff: 0.25, attack: 4.3, release: 10), seed: 321)
                 .fill(colors.ink)
             ForEach(Self.buds.indices, id: \.self) { index in
-                // The oldest bud, nearest the flower, is already turning blue.
-                BudView(bud: Self.buds[index], fill: index == 0 ? colors.petal : colors.bud, ink: colors.ink, pen: pen(1.15, touchDown: 0.4, liftOff: 0.2))
+                BudView(
+                    bud: Self.buds[index],
+                    fill: index == 0 ? colors.openingBud : colors.bud,
+                    ink: colors.ink,
+                    pen: pen(1.7, touchDown: 0.5, liftOff: 0.25)
+                )
             }
 
             BlossomPatch(blossom: blossom)
                 .fill(colors.petal)
-                .offset(x: 0.8, y: 1)
-            BlossomVeins(blossom: blossom, pen: pen(0.75, touchDown: 0.5, liftOff: 0.15, pressureVariation: 0.1))
-                .fill(colors.vein)
+                .offset(registration)
+            hatching(seed: 612, angle: -52, color: colors.petalPencil)
+                .clipShape(BlossomPatch(blossom: blossom))
+                .offset(registration)
             BlossomPatch(blossom: blossom.halo)
                 .fill(colors.halo)
             Spot(center: blossom.center, radius: blossom.radius * 0.17, seed: blossom.seed ^ 0x3)
                 .fill(colors.eye)
-            BlossomOutline(blossom: blossom, pen: pen(1.8, touchDown: 0.35, liftOff: 0.12, attack: 5, release: 10, pressureVariation: 0.2))
+            BlossomOutline(blossom: blossom, pen: pen(2.7, touchDown: 0.5, liftOff: 0.25, attack: 6, release: 9, pressureVariation: 0.18))
                 .fill(colors.ink)
-            Loop(center: blossom.center, radius: blossom.radius * 0.18, seed: blossom.seed ^ 0x9, pen: pen(0.76, touchDown: 0.4, liftOff: 0.2))
+            Loop(center: blossom.center, radius: blossom.radius * 0.18, seed: blossom.seed ^ 0x9, pen: pen(1.3, touchDown: 0.5, liftOff: 0.25))
                 .fill(colors.ink.opacity(0.8))
             Spot(center: blossom.center, radius: blossom.radius * 0.045, seed: blossom.seed ^ 0x4)
                 .fill(colors.throat)
@@ -67,6 +83,17 @@ struct ForgetMeNot: View {
         .scaleEffect(size / 128)
         .frame(width: size, height: size)
         .accessibilityHidden(true)
+    }
+
+    /// Coloured-pencil strokes across the whole canvas; clip them to what they shade.
+    private func hatching(seed: Int, angle: Double, color: Color) -> some View {
+        InkHatch(
+            seed: seed,
+            spacing: 2.4 * lineWeight,
+            angle: .degrees(angle),
+            pen: InkPen(width: 1.05 * lineWeight, touchDown: 0.7, liftOff: 0.45, attack: 3, release: 5, pressureVariation: 0.1)
+        )
+        .fill(color)
     }
 
     private func pen(
@@ -155,7 +182,7 @@ private struct Blossom {
     }
 }
 
-/// The colour of a blossom, a touch off its outline the way a print is.
+/// The colour plate of a blossom: its outline with softly uneven edges.
 private struct BlossomPatch: Shape {
     let blossom: Blossom
 
@@ -164,7 +191,8 @@ private struct BlossomPatch: Shape {
     }
 }
 
-/// Each petal in its own stroke, lifted short of the notches, and a fine crease into each notch.
+/// Each petal in its own stroke, set down a little inside the notch before it and run on past the
+/// notch after, the way a quick hand closes a shape, and a fine crease into each notch.
 private struct BlossomOutline: Shape {
     let blossom: Blossom
     let pen: InkPen
@@ -173,51 +201,23 @@ private struct BlossomOutline: Shape {
         var path = Path()
         var random = InkRandom(seed: blossom.seed ^ 0x77)
         for petal in 0..<blossom.petals {
-            let rim = blossom.rim(of: petal)
-            let lifted = Array(rim[Int(random.value(in: 1...4))..<(rim.count - Int(random.value(in: 1...4)))])
+            let (start, end) = blossom.span(of: petal)
+            let notch = blossom.reaches[petal] * (1 - blossom.depth)
+            var rim = blossom.rim(of: petal)
+            rim.insert(blossom.point(at: start + random.value(in: 0.02...0.06), distance: notch * random.value(in: 0.86...0.94)), at: 0)
+            rim.append(blossom.point(at: end + random.value(in: 0.03...0.09), distance: notch * random.value(in: 1.0...1.08)))
             InkBrush.addStroke(
-                InkGeometry.smooth(wobbled(lifted, amplitude: 0.3, seed: blossom.seed &+ petal)),
+                InkGeometry.smooth(wobbled(rim, amplitude: 0.45, seed: blossom.seed &+ petal)),
                 pen: pen,
                 seed: blossom.seed &+ petal &* 7,
                 to: &path
             )
-            let start = blossom.span(of: petal).start
-            let notch = blossom.reaches[petal] * (1 - blossom.depth)
             let crease = [
                 blossom.point(at: start, distance: notch * 0.97),
                 blossom.point(at: start + 0.03, distance: notch * 0.78),
                 blossom.point(at: start + 0.05, distance: notch * random.value(in: 0.56...0.64)),
             ]
             InkBrush.addStroke(InkGeometry.smooth(crease), pen: pen.scaled(by: 0.62), seed: blossom.seed &+ petal &* 11, to: &path)
-        }
-        return path
-    }
-}
-
-/// Three veins fanning out across each petal from the eye.
-private struct BlossomVeins: Shape {
-    let blossom: Blossom
-    let pen: InkPen
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        var random = InkRandom(seed: blossom.seed ^ 0xBE)
-        for petal in 0..<blossom.petals {
-            let (start, end) = blossom.span(of: petal)
-            let middle = (start + end) / 2
-            let width = end - start
-            for (index, offset) in [CGFloat(-0.2), 0, 0.2].enumerated() {
-                let angle = middle + width * offset
-                let from = blossom.radius * 0.36
-                let to = blossom.radius * random.value(in: 0.6...0.74) * (offset == 0 ? 1.08 : 0.92)
-                let bend = width * offset * 0.25
-                let vein = [
-                    blossom.point(at: angle - bend * 0.3, distance: from),
-                    blossom.point(at: angle + bend * 0.2, distance: (from + to) / 2),
-                    blossom.point(at: angle + bend, distance: to),
-                ]
-                InkBrush.addStroke(InkGeometry.smooth(vein), pen: pen, seed: blossom.seed &+ petal &* 13 &+ index, to: &path)
-            }
         }
         return path
     }

@@ -284,7 +284,7 @@ private struct AboutCard: View {
                         .font(InkeptTypography.display(40, relativeTo: .title))
                         .foregroundStyle(Color.inkeptInk)
                     Spacer()
-                    ForgetMeNot(colors: .inkept, size: 66, lineWeight: 1.7)
+                    ForgetMeNot(colors: .inkept, size: 66, lineWeight: 1.4)
                 }
                 HandwrittenText("about.tagline")
                     .font(InkeptTypography.body)
