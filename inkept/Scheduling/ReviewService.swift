@@ -56,6 +56,7 @@ struct ReviewService {
             predicate: #Predicate { $0.id == logID }
         )
         guard let log = try context.fetch(descriptor).first, let card = log.card else { return }
+        NotificationCenter.default.post(name: .reviewUndone, object: nil, userInfo: ["id": log.id])
 
         card.scheduleSnapshot = log.previousSnapshot
         if !session.queueCardIDs.contains(card.id) {
@@ -75,3 +76,7 @@ struct ReviewService {
     }
 }
 
+extension Notification.Name {
+    /// A review was taken back; `userInfo["id"]` is its id. The card library's folder writes it down.
+    static let reviewUndone = Notification.Name("inkept.reviewUndone")
+}

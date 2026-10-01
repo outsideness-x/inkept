@@ -2701,6 +2701,22 @@
         }
       }
     },
+    "library.error.newer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "this folder was written by a newer inkept. update the app to open it"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "эту папку записала более новая версия inkept. обновите приложение, чтобы её открыть"
+          }
+        }
+      }
+    },
     "library.pickSubject" : {
       "localizations" : {
         "en" : {

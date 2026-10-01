@@ -20,7 +20,7 @@ final class Vault {
     /// Bumped whenever the files change on disk, so open notes can check whether they were edited elsewhere.
     private(set) var revision = 0
 
-    @ObservationIgnored private var presenter: VaultPresenter?
+    @ObservationIgnored private var presenter: FolderPresenter?
     #if os(macOS)
     @ObservationIgnored private var watcher: FolderWatcher?
     #endif
@@ -81,13 +81,14 @@ final class Vault {
 
     /// Reads the folder again whenever something changes it: another app, or a sync from another device.
     private func watch(_ url: URL) {
-        let presenter = VaultPresenter(url: url) { [weak self] in
+        // The card library's own folder inside changes with every review; it isn't notes.
+        let presenter = FolderPresenter(url: url, ignoring: LibraryFiles.folderName) { [weak self] in
             Task { @MainActor in self?.scheduleRefresh() }
         }
         NSFileCoordinator.addFilePresenter(presenter)
         self.presenter = presenter
         #if os(macOS)
-        watcher = FolderWatcher(url: url) { [weak self] in
+        watcher = FolderWatcher(url: url, ignoring: LibraryFiles.folderName) { [weak self] in
             Task { @MainActor in self?.scheduleRefresh() }
         }
         #endif
@@ -134,6 +135,17 @@ final class Vault {
             try? await Task.sleep(for: .milliseconds(250))
             guard !Task.isCancelled else { return }
             refresh()
+        }
+    }
+
+    /// Names the folder steadily for the card library kept inside it, where its path may not stay
+    /// the same: the app's own folder moves between launches on iOS.
+    var libraryIdentity: String? {
+        guard let location, let rootURL else { return nil }
+        switch location.kind {
+        case .iCloud: return "icloud"
+        case .device: return "device"
+        case .folder: return "folder:" + rootURL.standardizedFileURL.path
         }
     }
 
@@ -317,26 +329,34 @@ final class Vault {
     }
 }
 
-/// Hears about changes iCloud and other apps make to the notes folder through file coordination.
-private final class VaultPresenter: NSObject, NSFilePresenter, @unchecked Sendable {
+/// Hears about changes iCloud and other apps make to a folder through file coordination.
+/// Changes inside a subfolder named `ignoring` aren't passed on.
+final class FolderPresenter: NSObject, NSFilePresenter, @unchecked Sendable {
     let presentedItemURL: URL?
     let presentedItemOperationQueue: OperationQueue
+    private let ignoring: String?
     private let onChange: @Sendable () -> Void
 
-    init(url: URL, onChange: @escaping @Sendable () -> Void) {
+    init(url: URL, ignoring: String? = nil, onChange: @escaping @Sendable () -> Void) {
         presentedItemURL = url
         presentedItemOperationQueue = OperationQueue()
         presentedItemOperationQueue.maxConcurrentOperationCount = 1
+        self.ignoring = ignoring
         self.onChange = onChange
     }
 
-    func presentedSubitemDidChange(at url: URL) { onChange() }
-    func presentedSubitemDidAppear(at url: URL) { onChange() }
-    func presentedSubitem(at oldURL: URL, didMoveTo newURL: URL) { onChange() }
+    private func changed(at url: URL) {
+        if let ignoring, url.pathComponents.contains(ignoring) { return }
+        onChange()
+    }
+
+    func presentedSubitemDidChange(at url: URL) { changed(at: url) }
+    func presentedSubitemDidAppear(at url: URL) { changed(at: url) }
+    func presentedSubitem(at oldURL: URL, didMoveTo newURL: URL) { changed(at: newURL) }
     func presentedItemDidChange() { onChange() }
 
     func accommodatePresentedSubitemDeletion(at url: URL, completionHandler: @escaping (Error?) -> Void) {
-        onChange()
+        changed(at: url)
         completionHandler(nil)
     }
 }
@@ -345,11 +365,14 @@ private final class VaultPresenter: NSObject, NSFilePresenter, @unchecked Sendab
 import CoreServices
 
 /// File-system events for the whole tree, so edits made by apps that don't coordinate still show up.
+/// A batch of events all inside a subfolder named `ignoring` isn't passed on.
 private final class FolderWatcher: @unchecked Sendable {
     private var stream: FSEventStreamRef?
+    private let ignoring: String?
     private let onChange: @Sendable () -> Void
 
-    init(url: URL, onChange: @escaping @Sendable () -> Void) {
+    init(url: URL, ignoring: String? = nil, onChange: @escaping @Sendable () -> Void) {
+        self.ignoring = ignoring
         self.onChange = onChange
         var context = FSEventStreamContext(
             version: 0,
@@ -358,9 +381,16 @@ private final class FolderWatcher: @unchecked Sendable {
             release: nil,
             copyDescription: nil
         )
-        let callback: FSEventStreamCallback = { _, info, _, _, _, _ in
+        let callback: FSEventStreamCallback = { _, info, count, paths, _, _ in
             guard let info else { return }
-            Unmanaged<FolderWatcher>.fromOpaque(info).takeUnretainedValue().onChange()
+            let watcher = Unmanaged<FolderWatcher>.fromOpaque(info).takeUnretainedValue()
+            if let ignoring = watcher.ignoring {
+                let paths = paths.assumingMemoryBound(to: UnsafePointer<CChar>.self)
+                let folder = "/\(ignoring)/"
+                let elsewhere = (0..<count).contains { !String(cString: paths[$0]).appending("/").contains(folder) }
+                guard elsewhere else { return }
+            }
+            watcher.onChange()
         }
         stream = FSEventStreamCreate(
             nil,
