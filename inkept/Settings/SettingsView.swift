@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
     @Environment(Vault.self) private var vault
+    @Environment(LibraryFolder.self) private var library: LibraryFolder?
     @Environment(AppState.self) private var appState: AppState?
     @Environment(\.inkeptIsNavigationRoot) private var isColumnRoot
     @AppStorage("desiredRetention") private var desiredRetention = 0.90
@@ -158,6 +159,22 @@ struct SettingsView: View {
     }
 
     private var notesSettings: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            folderRow
+            HandwrittenText(vault.location == nil ? "settings.folder.none.note" : "settings.folder.note")
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
+                .fixedSize(horizontal: false, vertical: true)
+            if case .failed(let message) = library?.status {
+                HandwrittenText(verbatim: message)
+                    .font(InkeptTypography.note)
+                    .foregroundStyle(Color.inkeptAccent)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    private var folderRow: some View {
         Button { showVaultSetup = true } label: {
             HStack(alignment: .top, spacing: 14) {
                 InkIcon(kind: vault.location?.kind == .iCloud ? .cloud : .folder, color: .inkeptInk, size: 24)

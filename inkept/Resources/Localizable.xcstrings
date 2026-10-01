@@ -38,13 +38,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "your cards stay yours: on your devices and in your own iCloud. backups remain yours too."
+            "value" : "everything stays yours: plain files in a folder you choose, on your devices. backups remain yours too."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "карточки остаются вашими: на ваших устройствах и в вашем iCloud. резервные копии — тоже."
+            "value" : "всё остаётся вашим: обычные файлы в папке, которую вы выбрали, на ваших устройствах. резервные копии — тоже."
           }
         }
       }
@@ -2717,6 +2717,22 @@
         }
       }
     },
+    "library.openFolder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "already keep inkept in a folder? open it"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "уже храните inkept в папке? откройте её"
+          }
+        }
+      }
+    },
     "library.pickSubject" : {
       "localizations" : {
         "en" : {
@@ -3222,13 +3238,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "the notes folder can't be opened"
+            "value" : "the folder can't be opened"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "не удаётся открыть папку с конспектами"
+            "value" : "не удаётся открыть папку"
           }
         }
       }
@@ -3950,13 +3966,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "any folder you like, such as an Obsidian vault"
+            "value" : "any folder: an Obsidian vault, or one inkept already keeps things in"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "любая папка — например, хранилище Obsidian"
+            "value" : "любая папка — хранилище Obsidian или папка, где inkept уже что-то хранит"
           }
         }
       }
@@ -3982,13 +3998,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "an inkept folder in iCloud Drive: notes appear on every device you use, and in Files and Finder"
+            "value" : "an inkept folder in iCloud Drive: notes, cards and progress on every device you use"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "папка inkept в iCloud Drive: конспекты появятся на всех ваших устройствах, в «Файлах» и Finder"
+            "value" : "папка inkept в iCloud Drive: конспекты, карточки и прогресс на всех ваших устройствах"
           }
         }
       }
@@ -3998,13 +4014,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sign in to iCloud on this device to keep notes there"
+            "value" : "sign in to iCloud on this device to keep everything there"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "войдите в iCloud на этом устройстве, чтобы хранить конспекты там"
+            "value" : "войдите в iCloud на этом устройстве, чтобы хранить всё там"
           }
         }
       }
@@ -4014,13 +4030,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "notes are plain Markdown files in a folder, so Obsidian or any other editor can open them too."
+            "value" : "notes are plain Markdown files that Obsidian or any editor can open; cards and their progress sit beside them in a hidden folder. choose the same folder on another device and everything comes along."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "конспекты — это обычные файлы Markdown в папке, их можно открыть и в Obsidian, и в любом другом редакторе."
+            "value" : "конспекты — обычные файлы Markdown, их откроет Obsidian и любой редактор; карточки и прогресс лежат рядом в скрытой папке. выберите ту же папку на другом устройстве — и всё будет с вами."
           }
         }
       }
@@ -4030,13 +4046,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "notes folder"
+            "value" : "folder"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "папка конспектов"
+            "value" : "папка"
           }
         }
       }
@@ -4046,13 +4062,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "where should notes live?"
+            "value" : "where should inkept keep everything?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "где хранить конспекты?"
+            "value" : "где inkept будет всё хранить?"
           }
         }
       }
@@ -4605,18 +4621,50 @@
         }
       }
     },
-    "settings.notes" : {
+    "settings.folder.none.note" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "notes"
+            "value" : "until you choose a folder, cards stay only on this device"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "конспекты"
+            "value" : "пока папка не выбрана, карточки хранятся только на этом устройстве"
+          }
+        }
+      }
+    },
+    "settings.folder.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "notes, cards and progress all live here. choose this folder on another device to carry on where you left off"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "здесь лежат конспекты, карточки и прогресс. выберите эту папку на другом устройстве — и продолжайте с того же места"
+          }
+        }
+      }
+    },
+    "settings.notes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "folder"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "папка"
           }
         }
       }
@@ -4626,13 +4674,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "change where notes live"
+            "value" : "choose another folder"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "изменить место хранения"
+            "value" : "выбрать другую папку"
           }
         }
       }

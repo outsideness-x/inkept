@@ -12,6 +12,7 @@ enum LibraryDestination: Hashable {
 struct LibraryView: View {
     @Environment(\.modelContext) private var context
     @Environment(AppState.self) private var appState
+    @Environment(Vault.self) private var vault
     @Query(sort: [SortDescriptor(\SubjectModel.manualSortOrder), SortDescriptor(\SubjectModel.createdAt)])
     private var subjects: [SubjectModel]
     @Query private var cards: [Flashcard]
@@ -21,6 +22,7 @@ struct LibraryView: View {
     var selection: Binding<LibraryDestination?>?
 
     @State private var showCreate = false
+    @State private var showVaultSetup = false
     @State private var manageSubject: SubjectModel?
     @State private var renameSubject: SubjectModel?
     @State private var iconSubject: SubjectModel?
@@ -39,6 +41,16 @@ struct LibraryView: View {
                         action: { showCreate = true }
                     )
                     .padding(.top, 36)
+                    // On a new device the library may be waiting in a folder already.
+                    if vault.location == nil {
+                        Button { showVaultSetup = true } label: {
+                            HandwrittenText("library.openFolder")
+                                .multilineTextAlignment(.center)
+                        }
+                        .buttonStyle(InkButtonStyle(kind: .quiet, seed: 146))
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, -24)
+                    }
                 } else {
                     TimelineView(.everyMinute) { timeline in
                         today(at: timeline.date)
@@ -69,6 +81,9 @@ struct LibraryView: View {
                 }
             }
             .background(alignment: .bottom) { PaperFade() }
+        }
+        .sheet(isPresented: $showVaultSetup) {
+            VaultSetupView(isSheet: true)
         }
         .sheet(isPresented: $showCreate) {
             NameEditorSheet(title: "subject.new", initialIcon: nil) { name, icon in
