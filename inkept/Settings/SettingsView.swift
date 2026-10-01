@@ -149,8 +149,6 @@ struct SettingsView: View {
 
     private var dataSettings: some View {
         VStack(spacing: 0) {
-            syncRow
-            InkDivider(seed: 111)
             dataRow("backup.export", note: "backup.export.note", icon: .upload, action: exportBackup)
             InkDivider(seed: 112)
             dataRow("backup.import", note: "backup.import.note", icon: .download) {
@@ -187,27 +185,6 @@ struct SettingsView: View {
         case .folder: vault.rootURL?.lastPathComponent ?? String(localized: "notes.setup.folder")
         case nil: String(localized: "settings.notes.none")
         }
-    }
-
-    /// Whether the library is mirrored to iCloud; turning it off happens in the system's iCloud settings.
-    private var syncRow: some View {
-        let isSignedIn = FileManager.default.ubiquityIdentityToken != nil
-        return HStack(alignment: .top, spacing: 14) {
-            InkIcon(kind: .cloud, color: isSignedIn ? .inkeptInk : .inkeptGraphite, size: 24)
-                .frame(width: 28, height: 28)
-            VStack(alignment: .leading, spacing: 2) {
-                HandwrittenText("sync.icloud")
-                    .font(InkeptTypography.control)
-                    .foregroundStyle(Color.inkeptInk)
-                HandwrittenText(isSignedIn ? "sync.on" : "sync.off")
-                    .font(InkeptTypography.note)
-                    .foregroundStyle(Color.inkeptGraphite)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            Spacer(minLength: 0)
-        }
-        .padding(.vertical, 12)
-        .accessibilityElement(children: .combine)
     }
 
     private func dataRow(

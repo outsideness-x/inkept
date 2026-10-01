@@ -77,8 +77,6 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         NSPhotoLibraryAddUsageDescription: Save flashcards as images to your photo library.
-        UIBackgroundModes:
-          - remote-notification
         UIFileSharingEnabled: true
         LSSupportsOpeningDocumentsInPlace: true
         NSUbiquitousContainers:

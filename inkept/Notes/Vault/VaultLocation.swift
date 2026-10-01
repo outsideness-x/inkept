@@ -14,6 +14,9 @@ struct VaultLocation: Codable, Equatable, Sendable {
     var kind: Kind
     var bookmark: Data?
 
+    /// The app's own folder in iCloud Drive, shown there as `inkept`.
+    static let iCloudContainer = "iCloud.com.chemical-pink.inkept"
+
     static let iCloud = VaultLocation(kind: .iCloud)
     static let device = VaultLocation(kind: .device)
 
@@ -58,7 +61,7 @@ struct VaultLocation: Codable, Equatable, Sendable {
         switch kind {
         case .iCloud:
             guard let container = FileManager.default.url(
-                forUbiquityContainerIdentifier: LibraryStore.cloudContainerIdentifier
+                forUbiquityContainerIdentifier: Self.iCloudContainer
             ) else { throw ResolveError.iCloudUnavailable }
             let documents = container.appendingPathComponent("Documents", isDirectory: true)
             try FileManager.default.createDirectory(at: documents, withIntermediateDirectories: true)

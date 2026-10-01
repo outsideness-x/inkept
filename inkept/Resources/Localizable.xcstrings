@@ -5559,54 +5559,6 @@
         }
       }
     },
-    "sync.icloud" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud"
-          }
-        }
-      }
-    },
-    "sync.off" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud is off on this device, so everything stays here. sign in to iCloud to sync"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud на этом устройстве выключен, поэтому всё хранится здесь. войдите в iCloud, чтобы включить синхронизацию"
-          }
-        }
-      }
-    },
-    "sync.on" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "your cards and notes sync through your own iCloud, on every device you use"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "карточки и конспекты синхронизируются через ваш iCloud на всех ваших устройствах"
-          }
-        }
-      }
-    },
     "typst.error.empty" : {
       "localizations" : {
         "en" : {
