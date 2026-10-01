@@ -239,7 +239,7 @@ struct SettingsView: View {
 
     private var backupFilename: String {
         let date = Date.now.formatted(.iso8601.year().month().day())
-        return "remn-backup-\(date)"
+        return "inkept-backup-\(date)"
     }
 
     private func exportBackup() {

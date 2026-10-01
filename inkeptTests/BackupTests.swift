@@ -63,6 +63,12 @@ final class BackupTests: XCTestCase {
         let older = try BackupService.decode(JSONSerialization.data(withJSONObject: json))
         XCTAssertEqual(older.subjects.count, 1)
         XCTAssertNil(older.subjects.first?.icon)
+
+        // So does one exported when the app was called remn; another app's archive doesn't.
+        json["schema"] = "remn-backup-v1"
+        XCTAssertNoThrow(try BackupService.decode(JSONSerialization.data(withJSONObject: json)))
+        json["schema"] = "someone-else-backup-v1"
+        XCTAssertThrowsError(try BackupService.decode(JSONSerialization.data(withJSONObject: json)))
     }
 
     func testInvalidRelationshipsDoNotMutateStore() throws {

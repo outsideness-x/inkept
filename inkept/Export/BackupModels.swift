@@ -1,7 +1,9 @@
 import Foundation
 
 struct BackupArchive: Codable, Equatable, Sendable {
-    static let currentSchema = "remn-backup-v1"
+    static let currentSchema = "inkept-backup-v1"
+    /// Backups exported when the app was called remn are the same format under its old name.
+    static let readableSchemas: Set<String> = [currentSchema, "remn-backup-v1"]
 
     var schema: String
     var exportedAt: Date

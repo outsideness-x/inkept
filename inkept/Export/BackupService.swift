@@ -189,7 +189,7 @@ enum BackupService {
     }
 
     static func validate(_ archive: BackupArchive) throws {
-        guard archive.schema == BackupArchive.currentSchema else { throw BackupError.unsupportedSchema }
+        guard BackupArchive.readableSchemas.contains(archive.schema) else { throw BackupError.unsupportedSchema }
         guard (0.70...0.97).contains(archive.settings.desiredRetention),
               AppearanceMode(rawValue: archive.settings.appearanceMode) != nil
         else { throw BackupError.invalidSetting }
