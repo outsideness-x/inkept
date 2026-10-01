@@ -5,6 +5,8 @@ import SwiftUI
 struct inkeptApp: App {
     @AppStorage("appearanceMode") private var appearanceMode = AppearanceMode.system.rawValue
     @State private var vault: Vault
+    /// The card library's place in the notes folder; none for the demo library, which stays in memory.
+    @State private var library: LibraryFolder?
     private let container: ModelContainer?
     private let startupError: String?
 
@@ -22,7 +24,9 @@ struct inkeptApp: App {
                 return
             }
             #endif
-            container = try LibraryStore.makeContainer()
+            let container = try LibraryStore.makeContainer()
+            self.container = container
+            _library = State(initialValue: LibraryFolder(context: container.mainContext))
             startupError = nil
         } catch {
             container = nil
@@ -72,6 +76,7 @@ struct inkeptApp: App {
             RootView()
                 .modelContainer(container)
                 .environment(vault)
+                .modifier(LibraryFolderLink(library: library, vault: vault))
         } else {
             StartupFailureView(message: startupError ?? String(localized: "storage.error"))
         }
@@ -97,5 +102,36 @@ private struct StartupFailureView: View {
         .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .paperBackground()
+    }
+}
+
+/// Keeps the card library in the notes folder while the app runs: opens it along with the folder,
+/// reads it again whenever the app comes back, and finishes writing when the app goes away.
+private struct LibraryFolderLink: ViewModifier {
+    let library: LibraryFolder?
+    let vault: Vault
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        if let library {
+            content
+                .environment(library)
+                .task(id: vault.libraryIdentity) {
+                    if let folder = vault.rootURL, let identity = vault.libraryIdentity {
+                        await library.attach(to: folder, identity: identity)
+                    } else {
+                        library.detach()
+                    }
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    switch phase {
+                    case .active: Task { await library.refresh() }
+                    case .background: Task { await library.flush() }
+                    default: break
+                    }
+                }
+        } else {
+            content
+        }
     }
 }
