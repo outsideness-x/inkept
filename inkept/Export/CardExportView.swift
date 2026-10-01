@@ -27,7 +27,7 @@ struct CardExportView: View {
             }
             HStack(spacing: 8) {
                 Spacer()
-                StackedCardsDoodle(width: 30)
+                ForgetMeNot(colors: .inkept, size: 40, lineWeight: 2.2)
                 HandwrittenText("inkept", weight: 0.8)
                     .font(InkeptTypography.display(22, relativeTo: .body))
                     .foregroundStyle(Color.inkeptInk)

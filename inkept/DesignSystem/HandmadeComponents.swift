@@ -46,7 +46,7 @@ struct ScreenTitle: View {
     }
 }
 
-/// Two index cards, one on top of the other: inkept's mark.
+/// Two index cards, one on top of the other.
 struct StackedCardsDoodle: View {
     var ink: Color = .inkeptInk
     var accent: Color = .inkeptAccent

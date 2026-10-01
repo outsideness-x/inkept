@@ -12,9 +12,23 @@ extension Color {
 
     static let inkeptSurface = inkeptInk.opacity(0.05)
 
-    private init(light: UInt32, dark: UInt32) {
+    fileprivate init(light: UInt32, dark: UInt32) {
         self.init(PlatformColor.inkeptDynamic(light: light, dark: dark))
     }
+}
+
+extension ForgetMeNot.Colors {
+    /// The forget-me-not from the icon, in the app's own ink.
+    static let inkept = ForgetMeNot.Colors(
+        ink: .inkeptInk,
+        petal: Color(light: 0x87B3EB, dark: 0x80ABE8),
+        vein: Color(light: 0x4A73C2, dark: 0x456BB8).opacity(0.85),
+        eye: Color(light: 0xF5C742, dark: 0xF5C742),
+        throat: Color(light: 0x5C4729, dark: 0x5C4729),
+        halo: Color(light: 0xFCFAF2, dark: 0xF2EDE0),
+        bud: Color(light: 0xED8580, dark: 0xF07A7A),
+        leaf: Color(light: 0xABBD8F, dark: 0x6E8059)
+    )
 }
 
 extension PlatformColor {
