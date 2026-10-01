@@ -990,6 +990,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "inkept-typst"
+version = "0.1.0"
+dependencies = [
+ "tiny-skia",
+ "typst",
+ "typst-assets",
+ "typst-layout",
+ "typst-render",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1548,17 +1559,6 @@ name = "regex-syntax"
 version = "0.8.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
-
-[[package]]
-name = "remn-typst"
-version = "0.1.0"
-dependencies = [
- "tiny-skia",
- "typst",
- "typst-assets",
- "typst-layout",
- "typst-render",
-]
 
 [[package]]
 name = "resvg"

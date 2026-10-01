@@ -13,14 +13,14 @@ fn main() {
     let packages = CString::new(packages.as_str()).unwrap();
     let neucha = CString::new(concat!(env!("CARGO_MANIFEST_DIR"), "/../inkept/Resources/Fonts/Neucha.ttf")).unwrap();
     let fonts = [neucha.as_ptr()];
-    unsafe { remn_typst::remn_typst_configure(packages.as_ptr(), fonts.as_ptr(), fonts.len()) };
+    unsafe { inkept_typst::inkept_typst_configure(packages.as_ptr(), fonts.as_ptr(), fonts.len()) };
     let prelude = "#set page(width: 340pt, height: auto, margin: (x: 2pt, y: 4pt), fill: none)\n\
         #set text(font: (\"Neucha\", \"New Computer Modern\"), size: 17pt, fill: rgb(\"#1d1b19\"))\n\
         #show math.equation: set text(font: \"New Computer Modern Math\")\n";
     for file in files {
         let source = std::fs::read_to_string(file).unwrap();
         let started = std::time::Instant::now();
-        match remn_typst::render(&format!("{prelude}{source}"), None, 2.0) {
+        match inkept_typst::render(&format!("{prelude}{source}"), None, 2.0) {
             Ok(picture) => {
                 let name = Path::new(file).file_stem().unwrap().to_string_lossy();
                 let parent = Path::new(file).parent().and_then(|p| p.file_name()).map(|n| n.to_string_lossy().to_string()).unwrap_or_default();

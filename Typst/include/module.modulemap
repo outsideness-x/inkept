@@ -1,5 +1,5 @@
-module RemnTypstC {
-    header "remn_typst.h"
-    link "remn_typst"
+module InkeptTypstC {
+    header "inkept_typst.h"
+    link "inkept_typst"
     export *
 }

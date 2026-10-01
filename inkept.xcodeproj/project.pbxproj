@@ -819,7 +819,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/RemnTypst/libremn_typst.a",
+				"$(BUILT_PRODUCTS_DIR)/InkeptTypst/libinkept_typst.a",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1071,7 +1071,7 @@
 					"@executable_path/Frameworks",
 				);
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/RemnTypst";
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/InkeptTypst";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chemical-pink.inkept";
 				PRODUCT_NAME = inkept;
 				SDKROOT = auto;
@@ -1162,7 +1162,7 @@
 					"@executable_path/Frameworks",
 				);
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/RemnTypst";
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/InkeptTypst";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chemical-pink.inkept";
 				PRODUCT_NAME = inkept;
 				SDKROOT = auto;
@@ -1185,7 +1185,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/RemnTypst";
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/InkeptTypst";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chemical-pink.inkept.tests";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/Typst/include";
@@ -1204,7 +1204,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/RemnTypst";
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/InkeptTypst";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chemical-pink.inkept.tests";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/Typst/include";

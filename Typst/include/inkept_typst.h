@@ -1,5 +1,5 @@
-#ifndef REMN_TYPST_H
-#define REMN_TYPST_H
+#ifndef INKEPT_TYPST_H
+#define INKEPT_TYPST_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -11,16 +11,16 @@ typedef struct {
     uint32_t width;
     uint32_t height;
     char *error;
-} RemnTypstImage;
+} InkeptTypstImage;
 
 /// Sets up the fonts and the folder of offline `@preview` packages. Call once, before rendering.
-void remn_typst_configure(const char *packages_dir, const char *const *font_paths, size_t font_count);
+void inkept_typst_configure(const char *packages_dir, const char *const *font_paths, size_t font_count);
 
 /// Compiles a block of Typst and draws it at `scale` pixels per point, trimmed to the ink.
 /// `root` is the folder relative paths are read from; it may be NULL.
-RemnTypstImage remn_typst_render(const char *source, const char *root, float scale);
+InkeptTypstImage inkept_typst_render(const char *source, const char *root, float scale);
 
-/// Releases what `remn_typst_render` returned.
-void remn_typst_free(RemnTypstImage image);
+/// Releases what `inkept_typst_render` returned.
+void inkept_typst_free(InkeptTypstImage image);
 
 #endif

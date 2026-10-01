@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Builds the Typst engine (Typst/, Rust) for whatever Xcode is building, and leaves
-# libremn_typst.a in $BUILT_PRODUCTS_DIR/RemnTypst. Run by the app target before it compiles.
+# libinkept_typst.a in $BUILT_PRODUCTS_DIR/InkeptTypst. Run by the app target before it compiles.
 #
 # Needs rustup with the Apple targets:
 #   rustup target add aarch64-apple-ios aarch64-apple-ios-sim aarch64-apple-darwin x86_64-apple-darwin
@@ -13,7 +13,7 @@ if ! command -v cargo >/dev/null; then
 fi
 
 crate="${PROJECT_DIR}/Typst"
-output="${BUILT_PRODUCTS_DIR}/RemnTypst"
+output="${BUILT_PRODUCTS_DIR}/InkeptTypst"
 mkdir -p "$output"
 
 targets=()
@@ -40,17 +40,17 @@ for target in $targets; do
         IPHONEOS_DEPLOYMENT_TARGET="${IPHONEOS_DEPLOYMENT_TARGET:-18.0}" \
         MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-15.0}" \
         cargo build --release --quiet --manifest-path "$crate/Cargo.toml" --target "$target" --lib
-    libraries+=("$crate/target/$target/release/libremn_typst.a")
+    libraries+=("$crate/target/$target/release/libinkept_typst.a")
 done
 
 if (( ${#libraries} == 1 )); then
-    cp -f "${libraries[1]}" "$output/libremn_typst.a.tmp"
+    cp -f "${libraries[1]}" "$output/libinkept_typst.a.tmp"
 else
-    lipo -create $libraries -output "$output/libremn_typst.a.tmp"
+    lipo -create $libraries -output "$output/libinkept_typst.a.tmp"
 fi
 # Only touch the library when it changed, so the app isn't relinked for nothing.
-if ! cmp -s "$output/libremn_typst.a.tmp" "$output/libremn_typst.a"; then
-    mv -f "$output/libremn_typst.a.tmp" "$output/libremn_typst.a"
+if ! cmp -s "$output/libinkept_typst.a.tmp" "$output/libinkept_typst.a"; then
+    mv -f "$output/libinkept_typst.a.tmp" "$output/libinkept_typst.a"
 else
-    rm -f "$output/libremn_typst.a.tmp"
+    rm -f "$output/libinkept_typst.a.tmp"
 fi

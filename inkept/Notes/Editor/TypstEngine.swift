@@ -1,6 +1,6 @@
 import CoreImage
 import Foundation
-import RemnTypstC
+import InkeptTypstC
 
 /// The Typst compiler, built in: turns a ```typst block into a picture, offline, off the main thread.
 actor TypstEngine {
@@ -27,12 +27,12 @@ actor TypstEngine {
         let document = Self.prelude(width: width, fontSize: fontSize, handwritten: handwritten) + source
         let image = document.withCString { text in
             if let folder {
-                folder.path.withCString { root in remn_typst_render(text, root, Float(scale)) }
+                folder.path.withCString { root in inkept_typst_render(text, root, Float(scale)) }
             } else {
-                remn_typst_render(text, nil, Float(scale))
+                inkept_typst_render(text, nil, Float(scale))
             }
         }
-        defer { remn_typst_free(image) }
+        defer { inkept_typst_free(image) }
         if let error = image.error {
             throw Failure(message: String(cString: error))
         }
@@ -52,7 +52,7 @@ actor TypstEngine {
         var pointers = cStrings.map { UnsafePointer<CChar>($0) }
         packages.withCString { packagesPath in
             pointers.withUnsafeMutableBufferPointer { buffer in
-                remn_typst_configure(packagesPath, buffer.baseAddress, buffer.count)
+                inkept_typst_configure(packagesPath, buffer.baseAddress, buffer.count)
             }
         }
     }

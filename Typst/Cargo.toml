@@ -1,13 +1,13 @@
 [package]
-name = "remn-typst"
+name = "inkept-typst"
 version = "0.1.0"
 edition = "2021"
 publish = false
-description = "Typst for remn's notes: compiles a block of Typst to a picture, offline."
+description = "Typst for inkept's notes: compiles a block of Typst to a picture, offline."
 license = "MIT"
 
 [lib]
-name = "remn_typst"
+name = "inkept_typst"
 crate-type = ["staticlib", "rlib"]
 
 [dependencies]

@@ -48,7 +48,7 @@ targets:
       - name: Build the Typst engine
         script: "\"${PROJECT_DIR}/Scripts/build-typst.sh\""
         outputFiles:
-          - $(BUILT_PRODUCTS_DIR)/RemnTypst/libremn_typst.a
+          - $(BUILT_PRODUCTS_DIR)/InkeptTypst/libinkept_typst.a
         basedOnDependencyAnalysis: false
     info:
       path: inkept/Resources/Info.plist
@@ -98,7 +98,7 @@ targets:
         CODE_SIGN_ENTITLEMENTS[sdk=iphone*]: inkept/Resources/inkept-iOS.entitlements
         LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]: $(inherited) @executable_path/../Frameworks
         SWIFT_INCLUDE_PATHS: $(PROJECT_DIR)/Typst/include
-        LIBRARY_SEARCH_PATHS: $(BUILT_PRODUCTS_DIR)/RemnTypst
+        LIBRARY_SEARCH_PATHS: $(BUILT_PRODUCTS_DIR)/InkeptTypst
         ENABLE_USER_SCRIPT_SANDBOXING: NO
     dependencies:
       - package: FSRS
@@ -117,7 +117,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.chemical-pink.inkept.tests
         GENERATE_INFOPLIST_FILE: YES
         SWIFT_INCLUDE_PATHS: $(PROJECT_DIR)/Typst/include
-        LIBRARY_SEARCH_PATHS: $(BUILT_PRODUCTS_DIR)/RemnTypst
+        LIBRARY_SEARCH_PATHS: $(BUILT_PRODUCTS_DIR)/InkeptTypst
     dependencies:
       - target: inkept
       - package: Textual

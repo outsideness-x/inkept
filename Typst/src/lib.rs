@@ -1,4 +1,4 @@
-//! Typst for remn's notes.
+//! Typst for inkept's notes.
 //!
 //! The app hands over a block of Typst and gets back a picture: premultiplied RGBA pixels, trimmed
 //! to what was drawn. Everything is offline — fonts are built in, and packages come from a folder
@@ -163,7 +163,7 @@ pub struct Picture {
 pub fn render(source: &str, root: Option<&Path>, scale: f32) -> Result<Picture, String> {
     let guard = shared().lock().unwrap();
     let shared = guard.as_ref().ok_or("typst isn't configured")?;
-    let main_id = RootedPath::new(VirtualRoot::Project, VirtualPath::new("/remn-block.typ").unwrap()).intern();
+    let main_id = RootedPath::new(VirtualRoot::Project, VirtualPath::new("/inkept-block.typ").unwrap()).intern();
     let job = Job {
         shared,
         main: Source::new(main_id, source.to_string()),
@@ -238,9 +238,9 @@ fn trim(pixmap: tiny_skia::Pixmap, margin: u32) -> Picture {
 
 // MARK: - C interface
 
-/// The result of `remn_typst_render`. Free it with `remn_typst_free`.
+/// The result of `inkept_typst_render`. Free it with `inkept_typst_free`.
 #[repr(C)]
-pub struct RemnTypstImage {
+pub struct InkeptTypstImage {
     /// Premultiplied RGBA, row by row; null when `error` is set.
     pub pixels: *mut u8,
     pub length: usize,
@@ -263,7 +263,7 @@ unsafe fn path_from(pointer: *const c_char) -> Option<PathBuf> {
 /// # Safety
 /// Every pointer must be null or point to a NUL-terminated UTF-8 string.
 #[no_mangle]
-pub unsafe extern "C" fn remn_typst_configure(
+pub unsafe extern "C" fn inkept_typst_configure(
     packages_dir: *const c_char,
     font_paths: *const *const c_char,
     font_count: usize,
@@ -286,12 +286,12 @@ pub unsafe extern "C" fn remn_typst_configure(
 /// # Safety
 /// `source` must point to a NUL-terminated UTF-8 string; `root` must be null or one.
 #[no_mangle]
-pub unsafe extern "C" fn remn_typst_render(
+pub unsafe extern "C" fn inkept_typst_render(
     source: *const c_char,
     root: *const c_char,
     scale: f32,
-) -> RemnTypstImage {
-    let empty = RemnTypstImage {
+) -> InkeptTypstImage {
+    let empty = InkeptTypstImage {
         pixels: std::ptr::null_mut(),
         length: 0,
         width: 0,
@@ -300,7 +300,7 @@ pub unsafe extern "C" fn remn_typst_render(
     };
     let text = match unsafe { CStr::from_ptr(source) }.to_str() {
         Ok(text) => text,
-        Err(_) => return RemnTypstImage { error: message("the block isn't valid UTF-8"), ..empty },
+        Err(_) => return InkeptTypstImage { error: message("the block isn't valid UTF-8"), ..empty },
     };
     let root = unsafe { path_from(root) };
     let outcome = std::panic::catch_unwind(|| render(text, root.as_deref(), scale.max(0.5)));
@@ -310,19 +310,19 @@ pub unsafe extern "C" fn remn_typst_render(
             let length = pixels.len();
             let pointer = pixels.as_mut_ptr();
             std::mem::forget(pixels);
-            RemnTypstImage { pixels: pointer, length, width: picture.width, height: picture.height, error: std::ptr::null_mut() }
+            InkeptTypstImage { pixels: pointer, length, width: picture.width, height: picture.height, error: std::ptr::null_mut() }
         }
-        Ok(Err(error)) => RemnTypstImage { error: message(&error), ..empty },
-        Err(_) => RemnTypstImage { error: message("typst stopped unexpectedly"), ..empty },
+        Ok(Err(error)) => InkeptTypstImage { error: message(&error), ..empty },
+        Err(_) => InkeptTypstImage { error: message("typst stopped unexpectedly"), ..empty },
     }
 }
 
-/// Releases what `remn_typst_render` returned.
+/// Releases what `inkept_typst_render` returned.
 ///
 /// # Safety
-/// `image` must come from `remn_typst_render` and be freed once.
+/// `image` must come from `inkept_typst_render` and be freed once.
 #[no_mangle]
-pub unsafe extern "C" fn remn_typst_free(image: RemnTypstImage) {
+pub unsafe extern "C" fn inkept_typst_free(image: InkeptTypstImage) {
     if !image.pixels.is_null() {
         drop(unsafe { Box::from_raw(std::ptr::slice_from_raw_parts_mut(image.pixels, image.length)) });
     }
@@ -340,7 +340,7 @@ mod tests {
     use super::*;
 
     fn configure() {
-        unsafe { remn_typst_configure(std::ptr::null(), std::ptr::null(), 0) };
+        unsafe { inkept_typst_configure(std::ptr::null(), std::ptr::null(), 0) };
     }
 
     #[test]
