@@ -3,7 +3,7 @@
 
     Scripts/fetch-typst-packages.py
 
-Packages land in remn/Resources/TypstPackages/preview/<name>/<version>/, the layout the Typst
+Packages land in inkept/Resources/TypstPackages/preview/<name>/<version>/, the layout the Typst
 engine reads. Documentation, examples and tests are left out to keep the app small.
 """
 import io
@@ -15,7 +15,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEST = ROOT / "remn" / "Resources" / "TypstPackages" / "preview"
+DEST = ROOT / "inkept" / "Resources" / "TypstPackages" / "preview"
 INDEX = "https://packages.typst.org/preview/index.json"
 
 # What people draw in notes: plots, diagrams, circuits, timelines, annotated maths, chemistry, algorithms.

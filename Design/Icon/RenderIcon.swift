@@ -15,7 +15,7 @@ struct RenderIcon {
     static func main() throws {
         let arguments = CommandLine.arguments.dropFirst()
         let output = URL(fileURLWithPath: arguments.first ?? ".")
-        let font = URL(fileURLWithPath: arguments.dropFirst().first ?? "remn/Resources/Fonts/Neucha.ttf")
+        let font = URL(fileURLWithPath: arguments.dropFirst().first ?? "inkept/Resources/Fonts/Neucha.ttf")
         guard CTFontManagerRegisterFontsForURL(font as CFURL, .process, nil) else { throw RenderError.failed(font.path) }
         for variant in IconArt.Variant.allCases {
             try write(IconArt(variant: variant), to: output.appendingPathComponent(variant.filename))

@@ -11,7 +11,7 @@ fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
     let (packages, out, files) = (&args[0], &args[1], &args[2..]);
     let packages = CString::new(packages.as_str()).unwrap();
-    let neucha = CString::new(concat!(env!("CARGO_MANIFEST_DIR"), "/../remn/Resources/Fonts/Neucha.ttf")).unwrap();
+    let neucha = CString::new(concat!(env!("CARGO_MANIFEST_DIR"), "/../inkept/Resources/Fonts/Neucha.ttf")).unwrap();
     let fonts = [neucha.as_ptr()];
     unsafe { remn_typst::remn_typst_configure(packages.as_ptr(), fonts.as_ptr(), fonts.len()) };
     let prelude = "#set page(width: 340pt, height: auto, margin: (x: 2pt, y: 4pt), fill: none)\n\
