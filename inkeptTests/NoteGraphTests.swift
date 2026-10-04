@@ -97,4 +97,83 @@ struct NoteGraphTests {
         #expect(elapsed < .seconds(20))
         #expect(layout.positions.allSatisfy { $0.x.isFinite && $0.y.isFinite })
     }
+
+    @Test func notesNoLinkReachesCanBeLeftOut() throws {
+        let alone = VaultFolder(path: "", name: "", folders: [
+            VaultFolder(path: "Physics", name: "Physics", folders: [], notes: [
+                note("Physics/A.md", links: [NoteLink(kind: .wiki, target: "B")]),
+                note("Physics/B.md"),
+                note("Physics/Alone.md", tags: ["waves"]),
+            ]),
+        ], notes: [])
+        let all = NoteGraph(root: alone, scope: "", options: .init(showsTags: true))
+        #expect(all.index(of: "note:Physics/Alone.md") != nil)
+        let linked = NoteGraph(root: alone, scope: "", options: .init(showsTags: true, showsOrphans: false))
+        #expect(linked.index(of: "note:Physics/Alone.md") == nil)
+        #expect(linked.index(of: "folder:Physics") != nil)
+        // What was joined to the note goes with it, and every edge still points at the right nodes.
+        let tag = try #require(linked.index(of: "tag:waves"))
+        #expect(linked.neighbours[tag].isEmpty)
+        for edge in linked.edges {
+            #expect(edge.a < linked.nodes.count && edge.b < linked.nodes.count)
+        }
+        let a = try #require(linked.index(of: "note:Physics/A.md"))
+        let b = try #require(linked.index(of: "note:Physics/B.md"))
+        #expect(linked.neighbours[a].contains(b))
+    }
+
+    @Test func nodesKnowTheSubjectTheyBelongTo() throws {
+        let graph = NoteGraph(root: vault, scope: "")
+        let a = try #require(graph.index(of: "note:Physics/A.md"))
+        #expect(graph.nodes[a].subject == "Physics")
+        #expect(graph.nodes[a].tintIcon == "atom")
+        let d = try #require(graph.index(of: "note:D.md"))
+        #expect(graph.nodes[d].subject == nil)
+        let maths = try #require(graph.index(of: "folder:Maths"))
+        #expect(graph.nodes[maths].subject == "Maths")
+        #expect(NoteGraph.subject(of: "Physics/Optics/Lenses") == "Physics")
+    }
+
+    @Test func theViewFitsTheMapUnderTheControls() {
+        let bounds = CGRect(x: -100, y: -50, width: 200, height: 100)
+        let size = CGSize(width: 400, height: 300)
+        let camera = GraphCamera.fitting(bounds, in: size, margin: 20, top: 40)
+        let top = camera.screen(CGPoint(x: bounds.midX, y: bounds.minY), in: size)
+        let bottom = camera.screen(CGPoint(x: bounds.midX, y: bounds.maxY), in: size)
+        // Centred in the room under the controls, and inside it.
+        #expect(abs((top.y + bottom.y) / 2 - (40 + (300 - 40) / 2)) < 0.001)
+        #expect(top.y >= 40 + 20 - 0.001)
+        #expect(bottom.y <= 300 - 20 + 0.001)
+        // Halfway between two views, the zoom has changed by the same factor either side.
+        let far = GraphCamera(centre: .zero, scale: 0.5)
+        let near = GraphCamera(centre: CGPoint(x: 100, y: 0), scale: 2)
+        let middle = far.mixed(with: near, by: 0.5)
+        #expect(abs(middle.scale - 1) < 0.0001)
+        #expect(abs(middle.centre.x - 50) < 0.0001)
+    }
+
+    @Test func theLayoutCoolsAtTheSamePaceAtAnyFrameRate() {
+        let graph = NoteGraph(root: vault, scope: "")
+        var sixty = GraphLayout(graph: graph)
+        var oneTwenty = GraphLayout(graph: graph)
+        for _ in 0..<60 { sixty.tick(timeScale: 1) }
+        for _ in 0..<120 { oneTwenty.tick(timeScale: 0.5) }
+        #expect(abs(sixty.alpha - oneTwenty.alpha) < 0.0001)
+        #expect(oneTwenty.positions.allSatisfy { $0.x.isFinite && $0.y.isFinite })
+    }
+
+    @Test func aTallViewGetsATallerMap() {
+        let graph = NoteGraph(root: vault, scope: "")
+        func extent(_ aspect: CGFloat) -> CGSize {
+            var layout = GraphLayout(graph: graph, aspect: aspect)
+            layout.settle(ticks: 400)
+            let xs = layout.positions.map(\.x)
+            let ys = layout.positions.map(\.y)
+            return CGSize(width: xs.max()! - xs.min()!, height: ys.max()! - ys.min()!)
+        }
+        let tall = extent(2)
+        let wide = extent(0.5)
+        #expect(tall.height / tall.width > wide.height / wide.width)
+    }
 }
+

@@ -10,6 +10,9 @@ struct GraphLayout: Sendable {
     private let springs: [Spring]
     private let charges: [CGFloat]
     let radii: [CGFloat]
+    /// How hard each node is drawn to the middle, across and down. A tall view pulls harder across,
+    /// so the map grows into the shape it's shown in.
+    private let gravity: CGVector
     private(set) var alpha: CGFloat
     /// Where the heat settles; above zero while a node is being dragged, so the rest keep moving.
     var alphaTarget: CGFloat = 0
@@ -35,33 +38,40 @@ struct GraphLayout: Sendable {
     }
 
     /// Starts from where nodes were before, if they were; new ones start beside a neighbour.
-    init(graph: NoteGraph, previous: [String: CGPoint] = [:]) {
+    /// `spacing` spreads everything further apart or draws it closer, `aspect` is the height of the
+    /// view over its width, and `nodeScale` makes every node bigger or smaller.
+    init(graph: NoteGraph, previous: [String: CGPoint] = [:], spacing: CGFloat = 1, aspect: CGFloat = 1, nodeScale: CGFloat = 1) {
         let nodes = graph.nodes
-        radii = nodes.map(Self.radius)
+        radii = nodes.map { Self.radius(for: $0) * nodeScale }
+        // A charge pushes as far as the square root of its strength, so spacing goes in squared.
+        let push = spacing * spacing
         charges = nodes.map { node in
-            switch node.kind {
-            case .folder: -220
+            let charge: CGFloat = switch node.kind {
+            case .folder: -240
             case .tag: -80
             case .missing: -40
-            case .note: -70 - CGFloat(min(node.degree, 12)) * 4
+            case .note: -75 - CGFloat(min(node.degree, 12)) * 4
             }
+            return charge * push
         }
         let degrees = graph.neighbours.map { CGFloat(max($0.count, 1)) }
         springs = graph.edges.map { edge in
             let length: CGFloat = switch edge.kind {
-            case .link: 74
-            case .folder: 44
+            case .link: 78
+            case .folder: 46
             case .tag: 58
             }
             return Spring(
                 a: edge.a,
                 b: edge.b,
-                length: length + (nodes[edge.a].kind == .folder || nodes[edge.b].kind == .folder ? 14 : 0),
+                length: (length + (nodes[edge.a].kind == .folder || nodes[edge.b].kind == .folder ? 16 : 0)) * spacing,
                 strength: (edge.kind == .folder ? 0.7 : 1) / min(degrees[edge.a], degrees[edge.b]),
                 bias: degrees[edge.a] / (degrees[edge.a] + degrees[edge.b])
             )
         }
-        positions = Self.startingPositions(graph: graph, previous: previous)
+        let stretch = pow(min(max(aspect, 0.45), 2.2), 0.9)
+        gravity = CGVector(dx: 0.045 * stretch, dy: 0.045 / stretch)
+        positions = Self.startingPositions(graph: graph, previous: previous, spacing: spacing)
         velocities = Array(repeating: .zero, count: nodes.count)
         let known = nodes.filter { previous[$0.id] != nil }.count
         alpha = !nodes.isEmpty && known * 10 >= nodes.count * 9 ? 0.25 : 1
@@ -70,9 +80,9 @@ struct GraphLayout: Sendable {
     static func radius(for node: NoteGraph.Node) -> CGFloat {
         switch node.kind {
         case .folder: 17 + min(sqrt(CGFloat(node.degree)) * 1.6, 9)
-        case .tag: 7
-        case .missing: 5
-        case .note: 5 + min(sqrt(CGFloat(node.degree)) * 2.3, 10)
+        case .tag: 6
+        case .missing: 4.5
+        case .note: 4.5 + min(sqrt(CGFloat(node.degree)) * 2.4, 10)
         }
     }
 
@@ -88,10 +98,13 @@ struct GraphLayout: Sendable {
         }
     }
 
-    mutating func tick() {
+    /// Moves everything on by one step of the simulation, or by `timeScale` of one, so the map
+    /// moves at the same pace whether the screen draws 60 frames a second or 120.
+    mutating func tick(timeScale: CGFloat = 1) {
         let count = positions.count
         guard count > 0 else { return }
-        alpha += (alphaTarget - alpha) * alphaDecay
+        let step = min(max(timeScale, 0.1), 1.5)
+        alpha += (alphaTarget - alpha) * (1 - pow(1 - alphaDecay, step))
 
         for spring in springs {
             var dx = positions[spring.b].x + velocities[spring.b].dx - positions[spring.a].x - velocities[spring.a].dx
@@ -101,7 +114,7 @@ struct GraphLayout: Sendable {
                 dy = jiggle(spring.b)
             }
             let length = sqrt(dx * dx + dy * dy)
-            let pull = (length - spring.length) / length * alpha * spring.strength
+            let pull = (length - spring.length) / length * alpha * spring.strength * step
             dx *= pull
             dy *= pull
             velocities[spring.b].dx -= dx * spring.bias
@@ -110,27 +123,36 @@ struct GraphLayout: Sendable {
             velocities[spring.a].dy += dy * (1 - spring.bias)
         }
 
-        repel()
+        repel(step: step)
 
-        let gravity = 0.045 * alpha
+        let gx = gravity.dx * alpha * step
+        let gy = gravity.dy * alpha * step
         for index in 0..<count {
-            velocities[index].dx -= positions[index].x * gravity
-            velocities[index].dy -= positions[index].y * gravity
+            velocities[index].dx -= positions[index].x * gx
+            velocities[index].dy -= positions[index].y * gy
         }
 
-        collide()
+        collide(step: step)
 
+        let decay = pow(velocityDecay, step)
         for index in 0..<count {
             if let pin = pinned[index] {
                 positions[index] = pin
                 velocities[index] = .zero
                 continue
             }
-            velocities[index].dx *= velocityDecay
-            velocities[index].dy *= velocityDecay
-            positions[index].x += velocities[index].dx
-            positions[index].y += velocities[index].dy
+            velocities[index].dx *= decay
+            velocities[index].dy *= decay
+            positions[index].x += velocities[index].dx * step
+            positions[index].y += velocities[index].dy * step
         }
+    }
+
+    /// Puts the nodes where they're drawn, as when a node is picked up halfway through a move.
+    mutating func place(at points: [CGPoint]) {
+        guard points.count == positions.count else { return }
+        positions = points
+        velocities = Array(repeating: .zero, count: points.count)
     }
 
     // MARK: - Pushing apart
@@ -150,7 +172,7 @@ struct GraphLayout: Sendable {
     }
 
     /// Every node pushes every other away, far-off crowds counted as one, as in Barnes and Hut.
-    private mutating func repel() {
+    private mutating func repel(step: CGFloat) {
         let count = positions.count
         guard count > 1 else { return }
         var minX = CGFloat.infinity, minY = CGFloat.infinity, maxX = -CGFloat.infinity, maxY = -CGFloat.infinity
@@ -169,8 +191,8 @@ struct GraphLayout: Sendable {
         for index in 0..<count where pinned[index] == nil {
             var force = CGVector.zero
             accumulate(on: index, from: 0, quads: quads, force: &force)
-            velocities[index].dx += force.dx * alpha
-            velocities[index].dy += force.dy * alpha
+            velocities[index].dx += force.dx * alpha * step
+            velocities[index].dy += force.dy * alpha * step
         }
     }
 
@@ -263,7 +285,7 @@ struct GraphLayout: Sendable {
     }
 
     /// Nodes don't sit on top of one another: overlapping ones are nudged apart.
-    private mutating func collide() {
+    private mutating func collide(step: CGFloat) {
         let count = positions.count
         guard count > 1, let largest = radii.max() else { return }
         let cell = largest * 2 + 8
@@ -291,7 +313,7 @@ struct GraphLayout: Sendable {
                             distance2 = x * x + y * y
                         }
                         let distance = sqrt(distance2)
-                        let push = (reach - distance) / distance * 0.7
+                        let push = (reach - distance) / distance * 0.7 * min(step, 1)
                         let share = radii[other] * radii[other] / (radii[index] * radii[index] + radii[other] * radii[other])
                         x *= push
                         y *= push
@@ -314,7 +336,7 @@ struct GraphLayout: Sendable {
     // MARK: - Starting out
 
     /// Folders on a sunflower spiral, notes gathered round whatever they're joined to, the rest further out.
-    private static func startingPositions(graph: NoteGraph, previous: [String: CGPoint]) -> [CGPoint] {
+    private static func startingPositions(graph: NoteGraph, previous: [String: CGPoint], spacing: CGFloat) -> [CGPoint] {
         let nodes = graph.nodes
         let golden = CGFloat.pi * (3 - sqrt(5))
         var positions = [CGPoint](repeating: .zero, count: nodes.count)
@@ -327,7 +349,7 @@ struct GraphLayout: Sendable {
         }
         var hubs = 0
         for (index, node) in nodes.enumerated() where node.kind == .folder && !placed[index] {
-            let radius = 110 * sqrt(0.5 + CGFloat(hubs))
+            let radius = 110 * spacing * sqrt(0.5 + CGFloat(hubs))
             let angle = CGFloat(hubs) * golden
             positions[index] = CGPoint(x: radius * cos(angle), y: radius * sin(angle))
             placed[index] = true
@@ -341,7 +363,7 @@ struct GraphLayout: Sendable {
                 guard let anchor = graph.neighbours[index].first(where: { placed[$0] }) else { continue }
                 gathered[anchor] += 1
                 let step = CGFloat(gathered[anchor])
-                let radius = 26 * sqrt(step)
+                let radius = 26 * spacing * sqrt(step)
                 let angle = step * golden
                 positions[index] = CGPoint(
                     x: positions[anchor].x + radius * cos(angle),
@@ -352,9 +374,9 @@ struct GraphLayout: Sendable {
             }
         }
         var loose = 0
-        let spread = 110 * sqrt(0.5 + CGFloat(max(hubs, 1))) + 60
+        let spread = (110 * sqrt(0.5 + CGFloat(max(hubs, 1))) + 60) * spacing
         for index in nodes.indices where !placed[index] {
-            let radius = spread + 22 * sqrt(0.5 + CGFloat(loose))
+            let radius = spread + 22 * spacing * sqrt(0.5 + CGFloat(loose))
             let angle = CGFloat(loose) * golden
             positions[index] = CGPoint(x: radius * cos(angle), y: radius * sin(angle))
             loose += 1

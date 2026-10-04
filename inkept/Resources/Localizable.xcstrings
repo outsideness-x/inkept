@@ -3561,6 +3561,22 @@
         }
       }
     },
+    "notes.graph.look" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "look"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "вид"
+          }
+        }
+      }
+    },
     "notes.graph.missing" : {
       "localizations" : {
         "en" : {
@@ -3573,6 +3589,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ещё не написан"
+          }
+        }
+      }
+    },
+    "notes.graph.names" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "names"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "подписи"
           }
         }
       }
@@ -3593,6 +3625,102 @@
         }
       }
     },
+    "notes.graph.orphans" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "notes without links"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "конспекты без связей"
+          }
+        }
+      }
+    },
+    "notes.graph.reset" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "reset"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "сбросить"
+          }
+        }
+      }
+    },
+    "notes.graph.settings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "graph settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "настройки графа"
+          }
+        }
+      }
+    },
+    "notes.graph.show" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "show"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показывать"
+          }
+        }
+      }
+    },
+    "notes.graph.size" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dot size"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "размер точек"
+          }
+        }
+      }
+    },
+    "notes.graph.spacing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "spacing"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "расстояние"
+          }
+        }
+      }
+    },
     "notes.graph.tags" : {
       "localizations" : {
         "en" : {
@@ -3609,6 +3737,22 @@
         }
       }
     },
+    "notes.graph.unwritten" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "notes not written yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ещё не написанные"
+          }
+        }
+      }
+    },
     "notes.graph.write" : {
       "localizations" : {
         "en" : {
@@ -3621,6 +3765,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "написать"
+          }
+        }
+      }
+    },
+    "notes.graph.zoomIn" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zoom in"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "приблизить"
+          }
+        }
+      }
+    },
+    "notes.graph.zoomOut" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zoom out"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "отдалить"
           }
         }
       }

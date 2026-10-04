@@ -58,6 +58,10 @@ struct NoteGraph: Sendable {
         let path: String
         /// A folder's own icon; for a note, the icon of the subject it's in.
         let icon: String?
+        /// The subject the node belongs to — its top-level folder — so a subject's notes share a colour.
+        var subject: String? = nil
+        /// The icon whose pencil the node is coloured with: its own, or the nearest folder's above it.
+        var tintIcon: String? = nil
         /// A note elsewhere that links in or is linked to, drawn fainter.
         var isOutside = false
         var degree = 0
@@ -79,6 +83,8 @@ struct NoteGraph: Sendable {
         var showsFolders = true
         var showsTags = false
         var showsMissing = true
+        /// Notes that link nowhere and that nothing links to.
+        var showsOrphans = true
     }
 
     private(set) var nodes: [Node] = []
@@ -133,7 +139,10 @@ struct NoteGraph: Sendable {
         if options.showsFolders {
             let folders = (scopeFolder.isRoot ? [] : [scopeFolder]) + scopeFolder.flattened().map(\.folder)
             for folder in folders {
-                add(Node(id: Self.folderID(folder.path), kind: .folder, title: folder.name, path: folder.path, icon: folder.icon))
+                add(Node(
+                    id: Self.folderID(folder.path), kind: .folder, title: folder.name, path: folder.path, icon: folder.icon,
+                    subject: Self.subject(of: folder.path), tintIcon: root.icon(forFolder: folder.path)
+                ))
             }
             for folder in folders {
                 if let parent = indexByID[Self.folderID(VaultPath.parent(of: folder.path))], let child = indexByID[Self.folderID(folder.path)] {
@@ -155,6 +164,9 @@ struct NoteGraph: Sendable {
                     addEdge(from, to, .tag)
                 }
             }
+        }
+        if !options.showsOrphans {
+            leaveOutOrphans()
         }
         finish()
     }
@@ -212,15 +224,23 @@ struct NoteGraph: Sendable {
     static func noteID(_ path: String) -> String { "note:" + path }
     static func folderID(_ path: String) -> String { "folder:" + path }
 
+    /// The top-level folder `path` sits in, or is; nothing for the notes folder itself.
+    static func subject(of path: String) -> String? {
+        path.split(separator: "/").first.map(String.init)
+    }
+
     @discardableResult
     private mutating func addNote(_ note: NoteSummary, root: VaultFolder, outside: Bool) -> Int {
         if let existing = indexByID[Self.noteID(note.path)] { return existing }
+        let icon = root.icon(forFolder: note.folderPath)
         return add(Node(
             id: Self.noteID(note.path),
             kind: .note,
             title: note.title,
             path: note.path,
-            icon: root.icon(forFolder: note.folderPath),
+            icon: icon,
+            subject: Self.subject(of: note.folderPath),
+            tintIcon: icon,
             isOutside: outside
         ))
     }
@@ -245,6 +265,28 @@ struct NoteGraph: Sendable {
     private mutating func addEdge(_ a: Int, _ b: Int, _ kind: EdgeKind) {
         guard a != b, joined.insert(min(a, b) << 32 | max(a, b)).inserted else { return }
         edges.append(Edge(a: min(a, b), b: max(a, b), kind: kind))
+    }
+
+    /// Drops the notes no link reaches, either way, with whatever joined them to their folders and tags.
+    private mutating func leaveOutOrphans() {
+        var linked = Set<Int>()
+        for edge in edges where edge.kind == .link {
+            linked.insert(edge.a)
+            linked.insert(edge.b)
+        }
+        let kept = nodes.indices.filter { nodes[$0].kind != .note || linked.contains($0) }
+        guard kept.count < nodes.count else { return }
+        var moved = [Int](repeating: -1, count: nodes.count)
+        for (new, old) in kept.enumerated() {
+            moved[old] = new
+        }
+        nodes = kept.map { nodes[$0] }
+        indexByID = Dictionary(uniqueKeysWithValues: nodes.enumerated().map { ($1.id, $0) })
+        edges = edges.compactMap { edge in
+            let a = moved[edge.a], b = moved[edge.b]
+            return a >= 0 && b >= 0 ? Edge(a: min(a, b), b: max(a, b), kind: edge.kind) : nil
+        }
+        joined = Set(edges.map { $0.a << 32 | $0.b })
     }
 
     private mutating func finish() {
