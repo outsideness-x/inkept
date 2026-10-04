@@ -11,6 +11,7 @@ struct inkeptApp: App {
     private let startupError: String?
 
     init() {
+        AppLanguage.settle()
         #if DEBUG
         _vault = State(initialValue: DemoLibrary.isRequested ? DemoLibrary.makeVault() : Vault())
         #else

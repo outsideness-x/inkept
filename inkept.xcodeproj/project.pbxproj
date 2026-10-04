@@ -50,6 +50,7 @@
 		3D432658F1FF2788103E7792 /* InkControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F297663947A90FB1CE3EF4FC /* InkControls.swift */; };
 		3DBBE467EA158A5D14F142FB /* LibraryRecords.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C1C4257437C026251BCEE /* LibraryRecords.swift */; };
 		3E5A191D61443DCCCBDB8587 /* LibraryFolderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99C3705EAEC11802A9D9356 /* LibraryFolderTests.swift */; };
+		3F554C43A1CCB9912FABA071 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE18E5B1AB8237C4553341AC /* AppLanguage.swift */; };
 		40EFF7BBA46CBB38F567C76E /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB2A44DBE345093CB40FCCF /* LibraryView.swift */; };
 		41799136F2120EBE39BA7276 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC336D91F25DB324F29D61D /* ImageAttachment.swift */; };
 		42E6A5B6033C446820B91337 /* VaultSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8813D994E67CE3C33784D8F /* VaultSetupView.swift */; };
@@ -330,6 +331,7 @@
 		FC5B8614DBBE6E44A17CB03C /* SubjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectDetailView.swift; sourceTree = "<group>"; };
 		FCFB703ED5D83F28419AE0F8 /* StudyQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyQueueTests.swift; sourceTree = "<group>"; };
 		FDC336D91F25DB324F29D61D /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
+		FE18E5B1AB8237C4553341AC /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		FED59A88933B64F916F2A9A5 /* GraphRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -430,6 +432,7 @@
 		5BCC822ED1CE1A5BAEA189E2 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				FE18E5B1AB8237C4553341AC /* AppLanguage.swift */,
 				5B0FA4351ADE95F7829C24BB /* AppState.swift */,
 				DBFB02793FD1D65ABE7430B0 /* DemoLibrary.swift */,
 				D555543022C6148EE6A38B62 /* inkeptApp.swift */,
@@ -871,6 +874,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F554C43A1CCB9912FABA071 /* AppLanguage.swift in Sources */,
 				CBF871A6AB9854E19419D225 /* AppState.swift in Sources */,
 				CEF9B99E4B6A317D072424A9 /* BackupDocument.swift in Sources */,
 				2BFF92E75B4735B19A733C4D /* BackupModels.swift in Sources */,

@@ -17,6 +17,7 @@ struct SettingsView: View {
     @State private var showSRSExplanation = false
     @State private var resultMessage: String?
     @State private var showVaultSetup = false
+    @State private var language = AppLanguage.chosen
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,6 +38,8 @@ struct SettingsView: View {
                     section("settings.study") { studySettings }
                         .padding(.top, 28)
                     section("settings.appearance") { appearancePicker }
+                        .padding(.top, 38)
+                    section("settings.language") { languagePicker }
                         .padding(.top, 38)
                     section("settings.notes") { notesSettings }
                         .padding(.top, 38)
@@ -151,6 +154,45 @@ struct SettingsView: View {
             ],
             seed: 380
         )
+    }
+
+    /// English or Russian. It changes when inkept opens again, and until then a note says so in the
+    /// language just chosen, so it can be read by whoever chose it.
+    private var languagePicker: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            InkChoiceRow(
+                selection: $language,
+                options: AppLanguage.allCases.map { .init(value: $0, title: Text(verbatim: $0.name)) },
+                seed: 390
+            )
+            if language != .current {
+                languageNote
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeOut(duration: 0.2), value: language)
+        .onChange(of: language) { _, language in AppLanguage.chosen = language }
+    }
+
+    private var languageNote: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            #if os(macOS)
+            HandwrittenText(verbatim: language.localized("settings.language.relaunch.note"))
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
+                .fixedSize(horizontal: false, vertical: true)
+            Button { AppLanguage.relaunch() } label: {
+                HandwrittenText(verbatim: language.localized("settings.language.relaunch"))
+            }
+            .buttonStyle(InkButtonStyle(kind: .quiet, seed: 391))
+            .padding(.leading, -10)
+            #else
+            HandwrittenText(verbatim: language.localized("settings.language.reopen"))
+                .font(InkeptTypography.note)
+                .foregroundStyle(Color.inkeptGraphite)
+                .fixedSize(horizontal: false, vertical: true)
+            #endif
+        }
     }
 
     private var dataSettings: some View {

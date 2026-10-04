@@ -5008,6 +5008,76 @@
         }
       }
     },
+    "settings.language" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "language"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "язык"
+          }
+        }
+      }
+    },
+    "settings.language.relaunch" : {
+      "comment" : "A button under the language picker on the Mac, written in the language just chosen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "relaunch now"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "перезапустить сейчас"
+          }
+        }
+      }
+    },
+    "settings.language.relaunch.note" : {
+      "comment" : "Under the language picker on the Mac, written in the language just chosen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inkept will speak English when it opens again"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inkept заговорит по-русски, когда откроется снова"
+          }
+        }
+      }
+    },
+    "settings.language.reopen" : {
+      "comment" : "Under the language picker on iPhone and iPad, written in the language just chosen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "close inkept and open it again — it will speak English"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "закройте inkept и откройте снова — он заговорит по-русски"
+          }
+        }
+      }
+    },
     "settings.notes" : {
       "localizations" : {
         "en" : {
