@@ -100,6 +100,11 @@ targets:
         SWIFT_INCLUDE_PATHS: $(PROJECT_DIR)/Typst/include
         LIBRARY_SEARCH_PATHS: $(BUILT_PRODUCTS_DIR)/InkeptTypst
         ENABLE_USER_SCRIPT_SANDBOXING: NO
+      configs:
+        Debug:
+          # The ink is drawn in Swift, ten times slower unoptimised, and a phone feels it. Debug keeps
+          # DEBUG and everything behind it, and runs at Release speed.
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
     dependencies:
       - package: FSRS
         product: FSRS
