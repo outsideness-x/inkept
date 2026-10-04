@@ -81,22 +81,6 @@
         }
       }
     },
-    "about.openSource" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "free & open source"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "бесплатно и с открытым кодом"
-          }
-        }
-      }
-    },
     "about.opensInBrowser" : {
       "localizations" : {
         "en" : {
@@ -109,6 +93,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Откроется в браузере"
+          }
+        }
+      }
+    },
+    "about.openSource" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "free & open source"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "бесплатно и с открытым кодом"
           }
         }
       }
@@ -3684,6 +3684,9 @@
           }
         }
       }
+    },
+    "notes.graph.label %@" : {
+
     },
     "notes.graph.label %lld" : {
       "localizations" : {
