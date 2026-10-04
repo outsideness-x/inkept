@@ -2,6 +2,9 @@ import SwiftData
 import SwiftUI
 
 struct RootView: View {
+    #if DEBUG
+    @Environment(\.modelContext) private var context
+    #endif
     @State private var appState = AppState()
     @Query(sort: [SortDescriptor(\Deck.manualSortOrder), SortDescriptor(\Deck.createdAt)])
     private var decks: [Deck]
@@ -45,6 +48,12 @@ struct RootView: View {
             }
             if arguments.contains("-openSettings") {
                 appState.showsSettings = true
+            }
+            // App Store screenshots: `-study` opens straight into a study session of everything that's due,
+            // or `-study "Subject"` of what's due in one subject.
+            if let index = arguments.firstIndex(of: "-study") {
+                let subject = arguments.indices.contains(index + 1) && !arguments[index + 1].hasPrefix("-") ? arguments[index + 1] : nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { startDemoStudy(in: subject) }
             }
         }
         #endif
@@ -93,6 +102,17 @@ struct RootView: View {
             ]
         )
     }
+
+    #if DEBUG
+    private func startDemoStudy(in subjectName: String?) {
+        let cards = (try? context.fetch(FetchDescriptor<Flashcard>())) ?? []
+        let subjects = (try? context.fetch(FetchDescriptor<SubjectModel>())) ?? []
+        let chosen = Set(subjects.filter { $0.name == subjectName }.map(\.id))
+        if let session = try? SessionService.start(cards: cards, subjectIDs: chosen, deckID: nil, targetCount: nil, context: context) {
+            appState.presentedSession = session
+        }
+    }
+    #endif
 
     /// iPhone gets one page at a time; iPad and the Mac get the library beside what's open.
     private var usesSplitLayout: Bool {

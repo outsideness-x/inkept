@@ -41,6 +41,14 @@ struct StudySessionView: View {
             actions: [HandmadeDialogAction("ok") {}]
         )
         .onAppear(perform: prepareQueue)
+        #if DEBUG
+        .task {
+            // App Store screenshots: `-studyReveal` turns the first card over, ratings and all.
+            guard ProcessInfo.processInfo.arguments.contains("-studyReveal") else { return }
+            try? await Task.sleep(for: .milliseconds(900))
+            if let card = currentCard { revealOrFlip(card) }
+        }
+        #endif
         .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.55), trigger: flips)
         .sensoryFeedback(.impact(weight: .light, intensity: 0.8), trigger: grades)
     }

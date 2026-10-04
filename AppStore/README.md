@@ -159,15 +159,15 @@ inkept — тихое место для того, что стоит запомн
 
 ## Screenshots
 
-Made from the app itself, running the demo library (`-demoLibrary`), then laid out with a caption in the app's own hand. Every set is at the size App Store Connect asks for, so each one covers every smaller display of its kind:
+In English, for every language: a localisation without screenshots of its own shows these. Made from the app itself, running the demo library (`-demoLibrary`), then laid out with a caption in the app's own hand. Each set is at the size App Store Connect asks for, so it covers every smaller display of its kind:
 
 | Folder | Device | Size |
 | --- | --- | --- |
-| `Screenshots/<language>/iphone` | iPhone 6.9″ | 1320 × 2868 |
-| `Screenshots/<language>/ipad` | iPad 13″ | 2064 × 2752 |
-| `Screenshots/<language>/mac` | Mac | 2880 × 1800 |
+| `Screenshots/iphone` | iPhone 6.9″ | 1320 × 2868 |
+| `Screenshots/ipad` | iPad 13″ | 2064 × 2752 |
+| `Screenshots/mac` | Mac | 2880 × 1800 |
 
-`Scripts/aso-screenshots.sh` makes them again.
+`Scripts/aso-screenshots.sh` makes them again, or `Scripts/aso-screenshots.sh iphone` (or `ipad`, or `mac`) just one set. The iPad set is needed as long as the app runs on iPad: App Store Connect asks for it before the iOS version can go to review.
 
 ## Worth knowing before review
 

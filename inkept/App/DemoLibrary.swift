@@ -96,7 +96,7 @@ enum DemoLibrary {
 
         ## Why it matters
 
-        - diagonalisation: $A = P D P^{-1}$
+        - diagonalisation: $A = PDP^{-1}$
         - powers get cheap: $A^n = P D^n P^{-1}$
         - the ==spectral theorem== for symmetric matrices
 
@@ -176,7 +176,7 @@ enum DemoLibrary {
 
         ## Зачем это нужно
 
-        - диагонализация: $A = P D P^{-1}$
+        - диагонализация: $A = PDP^{-1}$
         - степени считаются быстро: $A^n = P D^n P^{-1}$
         - ==спектральная теорема== для симметричных матриц
 
@@ -250,6 +250,42 @@ enum DemoLibrary {
         ("Physics/Mechanics.md", "# Mechanics\n\nStarts from [[Newton's laws]]; most problems come down to [[Energy]] or momentum. #physics\n"),
         ("Physics/Newton's laws.md", "# Newton's laws\n\n$F = m a$. The ground floor of [[Mechanics]].\n"),
         ("Physics/Energy.md", "# Energy\n\n$E_k = \\frac{m v^2}{2}$, and it's conserved. Carries on into [[Thermodynamics]]. See [[Mechanics]].\n"),
+        ("Physics/Waves.md", """
+        # Waves
+
+        Light is an electric and a magnetic field, each pushing the other along, at right angles:
+
+        ```typst
+        #import "@preview/cetz:0.5.2": canvas, draw
+        #align(center, canvas({
+          import draw: *
+          ortho(x: 15deg, y: -35deg, {
+            let wave(x) = calc.sin(x * calc.pi / 2)
+            let steps = range(0, 81).map(i => i / 10)
+            on-xz(grid((0, -1.4), (8, 1.4), step: 1, stroke: gray.lighten(40%) + .4pt))
+            line(..steps.map(x => (x, wave(x) * 1.4, 0)), (8, 0, 0), (0, 0, 0), close: true, fill: blue.transparentize(65%), stroke: 1pt + black)
+            line(..steps.map(x => (x, 0, wave(x) * 1.4)), (8, 0, 0), (0, 0, 0), close: true, fill: red.transparentize(65%), stroke: 1pt + black)
+          })
+        }))
+        ```
+
+        $$
+        E(x, t) = E_0 \\sin(kx - \\omega t), \\qquad c = \\lambda f
+        $$
+
+        A damped spring swings the same way, and dies away — see [[Oscillations]]:
+
+        ```typst
+        #import "@preview/cetz:0.5.2": canvas
+        #import "@preview/cetz-plot:0.1.4": plot
+        #align(center, canvas({
+          plot.plot(size: (7, 3), x-tick-step: 2, y-tick-step: 1, legend: "inner-north-east", {
+            plot.add(domain: (0, 12), samples: 160, x => calc.exp(-x / 6) * calc.sin(2 * x), label: $x(t)$, style: (stroke: 1.4pt + blue))
+            plot.add(domain: (0, 12), samples: 60, x => calc.exp(-x / 6), label: $e^(-t slash tau)$, style: (stroke: (paint: red, thickness: 1pt, dash: "dashed")))
+          })
+        }))
+        ```
+        """),
         ("Physics/Oscillations.md", "# Oscillations\n\nSmall swings trade [[Energy]] back and forth. Coupled ones are solved with [[Eigenvalues]] — linear algebra again.\n"),
         ("Programming/Actors.md", "# Actors\n\nThe safe home for shared state in [[Swift concurrency]]. What crosses into one has to be [[Sendable]]. #swift\n"),
         ("Programming/Sendable.md", "# Sendable\n\nValues safe to hand between tasks and [[Actors]].\n"),
@@ -274,6 +310,42 @@ enum DemoLibrary {
         ("Физика/Механика.md", "# Механика\n\nНачинается с [[Законы Ньютона|законов Ньютона]]; большинство задач сводится к [[Энергия|энергии]] или импульсу. #физика\n"),
         ("Физика/Законы Ньютона.md", "# Законы Ньютона\n\n$F = m a$. Фундамент [[Механика|механики]].\n"),
         ("Физика/Энергия.md", "# Энергия\n\n$E_k = \\frac{m v^2}{2}$, и она сохраняется. Дальше — [[Термодинамика]]. См. [[Механика]].\n"),
+        ("Физика/Волны.md", """
+        # Волны
+
+        Свет — это электрическое и магнитное поля, которые толкают друг друга вперёд под прямым углом:
+
+        ```typst
+        #import "@preview/cetz:0.5.2": canvas, draw
+        #align(center, canvas({
+          import draw: *
+          ortho(x: 15deg, y: -35deg, {
+            let wave(x) = calc.sin(x * calc.pi / 2)
+            let steps = range(0, 81).map(i => i / 10)
+            on-xz(grid((0, -1.4), (8, 1.4), step: 1, stroke: gray.lighten(40%) + .4pt))
+            line(..steps.map(x => (x, wave(x) * 1.4, 0)), (8, 0, 0), (0, 0, 0), close: true, fill: blue.transparentize(65%), stroke: 1pt + black)
+            line(..steps.map(x => (x, 0, wave(x) * 1.4)), (8, 0, 0), (0, 0, 0), close: true, fill: red.transparentize(65%), stroke: 1pt + black)
+          })
+        }))
+        ```
+
+        $$
+        E(x, t) = E_0 \\sin(kx - \\omega t), \\qquad c = \\lambda f
+        $$
+
+        Пружина с трением качается так же и затухает — см. [[Колебания]]:
+
+        ```typst
+        #import "@preview/cetz:0.5.2": canvas
+        #import "@preview/cetz-plot:0.1.4": plot
+        #align(center, canvas({
+          plot.plot(size: (7, 3), x-tick-step: 2, y-tick-step: 1, legend: "inner-north-east", {
+            plot.add(domain: (0, 12), samples: 160, x => calc.exp(-x / 6) * calc.sin(2 * x), label: $x(t)$, style: (stroke: 1.4pt + blue))
+            plot.add(domain: (0, 12), samples: 60, x => calc.exp(-x / 6), label: $e^(-t slash tau)$, style: (stroke: (paint: red, thickness: 1pt, dash: "dashed")))
+          })
+        }))
+        ```
+        """),
         ("Физика/Колебания.md", "# Колебания\n\nМалые колебания перекачивают [[Энергия|энергию]] туда и обратно. Связанные решаются через [[Собственные значения]] — снова линал.\n"),
         ("Программирование/Акторы.md", "# Акторы\n\nБезопасный дом для общего состояния в [[Конкурентность в Swift|конкурентном Swift]]. Всё, что попадает внутрь, должно быть [[Sendable]]. #swift\n"),
         ("Программирование/Sendable.md", "# Sendable\n\nЗначения, которые безопасно передавать между задачами и [[Акторы|акторами]].\n"),
