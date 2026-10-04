@@ -123,7 +123,11 @@ Card detail can also render a dedicated high-resolution card layout and save it 
 
 ## Privacy
 
-inkept has no remote data layer of its own. Everything is in the folder you choose; when that folder is in iCloud Drive, iCloud syncs it the way it syncs any other files, and only you can read it. Content otherwise leaves the device only when you export a backup or save a card image.
+inkept has no remote data layer of its own. Everything is in the folder you choose; when that folder is in iCloud Drive, iCloud syncs it the way it syncs any other files, and only you can read it. Content otherwise leaves the device only when you export a backup or save a card image. The [privacy policy](PRIVACY.md) says the same for the App Store, and the app's privacy manifest (`inkept/Resources/PrivacyInfo.xcprivacy`) declares no tracking and no data collected.
+
+## Release
+
+[`AppStore`](AppStore) holds what App Store Connect asks for — name, subtitle, keywords, description and review notes in English and Russian, the answers to its questionnaires, a release checklist — and the screenshots for iPhone, iPad and the Mac. Help for people using the app is in [SUPPORT.md](SUPPORT.md); Settings → about links to it, the privacy policy, the license and the source.
 
 ## License
 

@@ -1,6 +1,70 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "about.acknowledgements" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "acknowledgements"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "благодарности"
+          }
+        }
+      }
+    },
+    "about.acknowledgements.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "the open-source work inkept is built on"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "открытый код, на котором построен inkept"
+          }
+        }
+      }
+    },
+    "about.license" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "license"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "лицензия"
+          }
+        }
+      }
+    },
+    "about.license.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MIT — use it, change it and share it freely"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MIT — пользуйтесь, меняйте и делитесь свободно"
+          }
+        }
+      }
+    },
     "about.mit" : {
       "localizations" : {
         "en" : {
@@ -33,6 +97,22 @@
         }
       }
     },
+    "about.opensInBrowser" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens in your browser"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откроется в браузере"
+          }
+        }
+      }
+    },
     "about.ownership" : {
       "localizations" : {
         "en" : {
@@ -45,6 +125,102 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "всё остаётся вашим: обычные файлы в папке, которую вы выбрали, на ваших устройствах. резервные копии — тоже."
+          }
+        }
+      }
+    },
+    "about.privacy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "privacy policy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "политика конфиденциальности"
+          }
+        }
+      }
+    },
+    "about.privacy.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inkept collects nothing: no account, no analytics, no tracking"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inkept ничего не собирает: ни аккаунта, ни аналитики, ни слежки"
+          }
+        }
+      }
+    },
+    "about.source" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "source code"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "исходный код"
+          }
+        }
+      }
+    },
+    "about.source.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "all of inkept, on GitHub"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "весь inkept, на GitHub"
+          }
+        }
+      }
+    },
+    "about.support" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "help & feedback"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "помощь и отзывы"
+          }
+        }
+      }
+    },
+    "about.support.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ask a question or report a problem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "задать вопрос или сообщить о проблеме"
           }
         }
       }

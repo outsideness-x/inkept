@@ -42,8 +42,13 @@ struct SettingsView: View {
                         .padding(.top, 38)
                     section("settings.data") { dataSettings }
                         .padding(.top, 38)
-                    section("settings.about") { AboutCard() }
-                        .padding(.top, 38)
+                    section("settings.about") {
+                        VStack(alignment: .leading, spacing: 14) {
+                            AboutCard()
+                            AboutLinks()
+                        }
+                    }
+                    .padding(.top, 38)
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 10)
@@ -317,5 +322,45 @@ private struct AboutCard: View {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"
         return String(localized: "about.version \(version) \(build)")
+    }
+}
+
+/// Where inkept lives outside the app: the privacy policy, the licence, the source, the work it's
+/// built on, and where to ask for help. Each opens in the browser.
+private struct AboutLinks: View {
+    var body: some View {
+        VStack(spacing: 0) {
+            row("about.privacy", note: "about.privacy.note", url: InkeptLinks.privacy)
+            InkDivider(seed: 741)
+            row("about.license", note: "about.license.note", url: InkeptLinks.license)
+            InkDivider(seed: 742)
+            row("about.source", note: "about.source.note", url: InkeptLinks.repository)
+            InkDivider(seed: 743)
+            row("about.acknowledgements", note: "about.acknowledgements.note", url: InkeptLinks.acknowledgements)
+            InkDivider(seed: 744)
+            row("about.support", note: "about.support.note", url: InkeptLinks.support)
+        }
+    }
+
+    private func row(_ title: LocalizedStringKey, note: LocalizedStringKey, url: URL) -> some View {
+        Link(destination: url) {
+            HStack(alignment: .center, spacing: 14) {
+                VStack(alignment: .leading, spacing: 2) {
+                    HandwrittenText(title)
+                        .font(InkeptTypography.control)
+                        .foregroundStyle(Color.inkeptInk)
+                    HandwrittenText(note)
+                        .font(InkeptTypography.note)
+                        .foregroundStyle(Color.inkeptGraphite)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                InkIcon(kind: .external, color: .inkeptGraphite, size: 17)
+            }
+            .padding(.vertical, 11)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(InkRowStyle())
+        .accessibilityHint(Text("about.opensInBrowser"))
     }
 }

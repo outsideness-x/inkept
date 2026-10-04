@@ -77,6 +77,8 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         NSPhotoLibraryAddUsageDescription: Save flashcards as images to your photo library.
+        NSHumanReadableCopyright: © 2026 chemical-pink. Free and open source under the MIT license.
+        ITSAppUsesNonExemptEncryption: false
         UIFileSharingEnabled: true
         LSSupportsOpeningDocumentsInPlace: true
         NSUbiquitousContainers:

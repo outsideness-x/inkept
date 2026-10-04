@@ -26,6 +26,8 @@ enum InkIconKind: Int, CaseIterable {
     case fit
     /// Three notes and the lines between them: what a note is linked with.
     case links
+    /// An arrow out of a box: this opens somewhere outside the app.
+    case external
 }
 
 /// A small drawing in the same pen as the rest of the interface, on a 24-point grid.
@@ -252,6 +254,12 @@ private struct InkIconDrawing {
                     CGRect(x: 9.7, y: 14.6, width: 6.9, height: 6.7),
                 ]
             )
+        case .external:
+            InkIconDrawing(strokes: [
+                Stroke(points: [p(11.2, 4.6), p(5.1, 4.8), p(4.9, 19.3), p(19.2, 19.1), p(19.3, 13.1)]),
+                Stroke(points: [p(10.6, 13.6), p(19.9, 4.2)]),
+                Stroke(points: [p(13.8, 3.9), p(20.2, 3.8), p(20.1, 10.2)]),
+            ])
         case .undo:
             InkIconDrawing(strokes: [
                 Stroke(points: [p(5.4, 9.6), p(13.5, 8.6), p(19.4, 12.6), p(17.6, 18.3), p(11.6, 19.2)], smooth: true),
