@@ -88,17 +88,21 @@ final class LiveRenderer {
             .mathTypesettingStyle(style)
             .mathRenderingMode(.multicolor(base: ink))
             .foregroundStyle(ink)
-            .frame(width: ceil(bounds.width), height: ceil(bounds.ascent + bounds.descent))
+            // An inline formula takes the width it lays itself out at: on the Mac that can be a little more than
+            // the measured bounds, and held to those it would squeeze its spaces or wrap and be cut off.
+            .frame(width: inline ? nil : ceil(bounds.width), height: ceil(bounds.ascent + bounds.descent))
+            .fixedSize(horizontal: inline, vertical: false)
             .environment(\.colorScheme, isDark ? .dark : .light)
         let renderer = ImageRenderer(content: view)
         renderer.scale = displayScale
         guard let image = renderer.cgImage else {
             return renderError(written, inline: inline, key: key)
         }
+        let width = inline ? CGFloat(image.width) / displayScale : ceil(bounds.width)
         return LivePicture(
             kind: inline ? .inlineMath : .blockMath,
             key: key,
-            size: CGSize(width: ceil(bounds.width), height: ceil(bounds.ascent + bounds.descent)),
+            size: CGSize(width: width, height: ceil(bounds.ascent + bounds.descent)),
             descent: bounds.descent,
             image: image
         )
