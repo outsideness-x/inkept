@@ -42,7 +42,7 @@ xcodebuild -project inkept.xcodeproj -scheme inkept \
 
 ## Icon
 
-The icon is a forget-me-not, drawn with the same ink engine, pen and coloured pencils as the interface (`inkept/DesignSystem/Ink/InkFlower.swift`). `Design/Icon/render.sh` renders its light, dark, tinted and Mac versions into the asset catalog; the same flower sits beside the name in Settings.
+The icon is a forget-me-not, drawn with the same ink engine, pen and coloured pencils as the interface (`inkept/DesignSystem/Ink/InkFlower.swift`). It's an Icon Composer document, `inkept/Resources/AppIcon.icon`: the flower in ink on the light paper, in light ink on the app's dark paper when the system's icons are dark, and in greys for tinted icons — on iOS and iPadOS 26 and on macOS 26 and later alike. Xcode draws the flat icons iOS 18 and macOS 15 ask for from the same document. `Design/Icon/render.sh` renders the flower for each appearance, and the grained paper, into the document; the same flower sits beside the name in Settings.
 
 ## The folder
 

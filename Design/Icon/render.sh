@@ -1,12 +1,14 @@
 #!/bin/sh
-# Renders the app icon variants with the app's own ink engine, then lays paper grain over them.
-# Usage: Design/Icon/render.sh [output directory]
+# Renders the app icon with the app's own ink engine into the Icon Composer document: the flower
+# in each appearance — light, dark and tinted — and the grained paper it lies on in the light one.
+# Usage: Design/Icon/render.sh [Icon Composer document]
 set -eu
 
 root="$(cd "$(dirname "$0")/../.." && pwd)"
-out="${1:-$root/inkept/Resources/Assets.xcassets/AppIcon.appiconset}"
+document="${1:-$root/inkept/Resources/AppIcon.icon}"
+layers="$document/Assets"
 build="$(mktemp -d)"
-mkdir -p "$out"
+mkdir -p "$layers"
 
 swiftc -O -parse-as-library -o "$build/render-icon" \
     "$root/Design/Icon/RenderIcon.swift" \
@@ -17,6 +19,6 @@ swiftc -O -parse-as-library -o "$build/render-icon" \
     "$root/inkept/DesignSystem/Ink/InkText.swift" \
     "$root/inkept/DesignSystem/Ink/InkFlower.swift"
 
-"$build/render-icon" "$out"
-python3 "$root/Design/Icon/grain.py" "$out"
+"$build/render-icon" "$layers"
+python3 "$root/Design/Icon/grain.py" "$layers"
 rm -rf "$build"

@@ -100,6 +100,7 @@
 		89F8BD53AC981DD41297ECB9 /* StudySessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF2B61F6ACD3B78316A1760 /* StudySessionView.swift */; };
 		89FBAC31B23C14DC6045FABE /* CardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D678FFD9F5D789244A9DCE6E /* CardContentView.swift */; };
 		8B19261B7479F834A9C1B277 /* SubjectIcons+Sciences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F007F5E25888F098D6471C5 /* SubjectIcons+Sciences.swift */; };
+		926F81BF797FA5CF8E40861F /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 64BBCBC7BE038F9FB344BFB7 /* AppIcon.icon */; };
 		92BC8FFF3980FFE5E6DD51AE /* TypstGallerySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE5FB1E4999685C6EF1BE03 /* TypstGallerySheet.swift */; };
 		96C4A0A9462C9A49666E5D35 /* TypstEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D14B025F88B5563C95663 /* TypstEngineTests.swift */; };
 		98ABAF3291438C38AF980973 /* SubjectIcons+Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7806BDC5186A56168232309A /* SubjectIcons+Countries.swift */; };
@@ -233,6 +234,7 @@
 		637252B39C9F5A061A78D605 /* LiveLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLayoutManager.swift; sourceTree = "<group>"; };
 		6420CB58564E437B7A3CEED3 /* MigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationTests.swift; sourceTree = "<group>"; };
 		6486AE22289BD1C8C89C0DC3 /* NoteInsertion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInsertion.swift; sourceTree = "<group>"; };
+		64BBCBC7BE038F9FB344BFB7 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		680B6CBBA2056860568A05D7 /* SubjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
 		6AB19AF172E3473A83C64C24 /* NoteGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGraphTests.swift; sourceTree = "<group>"; };
 		6E9328A579A74ED4E5720C5E /* Paper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 			isa = PBXGroup;
 			children = (
 				C2ACBFC445989E59C4671EF0 /* Fonts */,
+				64BBCBC7BE038F9FB344BFB7 /* AppIcon.icon */,
 				1A4F4B5339F93A9FB89C6CB0 /* Assets.xcassets */,
 				06ACE2AF065FD73D334F6EA3 /* Info.plist */,
 				C3656BBCCD33E874125734D8 /* inkept-iOS.entitlements */,
@@ -817,6 +820,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				926F81BF797FA5CF8E40861F /* AppIcon.icon in Resources */,
 				F91CF698BC3CCD6B37A666A4 /* Assets.xcassets in Resources */,
 				7E7B1724BF972FD43FFA3500 /* Localizable.xcstrings in Resources */,
 				EF920F52CCAAF7B60893CEF6 /* Neucha.ttf in Resources */,

@@ -1,9 +1,12 @@
 // Renders inkept's app icon, a forget-me-not, with the same ink engine and pen the app draws with.
 //
-//   Design/Icon/render.sh [output directory]
+//   Design/Icon/render.sh [Icon Composer document]
 //
 // The art is drawn on a 128-point canvas, the scale of the interface, and rendered at 8×
-// so the hand keeps the proportions it has in the app.
+// so the hand keeps the proportions it has in the app. Each appearance gets the flower on its
+// own — in ink and pencils on light paper, on dark paper, and in greys for tinting — as a layer
+// of the Icon Composer document, which lays it on paper of its own: light, or the app's dark
+// paper when the icon is dark. Xcode draws the flat icons older systems ask for from the same document.
 
 import AppKit
 import SwiftUI
@@ -12,11 +15,11 @@ import SwiftUI
 struct RenderIcon {
     @MainActor
     static func main() throws {
-        let output = URL(fileURLWithPath: CommandLine.arguments.dropFirst().first ?? ".")
+        let layers = URL(fileURLWithPath: CommandLine.arguments.dropFirst().first ?? ".")
+        try FileManager.default.createDirectory(at: layers, withIntermediateDirectories: true)
         for variant in IconArt.Variant.allCases {
-            try write(IconArt(variant: variant), to: output.appendingPathComponent(variant.filename))
+            try write(IconArt(variant: variant), to: layers.appendingPathComponent(variant.filename))
         }
-        try write(MacIconArt(), to: output.appendingPathComponent("AppIcon-Mac-1024.png"))
     }
 
     @MainActor
@@ -43,31 +46,17 @@ struct IconArt: View {
         case dark
         case tinted
 
+        /// The flower alone, as a layer of the Icon Composer document.
         var filename: String {
-            switch self {
-            case .light: "AppIcon.png"
-            case .dark: "AppIcon-Dark.png"
-            case .tinted: "AppIcon-Tinted.png"
-            }
+            "flower-\(rawValue).png"
         }
     }
 
     let variant: Variant
 
     var body: some View {
-        ZStack {
-            Rectangle().fill(paper)
-            ForgetMeNot(colors: colors)
-        }
-        .frame(width: 128, height: 128)
-    }
-
-    private var paper: Color {
-        switch variant {
-        case .light: Color(red: 0.961, green: 0.945, blue: 0.910)
-        case .dark: Color(red: 0.063, green: 0.063, blue: 0.071)
-        case .tinted: .black
-        }
+        ForgetMeNot(colors: colors)
+            .frame(width: 128, height: 128)
     }
 
     /// The pencils are the app's own (`InkPencil`); the washes are those pencils laid pale on the paper.
@@ -119,19 +108,5 @@ struct IconArt: View {
 private extension Color {
     init(hex: UInt32) {
         self.init(red: Double((hex >> 16) & 0xFF) / 255, green: Double((hex >> 8) & 0xFF) / 255, blue: Double(hex & 0xFF) / 255)
-    }
-}
-
-/// The Mac icon: the light drawing on the rounded square every Mac app sits in, 824 of 1024 pixels
-/// on Apple's grid, so the shadow under it has room.
-struct MacIconArt: View {
-    var body: some View {
-        IconArt(variant: .light)
-            .scaleEffect(103 / 128)
-            .frame(width: 103, height: 103)
-            .clipShape(.rect(cornerRadius: 23.2, style: .continuous))
-            .compositingGroup()
-            .shadow(color: .black.opacity(0.3), radius: 1.25, y: 1.25)
-            .frame(width: 128, height: 128)
     }
 }
