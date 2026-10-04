@@ -23,6 +23,7 @@ struct StudyCompletionView: View {
                         .fill(Color.inkeptAccent)
                         .frame(width: 46, height: 42)
                         .offset(y: -8)
+                        .allowsHitTesting(false)
                         .accessibilityHidden(true)
                 }
                 HandwrittenText(verbatim: summary)

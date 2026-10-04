@@ -75,6 +75,7 @@ struct NameEditorSheet: View {
                     .overlay(alignment: .bottom) {
                         InkLine(seed: 41, pen: .fine)
                             .fill(Color.inkeptInk.opacity(0.55))
+                            .allowsHitTesting(false)
                             .frame(height: 6)
                             .offset(y: 2)
                     }

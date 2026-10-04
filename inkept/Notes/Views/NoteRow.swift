@@ -119,12 +119,15 @@ struct TagChip: View {
             if isSelected {
                 InkEllipse(seed: tag.inkSeed, pen: .fine)
                     .fill(Color.inkeptAccent)
+                    .allowsHitTesting(false)
                     .padding(.horizontal, -2)
             } else {
                 InkPatch(seed: tag.inkSeed, cornerRadius: 12)
                     .fill(Color.inkeptAccent.opacity(0.07))
+                    .allowsHitTesting(false)
             }
         }
+        .contentShape(Rectangle())
     }
 }
 

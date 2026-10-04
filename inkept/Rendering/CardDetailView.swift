@@ -36,6 +36,7 @@ struct CardDetailView: View {
                             CardContentView(markdown: card.frontMarkdown)
                             InkDashes(seed: card.id.inkSeed ^ 0x22)
                                 .fill(Color.inkeptGraphite.opacity(0.6))
+                                .allowsHitTesting(false)
                                 .frame(height: 6)
                                 .padding(.vertical, 18)
                                 .accessibilityHidden(true)

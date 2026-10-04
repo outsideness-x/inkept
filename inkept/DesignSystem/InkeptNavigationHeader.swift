@@ -127,6 +127,7 @@ struct SheetGrabber: View {
             .frame(width: 38, height: 8)
             .padding(.top, 8)
             .padding(.bottom, 2)
+            .allowsHitTesting(false)
             .accessibilityHidden(true)
     }
 }

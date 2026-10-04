@@ -10,6 +10,7 @@ struct NoteToolbar: View {
         VStack(spacing: 0) {
             InkLine(seed: 8_401, pen: .hairline)
                 .fill(Color.inkeptInk.opacity(0.2))
+                .allowsHitTesting(false)
                 .frame(height: 6)
                 .padding(.horizontal, 12)
             HStack(spacing: 0) {
@@ -83,6 +84,7 @@ struct NoteToolbar: View {
     private var separator: some View {
         InkLine(seed: 8_402, pen: .hairline, vertical: true)
             .fill(Color.inkeptGraphite.opacity(0.4))
+            .allowsHitTesting(false)
             .frame(width: 4, height: 22)
             .padding(.horizontal, 2)
     }
@@ -103,7 +105,7 @@ struct NoteToolbar: View {
                 .transformEffect(slanted ? CGAffineTransform(a: 1, b: 0, c: -0.22, d: 1, tx: 3, ty: 0) : .identity)
                 .overlay {
                     if struck {
-                        InkLine(seed: 8_403, pen: .fine).fill(Color.inkeptInk).frame(height: 4)
+                        InkLine(seed: 8_403, pen: .fine).fill(Color.inkeptInk).allowsHitTesting(false).frame(height: 4)
                     }
                 }
                 .padding(.horizontal, glyph.count > 3 ? 8 : 2)
@@ -235,6 +237,7 @@ struct TagEditorSheet: View {
                     .overlay(alignment: .bottom) {
                         InkLine(seed: 8_502, pen: .fine)
                             .fill(Color.inkeptInk.opacity(0.55))
+                            .allowsHitTesting(false)
                             .frame(height: 6)
                             .offset(y: 6)
                     }

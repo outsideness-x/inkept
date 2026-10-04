@@ -82,6 +82,7 @@ struct ForgetMeNot: View {
         .frame(width: 128, height: 128)
         .scaleEffect(size / 128)
         .frame(width: size, height: size)
+        .allowsHitTesting(false)
         .accessibilityHidden(true)
     }
 

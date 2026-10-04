@@ -51,6 +51,7 @@ struct InkeptBlockQuoteStyle: StructuredText.BlockQuoteStyle {
         HStack(alignment: .top, spacing: 12) {
             InkLine(seed: 4_200 + configuration.indentationLevel, pen: .fine, vertical: true)
                 .fill(Color.inkeptAccent.opacity(0.8))
+                .allowsHitTesting(false)
                 .frame(width: 6)
             configuration.label
                 .foregroundStyle(Color.inkeptGraphite)
@@ -90,6 +91,7 @@ struct InkeptListMarker: StructuredText.UnorderedListMarker {
     func makeBody(configuration: Configuration) -> some View {
         InkLine(seed: 4_400 + configuration.indentationLevel, pen: .fine)
             .fill(Color.inkeptAccent)
+            .allowsHitTesting(false)
             .frame(width: 9, height: 5)
             .textual.frame(minWidth: .fontScaled(1.1), alignment: .trailing)
     }
@@ -99,6 +101,7 @@ struct InkeptThematicBreakStyle: StructuredText.ThematicBreakStyle {
     func makeBody(configuration _: Configuration) -> some View {
         InkDashes(seed: 4_500)
             .fill(Color.inkeptGraphite.opacity(0.7))
+            .allowsHitTesting(false)
             .frame(height: 6)
             .textual.blockSpacing(.fontScaled(top: 0.6, bottom: 0.9))
     }

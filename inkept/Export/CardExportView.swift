@@ -18,6 +18,7 @@ struct CardExportView: View {
                     CardContentView(markdown: card.frontMarkdown, context: .export)
                     InkDashes(seed: card.id.inkSeed ^ 0x22)
                         .fill(Color.inkeptGraphite.opacity(0.6))
+                        .allowsHitTesting(false)
                         .frame(height: 6)
                         .padding(.vertical, 18)
                     FlashcardSideLabel(title: "card.back")

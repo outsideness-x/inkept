@@ -3,6 +3,7 @@ import SwiftUI
 // MARK: - Boxes and lines
 
 /// A hand-drawn box: paper or colour laid down a touch off-register, then a pen outline in one stroke.
+/// Touches go through it, like all ink; whatever it's drawn behind says where it can be touched.
 struct InkBox: View {
     @Environment(\.inkProgress) private var progress
 
@@ -26,6 +27,7 @@ struct InkBox: View {
                     .fill(outline)
             }
         }
+        .allowsHitTesting(false)
     }
 }
 
@@ -151,6 +153,7 @@ private struct InkButtonBody: View {
                 .overlay(alignment: .bottom) {
                     InkUnderline(seed: seed, pen: .fine, progress: pressed ? 1 : 0)
                         .fill(Color.inkeptAccent)
+                        .allowsHitTesting(false)
                         .frame(height: 6)
                         .padding(.horizontal, 8)
                         .offset(y: -6)
@@ -236,6 +239,7 @@ struct InkCheckbox: View {
                 .animation(reduceMotion ? nil : .easeOut(duration: isOn ? 0.28 : 0.12), value: isOn)
         }
         .frame(width: 32, height: 32)
+        .allowsHitTesting(false)
         .accessibilityHidden(true)
     }
 }
@@ -252,6 +256,7 @@ struct InkCircled: ViewModifier {
         content.background {
             InkEllipse(seed: seed, pen: .fine, progress: isOn ? 1 : 0)
                 .fill(color)
+                .allowsHitTesting(false)
                 .padding(.horizontal, inset.width)
                 .padding(.vertical, inset.height)
                 .animation(reduceMotion ? nil : .easeOut(duration: isOn ? 0.38 : 0.1), value: isOn)
@@ -360,6 +365,7 @@ struct InkSlider: View {
                 .frame(width: knob, height: knob)
                 .offset(x: knobX)
             }
+            .allowsHitTesting(false)
             .frame(maxHeight: .infinity)
             .contentShape(Rectangle())
             .gesture(

@@ -88,6 +88,7 @@ struct NoteLinksPanel: View {
         .background {
             InkPatch(seed: seed ^ 0x51, cornerRadius: 16)
                 .fill(Color.inkeptCardPaper)
+                .allowsHitTesting(false)
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay {
@@ -134,6 +135,7 @@ struct NoteLinksPanel: View {
                 HStack(spacing: 10) {
                     InkDashedRing(seed: name.inkSeed, pen: InkPen(width: 1.3))
                         .fill(Color.inkeptGraphite)
+                        .allowsHitTesting(false)
                         .frame(width: 17, height: 17)
                         .frame(width: 22)
                     HandwrittenText(verbatim: name)
@@ -229,6 +231,7 @@ private struct LinkedNoteRow: View {
                         .overlay(alignment: .leading) {
                             InkLine(seed: note.path.inkSeed &+ index, pen: .hairline, vertical: true)
                                 .fill(Color.inkeptAccent.opacity(0.55))
+                                .allowsHitTesting(false)
                                 .frame(width: 4)
                         }
                 }

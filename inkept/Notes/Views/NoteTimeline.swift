@@ -76,6 +76,7 @@ private struct TimelineDay: View {
                     .padding(.top, 9)
             }
             .frame(width: 16)
+            .allowsHitTesting(false)
             .accessibilityHidden(true)
         }
     }
@@ -211,6 +212,7 @@ struct NoteRhythm: View {
             }
         }
         .frame(width: Self.side, height: Self.side)
+        .allowsHitTesting(false)
     }
 
     /// The days of the last `weeks` weeks, a column a week, ending with this one; days still to come are empty.

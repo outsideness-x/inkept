@@ -392,6 +392,7 @@ struct StudyProgressLine: View {
             }
         }
         .animation(.easeOut(duration: 0.35), value: fraction)
+        .allowsHitTesting(false)
         .accessibilityHidden(true)
     }
 }

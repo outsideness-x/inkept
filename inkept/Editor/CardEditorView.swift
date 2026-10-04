@@ -140,6 +140,7 @@ struct CardEditorView: View {
                     .foregroundStyle(chosen ? Color.inkeptInk : Color.inkeptGraphite)
                 InkUnderline(seed: value == .edit ? 71 : 72, pen: .bold, progress: chosen ? 1 : 0)
                     .fill(Color.inkeptAccent)
+                    .allowsHitTesting(false)
                     .frame(width: 52, height: 8)
                     .animation(.easeOut(duration: chosen ? 0.3 : 0.1), value: chosen)
             }
@@ -347,6 +348,7 @@ struct CardEditorView: View {
                 )
             }
             .animation(.easeOut(duration: 0.15), value: focused)
+            .contentShape(Rectangle())
             .onTapGesture { focusedSide = side }
         }
     }
@@ -364,6 +366,7 @@ struct CardEditorView: View {
                     CardContentView(markdown: front, context: .preview)
                     InkDashes(seed: 90)
                         .fill(Color.inkeptGraphite.opacity(0.6))
+                        .allowsHitTesting(false)
                         .frame(height: 6)
                         .padding(.vertical, 18)
                     FlashcardSideLabel(title: "card.back")

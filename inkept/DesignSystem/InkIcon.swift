@@ -83,6 +83,7 @@ struct InkIcon: View {
         InkIconShape(kind: kind)
             .fill(color)
             .frame(width: size, height: size)
+            .allowsHitTesting(false)
             .accessibilityHidden(true)
     }
 }

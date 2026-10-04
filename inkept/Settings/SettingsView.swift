@@ -291,6 +291,7 @@ private struct AboutCard: View {
                     .fixedSize(horizontal: false, vertical: true)
                 InkDashes(seed: 735)
                     .fill(Color.inkeptGraphite.opacity(0.6))
+                    .allowsHitTesting(false)
                     .frame(height: 6)
                 HStack(alignment: .center, spacing: 14) {
                     VStack(alignment: .leading, spacing: 3) {

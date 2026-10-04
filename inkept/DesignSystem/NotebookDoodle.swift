@@ -37,6 +37,7 @@ struct NotebookDoodle: View {
             }
         }
         .frame(width: width, height: height)
+        .allowsHitTesting(false)
         .accessibilityHidden(true)
     }
 }
@@ -65,6 +66,7 @@ struct InkeptTabBar: View {
         VStack(spacing: 0) {
             InkLine(seed: 7_210, pen: .hairline)
                 .fill(Color.inkeptInk.opacity(0.22))
+                .allowsHitTesting(false)
                 .frame(height: 6)
                 .padding(.horizontal, 14)
             HStack(spacing: 0) {
@@ -106,6 +108,7 @@ struct InkeptTabBar: View {
                     .foregroundStyle(chosen ? Color.inkeptInk : Color.inkeptGraphite)
                 InkUnderline(seed: section == .cards ? 7_221 : 7_222, pen: .fine, progress: chosen ? 1 : 0)
                     .fill(Color.inkeptAccent)
+                    .allowsHitTesting(false)
                     .frame(width: 34, height: 5)
                     .animation(reduceMotion ? nil : .easeOut(duration: chosen ? 0.3 : 0.1), value: chosen)
             }

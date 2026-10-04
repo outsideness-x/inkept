@@ -67,6 +67,7 @@ struct StackedCardsDoodle: View {
                 .offset(x: width * 0.1, y: height * 0.12)
         }
         .frame(width: width, height: height)
+        .allowsHitTesting(false)
         .accessibilityHidden(true)
     }
 

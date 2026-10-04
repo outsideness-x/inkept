@@ -1,5 +1,11 @@
 import SwiftUI
 
+// Ink is there to be looked at, not touched. On every new touch SwiftUI tests it against each filled shape
+// on the page, scrolled out of sight or not, and asks each shape for its outline again to do it: hundreds
+// of curves for a pen stroke, tens of thousands for hatching, enough to hold up a scroll as it starts.
+// So wherever ink is filled, hit testing is off, and a control says where it can be touched with a
+// content shape.
+
 /// A rounded rectangle drawn in one pen stroke. Fill it with the ink colour.
 struct InkRoundedRect: Shape {
     var seed: Int
@@ -151,7 +157,7 @@ struct Inked<S: InkDrawable>: View {
     var body: some View {
         var shape = shape
         shape.progress = min(shape.progress, CGFloat(progress))
-        return shape.fill(color)
+        return shape.fill(color).allowsHitTesting(false)
     }
 }
 

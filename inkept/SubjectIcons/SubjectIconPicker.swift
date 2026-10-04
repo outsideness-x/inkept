@@ -98,6 +98,7 @@ struct SubjectIconPicker: View {
         .overlay(alignment: .bottom) {
             InkLine(seed: 9_032, pen: .fine)
                 .fill(Color.inkeptInk.opacity(0.5))
+                .allowsHitTesting(false)
                 .frame(height: 6)
                 .offset(y: 2)
         }
@@ -183,6 +184,7 @@ struct SubjectIconChoice: View {
                     if isChosen {
                         InkEllipse(seed: icon.id.inkSeed, pen: .fine)
                             .fill(Color.inkeptAccent)
+                            .allowsHitTesting(false)
                             .padding(2)
                     }
                 }
@@ -213,6 +215,7 @@ private struct IconChoiceBody: View {
                 if isHovered {
                     InkPatch(seed: 9_040, cornerRadius: 12)
                         .fill(Color.inkeptInk.opacity(0.05))
+                        .allowsHitTesting(false)
                 }
             }
             .scaleEffect(configuration.isPressed && !reduceMotion ? 0.88 : 1)
@@ -247,6 +250,7 @@ struct EmptyIconSlot: View {
         ZStack {
             InkDashedRing(seed: 9_050)
                 .fill(Color.inkeptGraphite.opacity(0.8))
+                .allowsHitTesting(false)
                 .padding(size * 0.06)
             InkIcon(kind: .plus, color: .inkeptGraphite, size: size * 0.36)
         }

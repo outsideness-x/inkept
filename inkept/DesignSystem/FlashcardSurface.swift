@@ -39,7 +39,8 @@ enum FlashcardSurfaceStyle {
     }
 }
 
-/// An index card: paper, a pen outline, and a hatched card underneath.
+/// An index card: paper, a pen outline, and a hatched card underneath. The card is solid to the touch,
+/// as paper is, by a plain rounded rectangle rather than by its ink.
 struct FlashcardSurface<Content: View>: View {
     let seed: Int
     let style: FlashcardSurfaceStyle
@@ -74,7 +75,9 @@ struct FlashcardSurface<Content: View>: View {
                         registration: CGSize(width: 0.8, height: 1.1)
                     )
                 }
+                .allowsHitTesting(false)
             }
+            .contentShape(RoundedRectangle(cornerRadius: style.cornerRadius))
             .padding(.trailing, style.underneath.width)
             .padding(.bottom, style.underneath.height)
     }

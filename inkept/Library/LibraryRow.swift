@@ -109,6 +109,7 @@ private struct SidebarRowBody: View {
                             .fill(Color.inkeptInk.opacity(configuration.isPressed ? 0.08 : 0.045))
                     }
                 }
+                .allowsHitTesting(false)
                 .transition(.opacity)
             }
             .padding(.trailing, isSelected ? 3 : 0)

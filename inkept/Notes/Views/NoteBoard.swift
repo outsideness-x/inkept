@@ -189,6 +189,7 @@ struct NoteCard: View {
                 .frame(width: 46, height: 15)
                 .rotationEffect(.degrees(tilt * -3))
                 .offset(y: -6)
+                .allowsHitTesting(false)
                 .accessibilityHidden(true)
         }
         .rotationEffect(.degrees(tilt))
@@ -240,6 +241,7 @@ private struct NoteCoverView: View {
             .background {
                 InkPatch(seed: notePath.inkSeed ^ 0xC0DE, cornerRadius: 6)
                     .fill(Color.inkeptInk.opacity(0.05))
+                    .allowsHitTesting(false)
             }
             .accessibilityHidden(true)
         case .image, .typst:
@@ -255,6 +257,7 @@ private struct NoteCoverView: View {
                     InkHatch(seed: notePath.inkSeed, spacing: 5)
                         .fill(Color.inkeptGraphite.opacity(0.18))
                         .clipShape(InkPatch(seed: notePath.inkSeed ^ 0x51, cornerRadius: 6))
+                        .allowsHitTesting(false)
                         .frame(height: 70)
                 }
             }

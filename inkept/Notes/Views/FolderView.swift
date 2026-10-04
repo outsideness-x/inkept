@@ -447,6 +447,7 @@ struct TagNotesView: View {
         .overlay(alignment: .bottom) {
             InkLine(seed: 8_301, pen: .fine)
                 .fill(Color.inkeptInk.opacity(0.55))
+                .allowsHitTesting(false)
                 .frame(height: 6)
                 .offset(y: 2)
         }

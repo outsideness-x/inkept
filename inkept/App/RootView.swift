@@ -137,6 +137,7 @@ struct LibrarySplitView: View {
             .frame(width: InkeptPlatform.isMac ? 300 : 330)
             InkLine(seed: 7_001, pen: .hairline, vertical: true)
                 .fill(Color.inkeptInk.opacity(0.28))
+                .allowsHitTesting(false)
                 .frame(width: 6)
                 .padding(.vertical, 18)
                 .background { PaperBackground() }
