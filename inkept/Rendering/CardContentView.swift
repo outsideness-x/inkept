@@ -83,6 +83,10 @@ struct CardContentView: View {
             .mathTypesettingStyle(.display)
             .mathRenderingMode(.monochrome)
             .foregroundStyle(Color.inkeptInk)
+            // A formula takes the size it lays itself out at, as on the notes board: held to its measured width it
+            // can need a little more, and then it wraps and only its last line shows — on the iPad and the Mac,
+            // `\det A \neq 0` came out as a lone `0`.
+            .fixedSize()
     }
 
     private var mathFontSize: CGFloat {
