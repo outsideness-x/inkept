@@ -2,7 +2,7 @@
 
 *Effective 4 October 2026. [По-русски — ниже.](#политика-конфиденциальности)*
 
-inkept is a flashcard and notes app for iPhone, iPad and Mac. It's made by an independent developer, chemical-pink, and it's free and open source: everything it does can be read in [its source code](https://github.com/outsideness-x/remn).
+inkept is a flashcard and notes app for iPhone, iPad and Mac. It's made by an independent developer, chemical-pink, and it's free and open source: everything it does can be read in [its source code](https://github.com/outsideness-x/inkept).
 
 ## The short version
 
@@ -39,11 +39,11 @@ inkept collects no personal information from anyone, children included.
 
 ## Changes
 
-If this policy changes, the new version will be published here, with the date it takes effect. The history of every change is kept in [this repository](https://github.com/outsideness-x/remn/commits/main/PRIVACY.md).
+If this policy changes, the new version will be published here, with the date it takes effect. The history of every change is kept in [this repository](https://github.com/outsideness-x/inkept/commits/main/PRIVACY.md).
 
 ## Contact
 
-Questions about privacy are welcome as an issue at [github.com/outsideness-x/remn/issues](https://github.com/outsideness-x/remn/issues).
+Questions about privacy are welcome as an issue at [github.com/outsideness-x/inkept/issues](https://github.com/outsideness-x/inkept/issues).
 
 ---
 
@@ -51,7 +51,7 @@ Questions about privacy are welcome as an issue at [github.com/outsideness-x/rem
 
 *Действует с 4 октября 2026 года.*
 
-inkept — приложение для карточек и конспектов на iPhone, iPad и Mac. Его делает независимый разработчик chemical-pink; оно бесплатное и с открытым кодом — всё, что оно делает, видно в [исходном коде](https://github.com/outsideness-x/remn).
+inkept — приложение для карточек и конспектов на iPhone, iPad и Mac. Его делает независимый разработчик chemical-pink; оно бесплатное и с открытым кодом — всё, что оно делает, видно в [исходном коде](https://github.com/outsideness-x/inkept).
 
 ## Коротко
 
@@ -88,8 +88,8 @@ inkept не собирает персональные данные ни у ко�
 
 ## Изменения
 
-Если политика изменится, новая версия появится здесь вместе с датой, с которой она действует. История всех изменений хранится в [этом репозитории](https://github.com/outsideness-x/remn/commits/main/PRIVACY.md).
+Если политика изменится, новая версия появится здесь вместе с датой, с которой она действует. История всех изменений хранится в [этом репозитории](https://github.com/outsideness-x/inkept/commits/main/PRIVACY.md).
 
 ## Связь
 
-Вопросы о конфиденциальности можно задать в issue на [github.com/outsideness-x/remn/issues](https://github.com/outsideness-x/remn/issues).
+Вопросы о конфиденциальности можно задать в issue на [github.com/outsideness-x/inkept/issues](https://github.com/outsideness-x/inkept/issues).

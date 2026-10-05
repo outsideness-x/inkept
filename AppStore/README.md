@@ -13,38 +13,49 @@ In the repository (done):
 - [x] Mac: App Sandbox and Hardened Runtime on; only the entitlements the app uses — iCloud Documents and files the person chooses (no network)
 - [x] [Privacy policy](../PRIVACY.md), [help page](../SUPPORT.md), [license](../LICENSE) and [acknowledgements](../ACKNOWLEDGEMENTS.md), linked from Settings → about
 - [x] Version 1.0 (build 1)
+- [ ] A contact email on the [help page](../SUPPORT.md): App Store Connect's help says the Support URL has to lead to contact details, and opening an issue takes a GitHub account
+- [ ] The iPad and Mac screenshots made again (`Scripts/aso-screenshots.sh ipad mac`): in `1-study` the card's formula `\det A \neq 0` shows as a lone `0`, which `CardContentView` now fixes
 
 In App Store Connect and the developer account (by hand):
 
 - [ ] Certificates, Identifiers & Profiles: the App ID `com.chemical-pink.inkept` has iCloud (CloudKit support not needed — iCloud Documents only) with the container `iCloud.com.chemical-pink.inkept`
+- [ ] Business → Digital Services Act: the account's trader status (a non-trader, for a free app with no business behind it). Submissions wait on it, and without it the app stays out of the EU
 - [ ] A new app record for iOS and macOS with that bundle identifier, primary language English, and Russian added as a localisation
-- [ ] Archive the `inkept` scheme for Any iOS Device and for My Mac in Xcode (Product → Archive) and upload both builds
+- [ ] Archive the `inkept` scheme for Any iOS Device and for Any Mac in Xcode (Product → Archive) and upload both builds
+- [ ] Before submitting, install both builds from TestFlight and go through the review notes below on an iPhone or iPad and on the Mac, starting from a fresh install
 - [ ] Paste the text below for each language, add the screenshots, set the URLs, answer the questionnaires
-- [ ] Price: free, all territories
+- [ ] App Privacy: "No, we do not collect data from this app", then **Publish** — a submission waits on it
+- [ ] Price: free, all territories. If App Store Connect asks for an ICP filing number for China mainland, leave China mainland out
+- [ ] Apple Vision Pro: untick "Make this app available" under Pricing and Availability, unless it's been tried there — the iPad app goes to Vision Pro by default
+- [ ] App Review Information: sign-in not required; a name, phone and email for the reviewer; the notes below
+- [ ] Version release: manual, so the iPhone, iPad and Mac versions go out together
 - [ ] Submit both platforms for review together
 
 ## URLs
 
 | Field | URL |
 | --- | --- |
-| Privacy Policy URL | https://github.com/outsideness-x/remn/blob/main/PRIVACY.md |
-| Support URL | https://github.com/outsideness-x/remn/blob/main/SUPPORT.md |
-| Marketing URL | https://github.com/outsideness-x/remn |
+| Privacy Policy URL | https://github.com/outsideness-x/inkept/blob/main/PRIVACY.md |
+| Support URL | https://github.com/outsideness-x/inkept/blob/main/SUPPORT.md |
+| Marketing URL | https://github.com/outsideness-x/inkept |
 
 ## Categories, age rating, privacy
 
 - **Primary category:** Education. **Secondary:** Productivity.
 - **Age rating:** 4+. Every questionnaire answer is "None" or "No". There's no unrestricted web access: links open in the system browser, not inside the app.
 - **App Privacy:** Data Not Collected.
-- **Content rights:** the app doesn't show third-party content from the internet. Its bundled fonts and Typst packages are open source and credited in [ACKNOWLEDGEMENTS.md](../ACKNOWLEDGEMENTS.md).
+- **Content rights:** yes, it contains third-party content — the open-source fonts and Typst packages it ships, credited in [ACKNOWLEDGEMENTS.md](../ACKNOWLEDGEMENTS.md) — and yes, it has the rights to use it. Nothing comes from the internet.
 - **Copyright:** 2026 chemical-pink
 
 ## App Review notes
 
-> inkept needs no account and no network connection. When it asks where to keep everything, choose "on this device" — it works straight away (iCloud Drive works too, when the device is signed in to iCloud).
+> inkept needs no account and no network connection. When it first asks where to keep everything:
+> - on iPhone and iPad, choose "on this device" — it works straight away;
+> - on the Mac, choose "choose a folder…" and pick or make any folder, for example in Documents;
+> - iCloud Drive works on all of them when the device is signed in to iCloud.
 >
-> Notes tab: write a note; select some text and tap the card button to make a flashcard from it. The list / board / graph / timeline switch at the top shows the notes in different ways — the graph is the map of how notes link.
-> Cards tab: create a subject and a deck, add cards, and study them; ratings schedule the next review with FSRS.
+> Notes: write a note; select some text and tap the card button (or ⇧⌘K) to make a flashcard from it. The list / board / graph / timeline switch at the top shows the notes in different ways — the graph is the map of how notes link.
+> Cards: create a subject and a deck, add cards, and study them; ratings schedule the next review with FSRS.
 > Settings → about links to the privacy policy, license, source code and help page.
 
 ## English
@@ -64,9 +75,9 @@ Spaced repetition & Markdown
 Write notes in Markdown, turn any passage into a flashcard, and review it just before you'd forget. Free, open source, no account — your notes stay plain files.
 ```
 
-**Keywords** (100)
+**Keywords** (100 bytes)
 ```
-anki,fsrs,study,memorize,obsidian,latex,math,vocabulary,exam,learn,srs,memory,typst,revise,quiz
+fsrs,study,memorize,latex,math,vocabulary,exam,learn,srs,memory,typst,revise,quiz,recall,wiki,cards
 ```
 
 **Description**
@@ -97,11 +108,6 @@ YOURS, ON YOUR DEVICES
 Drawn by hand: the whole app is ink and coloured pencil on paper, in light and in dark.
 ```
 
-**What's new**
-```
-The first release of inkept.
-```
-
 ## Русский
 
 **Название** (30)
@@ -119,9 +125,9 @@ inkept: карточки и конспекты
 Пишите конспекты в Markdown, превращайте любой фрагмент в карточку и повторяйте её прямо перед тем, как забыли бы. Бесплатно, с открытым кодом, без аккаунта.
 ```
 
-**Ключевые слова** (100)
+**Ключевые слова** (100 bytes: a Cyrillic letter takes two)
 ```
-anki,учить,запомнить,повторение,markdown,obsidian,экзамен,слова,формулы,latex,память,флешкарты
+учить,запомнить,слова,экзамен,егэ,формулы,latex,markdown,огэ
 ```
 
 **Описание**
@@ -152,11 +158,6 @@ inkept — тихое место для того, что стоит запомн
 Нарисовано от руки: всё приложение — тушь и цветные карандаши на бумаге, в светлом и в тёмном оформлении.
 ```
 
-**Что нового**
-```
-Первый выпуск inkept.
-```
-
 ## Screenshots
 
 In English, for every language: a localisation without screenshots of its own shows these. Made from the app itself, running the demo library (`-demoLibrary`), then laid out with a caption in the app's own hand. Each set is at the size App Store Connect asks for, so it covers every smaller display of its kind:
@@ -172,4 +173,7 @@ In English, for every language: a localisation without screenshots of its own sh
 ## Worth knowing before review
 
 - The subject icons include sketches of some trademarks — Apple's and Swift's among them — so that notes about those subjects can be labelled. Apple's guidelines (5.2.1, 5.2.5) don't allow using its marks without permission; if review raises it, the quickest fix is to drop the `apple` and `swift` sketches from `inkept/SubjectIcons/SubjectIcons+Technology.swift` and anything else review names.
-- The repository is still called `remn`; GitHub redirects the old address if it's renamed, so the links in the app keep working.
+- The repository is now `outsideness-x/inkept`, and the app and this listing link there directly; GitHub still redirects the old `remn` addresses.
+- Keywords can't name other apps or companies — App Store Connect's help says so — so Anki and Obsidian are left out of them. The description can still say inkept opens an Obsidian vault.
+- Keywords are counted in bytes, not letters, so the Russian set is shorter than the English one. Words already in the name or subtitle are left out of both, since they're searched anyway.
+- "What's new" isn't asked for the first version, so there's none here until 1.1.
