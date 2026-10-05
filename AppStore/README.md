@@ -18,7 +18,7 @@ In the repository (done):
 
 In App Store Connect and the developer account (by hand):
 
-- [ ] Certificates, Identifiers & Profiles: the App ID `com.chemical-pink.inkept` has iCloud (CloudKit support not needed — iCloud Documents only) with the container `iCloud.com.chemical-pink.inkept`
+- [ ] The App ID `com.chemical-pink.inkept` has iCloud with the container `iCloud.com.chemical-pink.inkept` assigned. Easiest from Xcode: Signing & Capabilities → iCloud, with iCloud Documents and the container ticked, and Xcode registers both. The app uses iCloud Documents only, never CloudKit itself
 - [ ] Business → Digital Services Act: the account's trader status (a non-trader, for a free app with no business behind it). Submissions wait on it, and without it the app stays out of the EU
 - [ ] A new app record for iOS and macOS with that bundle identifier, primary language English, and Russian added as a localisation
 - [ ] Archive the `inkept` scheme for Any iOS Device and for Any Mac in Xcode (Product → Archive) and upload both builds
