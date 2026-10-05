@@ -4,7 +4,7 @@ Everything App Store Connect asks for, ready to paste, and the screenshots in [`
 
 ## Release checklist
 
-In the repository (done):
+In the repository:
 
 - [x] Icon as an Icon Composer document, with light, dark and tinted appearances (`inkept/Resources/AppIcon.icon`)
 - [x] Privacy manifest (`inkept/Resources/PrivacyInfo.xcprivacy`): no tracking, no data collected; the required-reason APIs it uses are user defaults (CA92.1) and file dates (C617.1, 3B52.1, DDA9.1)
