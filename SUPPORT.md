@@ -2,7 +2,7 @@
 
 *[По-русски — ниже.](#помощь-и-отзывы)*
 
-Something not working, a question, or an idea? [Open an issue](https://github.com/outsideness-x/inkept/issues/new) — it's the quickest way to reach the developer. Please say which device and system version you're on, and what you did just before the problem.
+Something not working, a question, or an idea? [Open an issue](https://github.com/outsideness-x/inkept/issues/new) — it's the quickest way to reach the developer — or write to [outsidenessx@gmail.com](mailto:outsidenessx@gmail.com). Please say which device and system version you're on, and what you did just before the problem.
 
 ## Questions people ask
 
@@ -31,7 +31,7 @@ No. There's no account, analytics or tracking — see the [privacy policy](PRIVA
 
 # Помощь и отзывы
 
-Что-то не работает, есть вопрос или идея? [Создайте issue](https://github.com/outsideness-x/inkept/issues/new) — так быстрее всего связаться с разработчиком. Напишите, пожалуйста, на каком устройстве и какой версии системы вы работаете и что делали перед тем, как возникла проблема.
+Что-то не работает, есть вопрос или идея? [Создайте issue](https://github.com/outsideness-x/inkept/issues/new) — так быстрее всего связаться с разработчиком — или напишите на [outsidenessx@gmail.com](mailto:outsidenessx@gmail.com). Укажите, пожалуйста, на каком устройстве и какой версии системы вы работаете и что делали перед тем, как возникла проблема.
 
 ## Частые вопросы
 
