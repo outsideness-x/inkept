@@ -267,8 +267,9 @@ private struct NoteCoverView: View {
     }
 
     private func formula(_ latex: String, size: CGFloat) -> some View {
-        Math(LatexCompatibility.rewritten(latex))
-            .mathFont(.init(name: .latinModern, size: size))
+        let latex = LatexCompatibility.rewritten(latex)
+        return Math(latex)
+            .mathFont(.latinModern(size: size, wholePointsFor: latex))
             .mathTypesettingStyle(.display)
             .mathRenderingMode(.monochrome)
             .foregroundStyle(Color.inkeptInk)

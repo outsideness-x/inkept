@@ -1,5 +1,5 @@
 import SwiftUI
-import SwiftUIMath
+@_spi(Textual) import SwiftUIMath
 import Textual
 
 enum CardRenderingContext {
@@ -79,13 +79,10 @@ struct CardContentView: View {
 
     private func math(_ latex: String) -> some View {
         Math(latex)
-            .mathFont(.init(name: .latinModern, size: mathFontSize))
+            .mathFont(.latinModern(size: mathFontSize, wholePointsFor: latex))
             .mathTypesettingStyle(.display)
             .mathRenderingMode(.monochrome)
             .foregroundStyle(Color.inkeptInk)
-            // A formula takes the size it lays itself out at, as on the notes board: held to its measured width it
-            // can need a little more, and then it wraps and only its last line shows — on the iPad and the Mac,
-            // `\det A \neq 0` came out as a lone `0`.
             .fixedSize()
     }
 
@@ -108,5 +105,22 @@ struct CardContentView: View {
         case .study: InkeptTypography.studyText
         case .detail, .preview, .export: InkeptTypography.cardText
         }
+    }
+}
+
+extension Math.Font {
+    /// Latin Modern at about `size`, a hair larger or smaller so that `latex`, set in display style, comes out a
+    /// whole number of points wide.
+    ///
+    /// SwiftUIMath typesets a formula again to draw it, at the width of its canvas, and SwiftUI snaps that width to
+    /// the pixel grid. A hair narrower than the formula, it breaks the line before the last symbol, and a frame one
+    /// line tall shows only that: on the iPad and the Mac, `\det A \neq 0` came out as a lone `0`. A whole number
+    /// of points is on every pixel grid, so the canvas keeps the formula's width wherever it sits.
+    static func latinModern(size: CGFloat, wholePointsFor latex: String) -> Math.Font {
+        let font = Math.Font(name: .latinModern, size: size)
+        let width = Math.typographicBounds(for: latex, fitting: .unspecified, font: font, style: .display).width
+        guard width > 0 else { return font }
+        // A millionth over, so the arithmetic can't leave it a hair short of the whole number.
+        return Math.Font(name: .latinModern, size: size * max(1, width.rounded()) / width * 1.000001)
     }
 }
