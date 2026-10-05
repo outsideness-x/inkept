@@ -14,7 +14,7 @@ In the repository:
 - [x] [Privacy policy](../PRIVACY.md), [help page](../SUPPORT.md), [license](../LICENSE) and [acknowledgements](../ACKNOWLEDGEMENTS.md), linked from Settings → about
 - [x] Version 1.0 (build 1)
 - [ ] A contact email on the [help page](../SUPPORT.md): App Store Connect's help says the Support URL has to lead to contact details, and opening an issue takes a GitHub account
-- [ ] The iPad and Mac screenshots made again (`Scripts/aso-screenshots.sh ipad mac`): in `1-study` the card's formula `\det A \neq 0` shows as a lone `0`, which `CardContentView` now fixes
+- [x] `1-study` made again on every device, with a card whose one formula sits whole in the middle (on the iPad and the Mac the old card's `\det A \neq 0` showed as a lone `0`)
 
 In App Store Connect and the developer account (by hand):
 

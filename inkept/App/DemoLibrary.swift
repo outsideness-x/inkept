@@ -466,8 +466,8 @@ enum DemoLibrary {
                     plan: .due
                 ),
                 DemoCard(
-                    front: "When is a square matrix invertible?",
-                    back: "Exactly when its determinant isn't zero:\n\n$$\\det A \\neq 0$$",
+                    front: "The determinant of a 2 × 2 matrix",
+                    back: "$$\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc$$",
                     plan: .due
                 ),
                 DemoCard(
@@ -523,8 +523,8 @@ enum DemoLibrary {
                     plan: .due
                 ),
                 DemoCard(
-                    front: "Когда квадратная матрица обратима?",
-                    back: "Ровно тогда, когда её определитель не равен нулю:\n\n$$\\det A \\neq 0$$",
+                    front: "Определитель матрицы 2 × 2",
+                    back: "$$\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc$$",
                     plan: .due
                 ),
                 DemoCard(front: "След матрицы равен…", back: "…сумме её собственных значений с учётом кратности.", plan: .later),
